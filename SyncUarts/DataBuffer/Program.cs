@@ -47,7 +47,7 @@ namespace DataBuffer
             FileReader fileReader = new FileReader(fileName, locker);
             UartReader gpsReader = new UartReader(gpsPort, gpsBitrate, fileWriter, DataType.TYPE_GPS);
             UartReader dteReader = new UartReader(dtePort, dteBitrate, fileWriter, DataType.TYPE_DTE);
-            HttpServer httpServer = new HttpServer(httpPort, fileReader);
+            HttpServer httpServer = new HttpServer(httpPort, fileReader,fileName, locker);
             httpServer.Start();
 
             //ThreadTest test = new ThreadTest(gpsReader, dteReader);
@@ -127,13 +127,17 @@ namespace DataBuffer
         private string _prefix;
         private HttpListener _httpListener;
         private FileReader _fileReader;
+        private object _fileLock;
+        string _fileName;
 
-        public HttpServer(short port, FileReader reader)
+        public HttpServer(short port, FileReader reader, string fileName, object fileLock)
         {
             _httpListener = new HttpListener();
             _prefix = "http://+:" + port + "/";
             _httpListener.Prefixes.Add(_prefix);
             _fileReader = reader;
+            _fileLock = fileLock;
+            _fileName = fileName;
         }
 
         public void Start()
@@ -168,10 +172,42 @@ namespace DataBuffer
                 startFrom = int.Parse(startString);
             }
 
-            byte[] responseData = _fileReader.Read(startFrom, 1024 * 16);
-            response.ContentLength64 = responseData.Length;
-            response.OutputStream.Write(responseData, 0, responseData.Length);
-            response.OutputStream.Close();
+            if (startFrom >= 0)
+            {
+                byte[] responseData = _fileReader.Read(startFrom, 1024 * 16);
+                response.ContentLength64 = responseData.Length;
+                response.OutputStream.Write(responseData, 0, responseData.Length);
+                response.OutputStream.Close();
+            }
+            else if (startFrom == -1)
+            {
+                bool delOk = true;
+                Console.WriteLine("start del the file ...");
+                lock (_fileLock)
+                {
+                    try
+                    {
+                        FileInfo file = new FileInfo(_fileName);
+                        if (file.Exists)
+                        {
+                            File.WriteAllBytes(_fileName, new byte[0]);
+                            Console.WriteLine("删除文件" + _fileName);
+                        }
+                    }catch (Exception e){
+                        delOk = false;
+                        Console.WriteLine("删除文件 " + _fileName + "失败！！->>>" + e.ToString());
+                    }
+                    
+                    byte[] delResData = new byte[1];
+                    delResData[0] = delOk ? (byte)1 : (byte)0;
+                    response.ContentLength64 = delResData.Length;
+                    response.OutputStream.Write(delResData, 0, delResData.Length);
+                    response.OutputStream.Close();
+                }
+            }
+            else
+            {
+            }
         }
     }
 
