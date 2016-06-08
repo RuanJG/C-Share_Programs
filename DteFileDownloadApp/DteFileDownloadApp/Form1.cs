@@ -8,6 +8,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace DteFileDownloadApp
 {
@@ -15,7 +16,8 @@ namespace DteFileDownloadApp
     {
         string reqURL = "http://30.24.6.196:8080/";
         string fileName = "gps_dte.bin";
-
+        Thread syncThread;
+        Thread delThread;
 
         public DteFileDownloadApp()
         {
@@ -31,32 +33,58 @@ namespace DteFileDownloadApp
 
         private void downloadButton_Click(object sender, EventArgs e)
         {
-            syncMainLoop();
+            //syncMainLoop();
+            if (syncThread != null)
+            {
+                //syncThread.Join();
+                syncThread.Abort();
+                syncThread = null;
+            }
+            syncThread = new Thread(new ThreadStart(syncMainLoop));
+            syncThread.Start();
+            downloadButton.Enabled = false;
         }
 
         private void delButton_Click(object sender, EventArgs e)
         {
-            log("准备删除远程文件....");
-
-            WebClient client = new WebClient();
-            client.Headers.Clear();
-            client.Headers.Add("START", "" + -1);
-            byte[] res = client.DownloadData(reqURL);
-            if (res.Length > 0 && res[0] == 1)
+            if (delThread != null)
             {
-                log("远程文件已删除");
+                //syncThread.Join();
+                delThread.Abort();
+                delThread = null;
             }
-            else
-            {
-                log("远程文件删除失败");
-            }
+            delThread = new Thread(new ThreadStart(delFileLoop));
+            delThread.Start();
+            delButton.Enabled = false;
         }
 
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            if (syncThread != null)
+            {
+                //syncThread.Join();
+                syncThread.Abort();
+                syncThread = null;
+                downloadButton.Enabled = true;
+            }
+            if (delThread != null)
+            {
+                //syncThread.Join();
+                delThread.Abort();
+                delThread = null;
+                delButton.Enabled = true;
+            }
+        }
 
 
         private void log(string str)
         {
             consoleTextBox.AppendText(str + "\r\n");
+        }
+        private void threadLog(string str)
+        {
+            consoleTextBox.BeginInvoke(new MethodInvoker(delegate { log(str); }));
         }
         static int CheckDTE(byte[] data)
         {
@@ -71,18 +99,54 @@ namespace DteFileDownloadApp
             return dteSize;
         }
 
+        private void delFileLoop()
+        {
+            try
+            {
+                threadLog("准备删除远程文件....");
+
+                WebClient client = new WebClient();
+                client.Headers.Clear();
+                client.Headers.Add("START", "" + -1);
+                byte[] res = client.DownloadData(reqURL);
+                if (res.Length > 0 && res[0] == 1)
+                {
+                    threadLog("远程文件已删除");
+                }
+                else
+                {
+                    threadLog("远程文件删除失败");
+                }
+            }
+            catch (Exception e)
+            {
+                threadLog("connect remote error:" + e.ToString());
+                Thread.Sleep(100);
+            }
+            delButton.BeginInvoke(new MethodInvoker(delegate { delButton.Enabled = true; }));
+        }
         private void syncMainLoop()
         {
-            int retry = 10;
-            //del the old file
-            if (File.Exists(fileName))
-            {
-                File.WriteAllBytes(fileName, new byte[0]);
-            }
+            int retryTimes = 10; //10 * 100 ms
+            int retry = retryTimes;
+            long fileLength = 0;
+            FileStream fs;
 
-            FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate);
-            long fileLength = fs.Length;
-            fs.Seek(0, SeekOrigin.End);
+            try
+            {
+                //del the old file
+                if (File.Exists(fileName))
+                {
+                    File.WriteAllBytes(fileName, new byte[0]);
+                    fileLength = 0;
+                }
+            }
+            catch (Exception e)
+            {
+                threadLog("Download error:" + e.ToString());
+                downloadButton.BeginInvoke(new MethodInvoker(delegate { downloadButton.Enabled = true; }));
+                return;
+            }
 
             while (0 < retry--)
             {
@@ -93,29 +157,36 @@ namespace DteFileDownloadApp
                     byte[] data = client.DownloadData(reqURL);
                     if (data.Length > 0)
                     {
+                        fs = new FileStream(fileName, FileMode.OpenOrCreate);
+                        fileLength = fs.Length;
+                        fs.Seek(0, SeekOrigin.End);
                         fs.Write(data, 0, data.Length);
                         fs.Flush();
+                        fs.Close();
                         fileLength += data.Length;
-                        log("Sync " + data.Length + " bytes! DTE " + CheckDTE(data) + " bytes!");
-                        log("已保存到 " + fileName);
+                        threadLog("Sync " + data.Length + " bytes! DTE " + CheckDTE(data) + " bytes!");
+                        threadLog("已保存到 " + fileName);
+                        retry = retryTimes;
                     }
                     else
                     {
-                        //Thread.Sleep(500);
-                        log("retry "+retry);
+                        Thread.Sleep(100);
+                        threadLog("retry "+retry);
                     }
                 }
                 catch (Exception e)
                 {
-                    log("Download error:" + e.ToString());
-                    //Thread.Sleep(500);
+                    threadLog("Download error:" + e.ToString());
+                    Thread.Sleep(500);
                 }
 
             }
-            fs.Close();
+           
 
-            log("完成！！");
+            threadLog("完成！！");
+            downloadButton.BeginInvoke(new MethodInvoker(delegate { downloadButton.Enabled = true; }));
         }
+
 
     }
 }

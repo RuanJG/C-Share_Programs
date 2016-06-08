@@ -34,6 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.consoleTextBox = new System.Windows.Forms.RichTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.stopButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,14 +52,14 @@
             // 
             this.urlTextBox.Location = new System.Drawing.Point(58, 109);
             this.urlTextBox.Name = "urlTextBox";
-            this.urlTextBox.Size = new System.Drawing.Size(227, 21);
+            this.urlTextBox.Size = new System.Drawing.Size(272, 21);
             this.urlTextBox.TabIndex = 2;
             this.urlTextBox.Text = "http://30.24.6.196:8080/";
             this.urlTextBox.TextChanged += new System.EventHandler(this.urlTextBox_TextChanged);
             // 
             // delButton
             // 
-            this.delButton.Location = new System.Drawing.Point(200, 372);
+            this.delButton.Location = new System.Drawing.Point(222, 372);
             this.delButton.Name = "delButton";
             this.delButton.Size = new System.Drawing.Size(87, 23);
             this.delButton.TabIndex = 3;
@@ -80,24 +81,35 @@
             this.consoleTextBox.Location = new System.Drawing.Point(12, 148);
             this.consoleTextBox.Name = "consoleTextBox";
             this.consoleTextBox.ReadOnly = true;
-            this.consoleTextBox.Size = new System.Drawing.Size(273, 202);
+            this.consoleTextBox.Size = new System.Drawing.Size(318, 202);
             this.consoleTextBox.TabIndex = 5;
             this.consoleTextBox.Text = "";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DteFileDownloadApp.Properties.Resources.yunzhoulogo;
-            this.pictureBox1.Location = new System.Drawing.Point(49, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(76, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(199, 68);
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
+            // stopButton
+            // 
+            this.stopButton.Location = new System.Drawing.Point(119, 372);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 7;
+            this.stopButton.Text = "停止";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
             // DteFileDownloadApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(305, 407);
+            this.ClientSize = new System.Drawing.Size(342, 409);
+            this.Controls.Add(this.stopButton);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.consoleTextBox);
             this.Controls.Add(this.label1);
@@ -120,6 +132,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox consoleTextBox;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button stopButton;
     }
 }
 
