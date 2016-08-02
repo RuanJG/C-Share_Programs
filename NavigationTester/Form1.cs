@@ -8,19 +8,36 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;//用于调用串口类函数
 
+
 namespace NavigationTester
 {
     public partial class Form1 : Form
     {
         private SerialPort mSerialPort;
         private cmdCoder mDecoder;
+        private PieDrawerManager yawDrawer;
+        private PieDrawerManager pitchDrawer;
+        private PieDrawerManager rollDrawer;
+        System.Timers.Timer mTimer = new System.Timers.Timer(1000); //设置时间间隔为1秒
 
         public Form1()
         {
             InitializeComponent();
+            myInit();
+        }
+        
+        private void myInit()
+        {
             comRate_Init();
             com_Init();
-            mDecoder = new cmdCoder(4,null);
+            mDecoder = new cmdCoder(4, null);
+            yawDrawer = new PieDrawerManager(YawPanel.CreateGraphics(), YawPanel.Width, YawPanel.Height, YawPanel.BackColor);
+            rollDrawer = new PieDrawerManager(rollPictureBox.CreateGraphics(), rollPictureBox.Width, rollPictureBox.Height, rollPictureBox.BackColor);
+            pitchDrawer = new PieDrawerManager(PitchPanel.CreateGraphics(), PitchPanel.Width, PitchPanel.Height, PitchPanel.BackColor);
+            localLatitude = double.Parse(localLatTextBox.Text);
+            localLongitude = double.Parse(locallongTextBox.Text);
+
+            TimerIint();
         }
         private void comRate_Init()
         {
@@ -75,7 +92,7 @@ namespace NavigationTester
                     log("\r\n");
                     */
 
-                    handle_navi_message(mDecoder.data, mDecoder.len);
+                    handle_navi_can_message(mDecoder.data, mDecoder.len);
 
                 }
                 //winConsole.AppendText("\r\n");
@@ -90,6 +107,8 @@ namespace NavigationTester
         byte[] GPSLatitudeArray = new byte[8];
         byte[] GPSLongitudeArray = new byte[8];
         double GpsLatitude, GpsLongitude;
+        double localLatitude = 0.0;
+        double localLongitude = 0.0;
         float GPSSpeed ;
         byte GPSTimeHour;
         byte GPSTimeMin ;
@@ -98,6 +117,8 @@ namespace NavigationTester
         byte GPSDateMonth;
         byte GPSDateDay;
         float NaviPitch, NaviRoll, NaviYaw;
+
+        byte gpsDataCompile = 0;
         void checkLonLatData( byte mask)
         {
             can_data_updating |= mask;
@@ -106,14 +127,21 @@ namespace NavigationTester
                 //latitude
                 GpsLatitude = BitConverter.ToDouble(GPSLatitudeArray,0);
                 can_data_updating &= ~0x03;
+                gpsDataCompile |= 0x1;
             }
             if( 0x30 == (can_data_updating & 0x30) ){
-                //latitude
+                //Longitude
                 GpsLongitude = BitConverter.ToDouble(GPSLongitudeArray,0);
                 can_data_updating &= ~0x30;
+                gpsDataCompile |= 0x2;
+            }
+            if (gpsDataCompile == 0x3)
+            {
+                updateGpsLatitudeLongtitude(GpsLatitude, GpsLongitude);
+                gpsDataCompile = 0;
             }
         }
-        bool handle_navi_message(byte[] data,UInt32 len)
+        bool handle_navi_can_message(byte[] data,UInt32 len)
         {
             int i;
             if (len < 8) return false;
@@ -162,6 +190,11 @@ namespace NavigationTester
                         NaviYaw = (float)(((Int16)(data[2] * 256 + (int)data[3])) / 10.0f);
                         NaviPitch = (float)(((Int16)(data[4] * 256 + (int)data[5])) / 10.0f);
                         NaviRoll = (float)(((Int16)(data[6] * 256 + (int)data[7])) / 10.0f);
+
+                        updateYawPic(NaviYaw);
+                        updatePitchPic(NaviPitch+180);
+                        updateRollPic(NaviRoll+180);
+                        compassDataUpdataCount++;
                         log("Yaw: " + NaviYaw.ToString() );
                         log("Pitch: " + NaviPitch.ToString());
                         log("Roll: " + NaviRoll.ToString());
@@ -182,10 +215,136 @@ namespace NavigationTester
             return false;
         }
 
+        private void updateYawPic(float angle)
+        {
+            yawDrawer.updateValue(angle);
+            int persen = yawDrawer.getPersen();
+            YawPersenLabel.Text = persen.ToString() + "%";
+        }
+        private void updateRollPic(float angle)
+        {
+            rollDrawer.updateValue(angle);
+            int persen = rollDrawer.getPersen();
+            rolllabel.Text = persen.ToString() + "%";
+        }
+        private void updatePitchPic(float angle)
+        {
+            pitchDrawer.updateValue(angle);
+            int persen = pitchDrawer.getPersen();
+            pitchlable.Text = persen.ToString() + "%";
+        }
 
-        private void serialConnectButton_Click(object sender, EventArgs e)
+        // *********************** GPS cali
+        private const double EARTH_RADIUS = 6378.137;//地球半径
+        
+        private static double rad(double d)
+        {
+            return d * Math.PI / 180.0;
+        }
+
+        private  double caliGpsDistance(double lat1, double lng1,double lat2, double lng2)
+        {
+            double radLat1 = rad(lat1);
+            double radLat2 = rad(lat2);
+            double a = radLat1 - radLat2;
+            double b = rad(lng1) - rad(lng2);
+
+            double s = 2 * Math.Asin(Math.Sqrt(Math.Pow(Math.Sin(a / 2), 2) +
+             Math.Cos(radLat1) * Math.Cos(radLat2) * Math.Pow(Math.Sin(b / 2), 2)));
+            s = s * EARTH_RADIUS;
+            //*** km
+            //s = Math.Round(s * 10000) / 10000;
+            //*** m
+            s = Math.Round(s * 10000) / 10;
+            return s;
+        }
+
+        double maxDistance = -1.0;
+        double minDistance = -1.0;
+        private void updateGpsLatitudeLongtitude( double lat,double lon)
         {
 
+            double distance = caliGpsDistance(lat, lon, localLatitude, localLongitude);
+            if (minDistance < 0 || distance < minDistance)
+                minDistance = distance;
+            if (maxDistance < 0 || distance > maxDistance)
+                maxDistance = distance;
+
+            MaxDistanceTextBox.Text = maxDistance.ToString();
+            MinDistanceTextBox.Text = minDistance.ToString();
+            currentDistanceTextBox.Text = distance.ToString();
+
+            gpsLongtitudeTextBox.Text = lon.ToString();
+            GpsLattitudeTextBox.Text = lat.ToString();
+
+            gpsDataUpdataCount++;
+
+        }
+
+
+
+
+        private int gpsDataUpdataCount = 0;
+        private int compassDataUpdataCount = 0;
+        private void Timer_TimesUp(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                compassReflashLabel.Text = compassDataUpdataCount.ToString();
+                gpsReflashLabel.Text = gpsDataUpdataCount.ToString();
+            });
+            
+            gpsDataUpdataCount = 0;
+            compassDataUpdataCount = 0;
+        }
+        private void TimerStart()
+        {
+            mTimer.Enabled = true; //是否触发Elapsed事件
+            mTimer.Start();
+        }
+        private void TimerStop()
+        {
+            mTimer.Stop();
+        }
+        private void TimerIint()
+        {
+            mTimer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_TimesUp);
+            mTimer.AutoReset = true; //每到指定时间Elapsed事件是触发一次（false），还是一直触发（true）
+        }
+
+
+
+
+
+
+        int angle = 0;
+        bool test = true;
+        private void serialConnectButton_Click(object sender, EventArgs e)
+        {
+            /*
+            if( true){
+                updatePitchPic(angle);
+                updateRollPic(angle);
+                updateYawPic(angle);
+                angle += 10;
+                angle %= 360;
+
+                updateGpsLatitudeLongtitude(22.289478673938376, 113.57801148948458);
+
+                if (test)
+                {
+                    TimerStart();
+                    test = false;
+                }
+                else
+                {
+                    TimerStop();
+                    test = true;
+                }
+                return;
+            }
+             */
+            
             if( serialConnectButton.Text.Equals("Connect")){
                 String port = comComboBox.Items[comComboBox.SelectedIndex].ToString();
                 String baud = baudrateComboBox.Items[baudrateComboBox.SelectedIndex].ToString();
@@ -200,6 +359,7 @@ namespace NavigationTester
                     mSerialPort.Open();
                     mSerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
                     serialConnectButton.Text = "DisConnect";
+                    TimerStart();
                 }
                 catch 
                 {
@@ -211,8 +371,70 @@ namespace NavigationTester
                 if( mSerialPort != null && mSerialPort.IsOpen ){
                     mSerialPort.Close();
                     serialConnectButton.Text = "Connect";
+                    TimerStop();
                 }
             }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            yawDrawer.clear();
+            int persen = yawDrawer.getPersen();
+            YawPersenLabel.Text = persen.ToString() + "%";
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            pitchDrawer.clear();
+            int persen = pitchDrawer.getPersen();
+            pitchlable.Text = persen.ToString() + "%";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            rollDrawer.clear();
+            int persen = rollDrawer.getPersen();
+            rolllabel.Text = persen.ToString() + "%";
+        }
+
+        private void YawPersenLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LatTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void changeLocalGpsButton_Click(object sender, EventArgs e)
+        {
+            localLatitude = double.Parse(localLatTextBox.Text);
+            localLongitude = double.Parse(locallongTextBox.Text);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            maxDistance = -1.0;
+            minDistance = -1.0;
+            MaxDistanceTextBox.Text = "0.0";
+            MinDistanceTextBox.Text = "0.0";
+            currentDistanceTextBox.Text = "0.0";
         }
 
 
