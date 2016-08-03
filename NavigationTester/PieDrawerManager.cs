@@ -36,6 +36,8 @@ namespace NavigationTester
             }
             return (int)ok*100 / MAX_PART_ANGLE;
         }
+
+        bool usePointer = true;
         public void updateValue(float value)
         {
             int height = mHeight;
@@ -52,9 +54,11 @@ namespace NavigationTester
             int raid = width > height ? height / 2 : width / 2;
             raid = raid*2/3;
 
+            if (usePointer)
+            {
+                mGraphic.Clear(bcolor);
+            }
 
-            mGraphic.Clear(bcolor);
-            
             //空圆 background
             myPen.Color = Color.DarkCyan;
             myPen.Width = 2;
@@ -78,18 +82,19 @@ namespace NavigationTester
             if (value < 0) 
                 value = 0;
 
-
-            //画中间0度线
-            myPen.Width = 2;
-            myPen.Color = Color.Red;
-            formGraphics.DrawLine(myPen, x0, y0, width, y0);
-            //画指针
-            myPen.Width = 5;
-            myPen.Color = Color.Black;
-            int x = (int)(raid * System.Math.Cos(Math.PI * value/180));
-            int y = (int)(raid * System.Math.Sin(Math.PI * value/180));
-            formGraphics.DrawLine(myPen, x0, y0, x0+x, y0-y);
-
+            if (usePointer)
+            {
+                //画中间0度线
+                myPen.Width = 2;
+                myPen.Color = Color.Red;
+                formGraphics.DrawLine(myPen, x0, y0, width, y0);
+                //画指针
+                myPen.Width = 5;
+                myPen.Color = Color.Black;
+                int x = (int)(raid * System.Math.Cos(Math.PI * value / 180));
+                int y = (int)(raid * System.Math.Sin(Math.PI * value / 180));
+                formGraphics.DrawLine(myPen, x0, y0, x0 + x, y0 - y);
+            }
             myPen.Dispose();
             myBrush.Dispose();
 

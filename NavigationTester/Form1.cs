@@ -19,6 +19,7 @@ namespace NavigationTester
         private PieDrawerManager pitchDrawer;
         private PieDrawerManager rollDrawer;
         System.Timers.Timer mTimer = new System.Timers.Timer(1000); //设置时间间隔为1秒
+        SerialDataReceivedEventHandler serialReciver;
 
         public Form1()
         {
@@ -36,6 +37,7 @@ namespace NavigationTester
             pitchDrawer = new PieDrawerManager(PitchPanel.CreateGraphics(), PitchPanel.Width, PitchPanel.Height, PitchPanel.BackColor);
             localLatitude = double.Parse(localLatTextBox.Text);
             localLongitude = double.Parse(locallongTextBox.Text);
+            serialReciver = new SerialDataReceivedEventHandler(serialPort_DataReceived);
 
             TimerIint();
         }
@@ -217,21 +219,31 @@ namespace NavigationTester
 
         private void updateYawPic(float angle)
         {
-            yawDrawer.updateValue(angle);
-            int persen = yawDrawer.getPersen();
-            YawPersenLabel.Text = persen.ToString() + "%";
+            Invoke((MethodInvoker)delegate
+            {
+                yawDrawer.updateValue(angle);
+                int persen = yawDrawer.getPersen();
+                YawPersenLabel.Text = persen.ToString() + "%";
+            });
+            
         }
         private void updateRollPic(float angle)
         {
+            Invoke((MethodInvoker)delegate
+            {
             rollDrawer.updateValue(angle);
             int persen = rollDrawer.getPersen();
             rolllabel.Text = persen.ToString() + "%";
+            });
         }
         private void updatePitchPic(float angle)
         {
+            Invoke((MethodInvoker)delegate
+            {
             pitchDrawer.updateValue(angle);
             int persen = pitchDrawer.getPersen();
             pitchlable.Text = persen.ToString() + "%";
+            });
         }
 
         // *********************** GPS cali
@@ -319,6 +331,8 @@ namespace NavigationTester
 
         int angle = 0;
         bool test = true;
+        bool isConnectBtnClick = false;
+        
         private void serialConnectButton_Click(object sender, EventArgs e)
         {
             /*
@@ -344,8 +358,9 @@ namespace NavigationTester
                 return;
             }
              */
-            
-            if( serialConnectButton.Text.Equals("Connect")){
+
+            if (!isConnectBtnClick )//serialConnectButton.Text.Equals("Connect"))
+            {
                 String port = comComboBox.Items[comComboBox.SelectedIndex].ToString();
                 String baud = baudrateComboBox.Items[baudrateComboBox.SelectedIndex].ToString();
                 if (port.Equals("") || baud.Equals(""))
@@ -355,10 +370,12 @@ namespace NavigationTester
                 }
                 try
                 {
+                    if( mSerialPort != null && mSerialPort.IsOpen ) mSerialPort.Close();
                     mSerialPort = new SerialPort(port, int.Parse(baud), Parity.None, 8, StopBits.One);
                     mSerialPort.Open();
-                    mSerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
+                    mSerialPort.DataReceived += serialReciver;
                     serialConnectButton.Text = "DisConnect";
+                    isConnectBtnClick = true;
                     TimerStart();
                 }
                 catch 
@@ -369,9 +386,19 @@ namespace NavigationTester
 
             }else{
                 if( mSerialPort != null && mSerialPort.IsOpen ){
-                    mSerialPort.Close();
+                    mSerialPort.DataReceived -= serialReciver;
+                    try
+                    {
+                        //mSerialPort.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("close Serial Error !!!");
+                    }
+                    
                     serialConnectButton.Text = "Connect";
                     TimerStop();
+                    isConnectBtnClick = false;
                 }
             }
         }

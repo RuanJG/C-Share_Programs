@@ -138,7 +138,7 @@
             this.winConsole.Location = new System.Drawing.Point(10, 549);
             this.winConsole.Name = "winConsole";
             this.winConsole.ReadOnly = true;
-            this.winConsole.Size = new System.Drawing.Size(591, 24);
+            this.winConsole.Size = new System.Drawing.Size(591, 38);
             this.winConsole.TabIndex = 1;
             this.winConsole.Text = "";
             // 
@@ -472,7 +472,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 585);
+            this.ClientSize = new System.Drawing.Size(618, 593);
             this.Controls.Add(this.gpsReflashLabel);
             this.Controls.Add(this.gpsRefLabel);
             this.Controls.Add(this.compassReflashLabel);
