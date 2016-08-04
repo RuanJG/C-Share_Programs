@@ -21,6 +21,9 @@ namespace NavigationTester
         System.Timers.Timer mTimer = new System.Timers.Timer(1000); //设置时间间隔为1秒
         SerialDataReceivedEventHandler serialReciver;
 
+        private int MAX_GPS_ERROR_COUNT = 5;
+        private int MAX_COMPASS_ERROR_COUNT = 10;
+
         public Form1()
         {
             InitializeComponent();
@@ -109,6 +112,7 @@ namespace NavigationTester
         byte[] GPSLatitudeArray = new byte[8];
         byte[] GPSLongitudeArray = new byte[8];
         double GpsLatitude, GpsLongitude;
+        double newGpsLatitude, newGpsLongitude;
         double localLatitude = 0.0;
         double localLongitude = 0.0;
         float GPSSpeed ;
@@ -127,19 +131,19 @@ namespace NavigationTester
             
             if( 0x03 == (can_data_updating & 0x03) ){
                 //latitude
-                GpsLatitude = BitConverter.ToDouble(GPSLatitudeArray,0);
+                newGpsLatitude = BitConverter.ToDouble(GPSLatitudeArray, 0);
                 can_data_updating &= ~0x03;
                 gpsDataCompile |= 0x1;
             }
             if( 0x30 == (can_data_updating & 0x30) ){
                 //Longitude
-                GpsLongitude = BitConverter.ToDouble(GPSLongitudeArray,0);
+                newGpsLongitude = BitConverter.ToDouble(GPSLongitudeArray, 0);
                 can_data_updating &= ~0x30;
                 gpsDataCompile |= 0x2;
             }
             if (gpsDataCompile == 0x3)
             {
-                updateGpsLatitudeLongtitude(GpsLatitude, GpsLongitude);
+                updateGpsLatitudeLongtitude(newGpsLatitude, newGpsLongitude);
                 gpsDataCompile = 0;
             }
         }
@@ -189,18 +193,11 @@ namespace NavigationTester
                         Compass.roll[0]=data[6];	
                         Compass.roll[1]=data[7];
                          * */
-                        NaviYaw = (float)(((Int16)(data[2] * 256 + (int)data[3])) / 10.0f);
-                        NaviPitch = (float)(((Int16)(data[4] * 256 + (int)data[5])) / 10.0f);
-                        NaviRoll = (float)(((Int16)(data[6] * 256 + (int)data[7])) / 10.0f);
-
-                        updateYawPic(NaviYaw);
-                        updatePitchPic(NaviPitch+180);
-                        updateRollPic(NaviRoll+180);
-                        compassDataUpdataCount++;
-                        log("Yaw: " + NaviYaw.ToString() );
-                        log("Pitch: " + NaviPitch.ToString());
-                        log("Roll: " + NaviRoll.ToString());
-                        log("\r\n");
+                        float NYaw = (float)(((Int16)(data[2] * 256 + (int)data[3])) / 10.0f);
+                        float NPitch = (float)(((Int16)(data[4] * 256 + (int)data[5])) / 10.0f);
+                        float NRoll = (float)(((Int16)(data[6] * 256 + (int)data[7])) / 10.0f);
+                        updateCompassData(NYaw,NRoll,NPitch);
+                        
                         break;
                     case 0x04:
                         GPSTimeHour = data[2];
@@ -224,6 +221,7 @@ namespace NavigationTester
                 yawDrawer.updateValue(angle);
                 int persen = yawDrawer.getPersen();
                 YawPersenLabel.Text = persen.ToString() + "%";
+                yawAngleLabel.Text = angle.ToString() + "度";
             });
             
         }
@@ -231,19 +229,54 @@ namespace NavigationTester
         {
             Invoke((MethodInvoker)delegate
             {
-            rollDrawer.updateValue(angle);
+            rollDrawer.updateValue(angle+180);
             int persen = rollDrawer.getPersen();
             rolllabel.Text = persen.ToString() + "%";
+            rollAngleLabel.Text = angle.ToString() + "度";
             });
         }
         private void updatePitchPic(float angle)
         {
             Invoke((MethodInvoker)delegate
             {
-            pitchDrawer.updateValue(angle);
+            pitchDrawer.updateValue(angle+180);
             int persen = pitchDrawer.getPersen();
             pitchlable.Text = persen.ToString() + "%";
+            pitchAngleLabel.Text = angle.ToString() + "度";
             });
+        }
+        private void updateCompassData(float yaw, float roll, float pitch)
+        {
+            if (NaviYaw == yaw && NaviRoll == roll && NaviPitch == pitch)
+            {
+                tmpCompassDataErrorCount++;
+            }
+            else
+            {
+                NaviYaw = yaw;
+                NaviRoll = roll;
+                NaviPitch = pitch;
+                updateYawPic(NaviYaw);
+                updatePitchPic(NaviPitch);
+                updateRollPic(NaviRoll);
+
+                if (tmpCompassDataErrorCount >= MAX_COMPASS_ERROR_COUNT)
+                {
+                    compassDataErrorCount++;
+                    Invoke((MethodInvoker)delegate
+                    {
+                        compassDataErrorCountLabel.Text = compassDataErrorCount.ToString();
+                    });
+
+                }
+                tmpCompassDataErrorCount = 0;
+                
+            }
+            compassDataUpdataCount++;
+            log("Yaw: " + NaviYaw.ToString());
+            log("Pitch: " + NaviPitch.ToString());
+            log("Roll: " + NaviRoll.ToString());
+            log("\r\n");
         }
 
         // *********************** GPS cali
@@ -275,19 +308,39 @@ namespace NavigationTester
         double minDistance = -1.0;
         private void updateGpsLatitudeLongtitude( double lat,double lon)
         {
+            if (GpsLatitude == lat && GpsLongitude == lon)
+            {
+                tmpGpsDataErrorCount++;
+            }
+            else
+            {
+                GpsLatitude = lat ;
+                GpsLongitude = lon;
 
-            double distance = caliGpsDistance(lat, lon, localLatitude, localLongitude);
-            if (minDistance < 0 || distance < minDistance)
-                minDistance = distance;
-            if (maxDistance < 0 || distance > maxDistance)
-                maxDistance = distance;
+                double distance = caliGpsDistance(lat, lon, localLatitude, localLongitude);
+                if (minDistance < 0 || distance < minDistance)
+                    minDistance = distance;
+                if (maxDistance < 0 || distance > maxDistance)
+                    maxDistance = distance;
 
-            MaxDistanceTextBox.Text = maxDistance.ToString();
-            MinDistanceTextBox.Text = minDistance.ToString();
-            currentDistanceTextBox.Text = distance.ToString();
+                MaxDistanceTextBox.Text = maxDistance.ToString();
+                MinDistanceTextBox.Text = minDistance.ToString();
+                currentDistanceTextBox.Text = distance.ToString();
 
-            gpsLongtitudeTextBox.Text = lon.ToString();
-            GpsLattitudeTextBox.Text = lat.ToString();
+                gpsLongtitudeTextBox.Text = lon.ToString();
+                GpsLattitudeTextBox.Text = lat.ToString();
+
+                if (tmpGpsDataErrorCount >= MAX_GPS_ERROR_COUNT)
+                {
+                    gpsDataErrorCount++;
+                    Invoke((MethodInvoker)delegate
+                    {
+                        gpsDataErrorCountLabel.Text = tmpGpsDataErrorCount.ToString();
+                    });
+                }
+                tmpGpsDataErrorCount = 0;
+            }
+            
 
             gpsDataUpdataCount++;
 
@@ -298,6 +351,10 @@ namespace NavigationTester
 
         private int gpsDataUpdataCount = 0;
         private int compassDataUpdataCount = 0;
+        private int compassDataErrorCount=0;
+        private int gpsDataErrorCount = 0;
+        private int tmpCompassDataErrorCount = 0;
+        private int tmpGpsDataErrorCount = 0;
         private void Timer_TimesUp(object sender, System.Timers.ElapsedEventArgs e)
         {
             Invoke((MethodInvoker)delegate
@@ -462,6 +519,11 @@ namespace NavigationTester
             MaxDistanceTextBox.Text = "0.0";
             MinDistanceTextBox.Text = "0.0";
             currentDistanceTextBox.Text = "0.0";
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
         }
 
 

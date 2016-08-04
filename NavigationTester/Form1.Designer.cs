@@ -69,6 +69,13 @@
             this.compassReflashLabel = new System.Windows.Forms.Label();
             this.gpsRefLabel = new System.Windows.Forms.Label();
             this.gpsReflashLabel = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.compassDataErrorCountLabel = new System.Windows.Forms.Label();
+            this.gpsDataErrorCountLabel = new System.Windows.Forms.Label();
+            this.yawAngleLabel = new System.Windows.Forms.Label();
+            this.pitchAngleLabel = new System.Windows.Forms.Label();
+            this.rollAngleLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rollPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -135,10 +142,10 @@
             // 
             // winConsole
             // 
-            this.winConsole.Location = new System.Drawing.Point(10, 549);
+            this.winConsole.Location = new System.Drawing.Point(10, 566);
             this.winConsole.Name = "winConsole";
             this.winConsole.ReadOnly = true;
-            this.winConsole.Size = new System.Drawing.Size(591, 38);
+            this.winConsole.Size = new System.Drawing.Size(591, 39);
             this.winConsole.TabIndex = 1;
             this.winConsole.Text = "";
             // 
@@ -161,9 +168,9 @@
             // 
             // YawClearBtn
             // 
-            this.YawClearBtn.Location = new System.Drawing.Point(43, 214);
+            this.YawClearBtn.Location = new System.Drawing.Point(8, 214);
             this.YawClearBtn.Name = "YawClearBtn";
-            this.YawClearBtn.Size = new System.Drawing.Size(75, 23);
+            this.YawClearBtn.Size = new System.Drawing.Size(44, 23);
             this.YawClearBtn.TabIndex = 5;
             this.YawClearBtn.Text = "Clear";
             this.YawClearBtn.UseVisualStyleBackColor = true;
@@ -172,7 +179,7 @@
             // YawPersenLabel
             // 
             this.YawPersenLabel.AutoSize = true;
-            this.YawPersenLabel.Location = new System.Drawing.Point(133, 214);
+            this.YawPersenLabel.Location = new System.Drawing.Point(73, 214);
             this.YawPersenLabel.Name = "YawPersenLabel";
             this.YawPersenLabel.Size = new System.Drawing.Size(17, 12);
             this.YawPersenLabel.TabIndex = 6;
@@ -188,9 +195,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(237, 214);
+            this.button1.Location = new System.Drawing.Point(203, 214);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(51, 23);
             this.button1.TabIndex = 7;
             this.button1.Text = "Clear";
             this.button1.UseVisualStyleBackColor = true;
@@ -199,7 +206,7 @@
             // pitchlable
             // 
             this.pitchlable.AutoSize = true;
-            this.pitchlable.Location = new System.Drawing.Point(318, 214);
+            this.pitchlable.Location = new System.Drawing.Point(270, 214);
             this.pitchlable.Name = "pitchlable";
             this.pitchlable.Size = new System.Drawing.Size(17, 12);
             this.pitchlable.TabIndex = 8;
@@ -207,9 +214,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(429, 214);
+            this.button2.Location = new System.Drawing.Point(401, 214);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(35, 23);
             this.button2.TabIndex = 9;
             this.button2.Text = "Clear";
             this.button2.UseVisualStyleBackColor = true;
@@ -218,7 +225,7 @@
             // rolllabel
             // 
             this.rolllabel.AutoSize = true;
-            this.rolllabel.Location = new System.Drawing.Point(521, 214);
+            this.rolllabel.Location = new System.Drawing.Point(461, 214);
             this.rolllabel.Name = "rolllabel";
             this.rolllabel.Size = new System.Drawing.Size(17, 12);
             this.rolllabel.TabIndex = 10;
@@ -254,6 +261,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.rollAngleLabel);
+            this.groupBox2.Controls.Add(this.pitchAngleLabel);
+            this.groupBox2.Controls.Add(this.yawAngleLabel);
             this.groupBox2.Controls.Add(this.rollPictureBox);
             this.groupBox2.Controls.Add(this.rolllabel);
             this.groupBox2.Controls.Add(this.label5);
@@ -468,11 +478,79 @@
             this.gpsReflashLabel.TabIndex = 19;
             this.gpsReflashLabel.Text = "0Hz";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(10, 533);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(89, 12);
+            this.label8.TabIndex = 17;
+            this.label8.Text = "罗盘卡死次数：";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(258, 533);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(83, 12);
+            this.label13.TabIndex = 20;
+            this.label13.Text = "GPS卡死次数：";
+            // 
+            // compassDataErrorCountLabel
+            // 
+            this.compassDataErrorCountLabel.AutoSize = true;
+            this.compassDataErrorCountLabel.Location = new System.Drawing.Point(118, 533);
+            this.compassDataErrorCountLabel.Name = "compassDataErrorCountLabel";
+            this.compassDataErrorCountLabel.Size = new System.Drawing.Size(11, 12);
+            this.compassDataErrorCountLabel.TabIndex = 21;
+            this.compassDataErrorCountLabel.Text = "0";
+            // 
+            // gpsDataErrorCountLabel
+            // 
+            this.gpsDataErrorCountLabel.AutoSize = true;
+            this.gpsDataErrorCountLabel.Location = new System.Drawing.Point(368, 533);
+            this.gpsDataErrorCountLabel.Name = "gpsDataErrorCountLabel";
+            this.gpsDataErrorCountLabel.Size = new System.Drawing.Size(11, 12);
+            this.gpsDataErrorCountLabel.TabIndex = 22;
+            this.gpsDataErrorCountLabel.Text = "0";
+            // 
+            // yawAngleLabel
+            // 
+            this.yawAngleLabel.AutoSize = true;
+            this.yawAngleLabel.Location = new System.Drawing.Point(106, 214);
+            this.yawAngleLabel.Name = "yawAngleLabel";
+            this.yawAngleLabel.Size = new System.Drawing.Size(23, 12);
+            this.yawAngleLabel.TabIndex = 14;
+            this.yawAngleLabel.Text = "0度";
+            this.yawAngleLabel.Click += new System.EventHandler(this.label15_Click);
+            // 
+            // pitchAngleLabel
+            // 
+            this.pitchAngleLabel.AutoSize = true;
+            this.pitchAngleLabel.Location = new System.Drawing.Point(306, 214);
+            this.pitchAngleLabel.Name = "pitchAngleLabel";
+            this.pitchAngleLabel.Size = new System.Drawing.Size(23, 12);
+            this.pitchAngleLabel.TabIndex = 15;
+            this.pitchAngleLabel.Text = "0度";
+            // 
+            // rollAngleLabel
+            // 
+            this.rollAngleLabel.AutoSize = true;
+            this.rollAngleLabel.Location = new System.Drawing.Point(491, 214);
+            this.rollAngleLabel.Name = "rollAngleLabel";
+            this.rollAngleLabel.Size = new System.Drawing.Size(23, 12);
+            this.rollAngleLabel.TabIndex = 16;
+            this.rollAngleLabel.Text = "0度";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 593);
+            this.ClientSize = new System.Drawing.Size(618, 606);
+            this.Controls.Add(this.gpsDataErrorCountLabel);
+            this.Controls.Add(this.compassDataErrorCountLabel);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.gpsReflashLabel);
             this.Controls.Add(this.gpsRefLabel);
             this.Controls.Add(this.compassReflashLabel);
@@ -537,6 +615,13 @@
         private System.Windows.Forms.Label gpsReflashLabel;
         private System.Windows.Forms.Button changeLocalGpsButton;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label compassDataErrorCountLabel;
+        private System.Windows.Forms.Label gpsDataErrorCountLabel;
+        private System.Windows.Forms.Label rollAngleLabel;
+        private System.Windows.Forms.Label pitchAngleLabel;
+        private System.Windows.Forms.Label yawAngleLabel;
     }
 }
 
