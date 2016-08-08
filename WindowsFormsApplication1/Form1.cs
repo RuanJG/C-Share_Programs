@@ -86,25 +86,6 @@ namespace WindowsFormsApplication1
                 logTextBox.AppendText(str);
             });
         }
-        private void ComRead()
-        {
-            ////第三种发送接收方式
-            //byte[] SendBuf = new byte[256];
-            //SendBuf = System.Text.Encoding.UTF8.GetBytes(txtSend.Text);
-            //int len = txtSend.Text.Length;
-            //sp.Write(SendBuf, 0, len);
-
-            //byte[] RecieveBuf = new byte[256];
-            //sp.Read(RecieveBuf, 0, 256);
-            //string strRecieve3 = System.Text.Encoding.UTF8.GetString(RecieveBuf);
-            //txtRecieve.Text = strRecieve3;
-            while (true)
-            {
-                Thread.Sleep(500);
-                logTextBox.AppendText("sdf");
-            }
-
-        }
 
 
 
@@ -122,9 +103,9 @@ namespace WindowsFormsApplication1
         byte PACKGET_END_STOP =2;
         byte PACKGET_MAX_DATA_SEQ= 200 ; // new_seq = (last_seq+1)% PACKGET_MAX_DATA_SEQ
         // ack error code
-        byte PACKGET_ACK_FALSE_PROGRAM_ERROR =1 ;// the send data process stop
-        byte PACKGET_ACK_FALSE_ERASE_ERROR =2; // the send data process stop
-        byte PACKGET_ACK_FALSE_SEQ_FALSE = 3; // the send data process will restart
+        byte PACKGET_ACK_FALSE_PROGRAM_ERROR = 21;// the send data process stop
+        byte PACKGET_ACK_FALSE_ERASE_ERROR =22; // the send data process stop
+        byte PACKGET_ACK_FALSE_SEQ_FALSE = 23; // the send data process will restart
         // if has ack false , the flash process shuld be restart
 
 
@@ -273,22 +254,55 @@ namespace WindowsFormsApplication1
             thread_log("send Start packget and wait ack...\r\n");
             //cmdCoder encoder = new cmdCoder(PACKGET_START_ID, myEncoderSendCallback);
             byte[] data = new byte[2];
-            
+
+            cleanSerialData();
             while (!thread_need_quit)
             {
-                cleanSerialData();
                 sendPackget(PACKGET_START_ID, data, 1);
-                Thread.Sleep(10);
-                if (getAckResult(500) == PACKGET_ACK_OK)
+                byte res = getAckResult(500);
+                if (res == PACKGET_ACK_OK)
                 {
                     thread_log("get ack ok\r\n");
                     return true;
+                }else if(res == PACKGET_ACK_FALSE_ERASE_ERROR || res == PACKGET_ACK_FALSE_PROGRAM_ERROR ){
+                    thread_log("may be main program set tag error\r\n");
                 }
+                thread_log(".");
             }
             return false;
         }
 
-        bool sendDataToDataPackget(byte id, byte[] data, int len)
+        bool sendDataPackget(byte[]sendData, int len)
+        {
+            byte ack;
+            int retry = 5;
+            bool res = true;
+
+            while (retry-- > 0)
+            {
+                cleanSerialData();
+                sendPackget(PACKGET_DATA_ID, sendData, len);
+                ack = getAckResult(1000);
+                if (ack == PACKGET_ACK_OK)
+                {
+                    res = true;
+                    break;
+                }
+                else if (ack == PACKGET_ACK_NONE)
+                {// may be decode error or timeout, so resend
+                    thread_log("send data packget timeout\r\n");
+                }
+                else
+                {
+                    // false or restart
+                    thread_log("send data packget error\r\n");
+                    res = false;
+                    break;
+                }
+            }
+            return res;
+        }
+        bool sendDataToDataPackget(byte[] data, int len)
         {
             //each 100byte a packget ;  [seq][data0]...[data99]
             byte seq = 0;
@@ -307,16 +321,14 @@ namespace WindowsFormsApplication1
                 Array.Copy(data, i * PackgetDataSize, sendData, 1, PackgetDataSize);
                 sendData[0] = (byte)((++seq) % PACKGET_MAX_DATA_SEQ);
 
-                cleanSerialData();
-                sendPackget(id, sendData, PackgetSize);
-                if (getAckResult(1000) == PACKGET_ACK_OK)
+                if (sendDataPackget(sendData, PackgetSize))
                 {
                     sendSize += PackgetDataSize;
-                    thread_log("send " + (sendSize / len).ToString() + "%" + "\r\n");
+                    thread_log("send " + sendSize.ToString() + "/" + len.ToString() + "\r\n");
                 }
                 else
                 {
-                    thread_log("send data packget timeout\r\n");
+                    thread_log("send data packget failed\r\n");
                     return false;
                 }
             }
@@ -325,17 +337,14 @@ namespace WindowsFormsApplication1
                 Array.Copy(data, packgetCount * PackgetDataSize, sendData, 1, packgetLess);
                 sendData[0] = (byte)((++seq) % PACKGET_MAX_DATA_SEQ);
 
-                cleanSerialData();
-                sendPackget(id, sendData, packgetLess+1);
-
-                if (getAckResult(1000) == PACKGET_ACK_OK)
+                if (sendDataPackget(sendData, packgetLess + 1))
                 {
-                    sendSize += packgetLess;
-                    thread_log("send " + (sendSize / len).ToString() + "%" + "\r\n");
+                    sendSize += (packgetLess + 1);
+                    thread_log("send " + sendSize.ToString() + "/" + len.ToString() + "\r\n");
                 }
                 else
                 {
-                    thread_log("send data packget timeout\r\n");
+                    thread_log("send data packget failed\r\n");
                     return false;
                 }
             }
@@ -365,7 +374,7 @@ namespace WindowsFormsApplication1
             }
 
             bool res = true;
-            if ( ! sendDataToDataPackget(PACKGET_DATA_ID, data, data.Length))
+            if ( ! sendDataToDataPackget(data, data.Length))
             {
                 thread_log("send file data false\r\n");
                 res =  false;
@@ -437,11 +446,11 @@ namespace WindowsFormsApplication1
                     com_read_thread.Abort();
                 ProgramButton.Enabled = true;
                 serial.Close();
-                startButton.Text = "Start";
+                startButton.Text = "Open";
                 log("serial Close\n");
             }else{
                 serial.Open();
-                startButton.Text = "Stop";
+                startButton.Text = "Close";
                 log("serial Starting\n");
             }
             
@@ -513,7 +522,12 @@ namespace WindowsFormsApplication1
             string binfileName = binFilePathTextBox.Text;
             if (binfileName == null || !File.Exists(binfileName))
             {
-                log("no valid file\r\n");
+                MessageBox.Show("先选择可用的Bin文件 !!!");
+                return;
+            }
+            if (!serial.IsOpen)
+            {
+                MessageBox.Show("先打开串口!!!");
                 return;
             }
             ProgramButton.Enabled = false;
