@@ -432,8 +432,43 @@ namespace WindowsFormsApplication1
             {
                 ProgramButton.Enabled = true;
             });
-            
+            start_log_thread();
 
+        }
+
+        bool log_thread_need_quit = false;
+        Thread log_read_thread;
+        private void thread_recive_log()
+        {
+            while ( ! log_thread_need_quit)
+            {
+                try
+                {
+                    int len = serial.BytesToRead;
+                    byte[] RecieveBuf = new byte[len];
+                    serial.Read(RecieveBuf, 0, len);
+                    thread_log(System.Text.Encoding.UTF8.GetString(RecieveBuf));
+                }
+                catch
+                {
+                    thread_log("serial read error in log thread\r\n");
+                    //break;
+                }
+                Thread.Sleep(10);
+            }
+        }
+        private void start_log_thread()
+        {
+            log_thread_need_quit = false;
+            log_read_thread = new Thread(new ThreadStart(thread_recive_log));
+            log_read_thread.IsBackground = true;
+            log_read_thread.Start();
+        }
+        private void stop_log_thread()
+        {
+            log_thread_need_quit = true;
+            Thread.Sleep(100);
+            log_read_thread.Abort();
         }
         
         //##############################################################  UI fucntion
@@ -442,14 +477,16 @@ namespace WindowsFormsApplication1
         {
             if (serial.IsOpen){
                 thread_need_quit = true;
-                if( com_read_thread != null )
+                if (com_read_thread != null)
                     com_read_thread.Abort();
                 ProgramButton.Enabled = true;
+                stop_log_thread();
                 serial.Close();
                 startButton.Text = "Open";
                 log("serial Close\n");
             }else{
                 serial.Open();
+                start_log_thread();
                 startButton.Text = "Close";
                 log("serial Starting\n");
             }
@@ -532,11 +569,18 @@ namespace WindowsFormsApplication1
             }
             ProgramButton.Enabled = false;
 
+            stop_log_thread();
+
             thread_need_quit = false;
             com_read_thread = new Thread(new ThreadStart(thread_com_read));
             com_read_thread.IsBackground = true;
             com_read_thread.Start();
            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            logTextBox.Clear();
         }
 
 

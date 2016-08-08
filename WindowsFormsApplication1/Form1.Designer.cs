@@ -42,6 +42,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -63,7 +64,7 @@
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
             this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.logTextBox.Size = new System.Drawing.Size(420, 107);
+            this.logTextBox.Size = new System.Drawing.Size(420, 177);
             this.logTextBox.TabIndex = 2;
             this.logTextBox.TextChanged += new System.EventHandler(this.logTextBox_TextChanged);
             // 
@@ -87,7 +88,7 @@
             // 
             // sendTextBox
             // 
-            this.sendTextBox.Location = new System.Drawing.Point(12, 377);
+            this.sendTextBox.Location = new System.Drawing.Point(6, 447);
             this.sendTextBox.Name = "sendTextBox";
             this.sendTextBox.Size = new System.Drawing.Size(420, 21);
             this.sendTextBox.TabIndex = 5;
@@ -96,7 +97,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 362);
+            this.label1.Location = new System.Drawing.Point(4, 432);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 12);
             this.label1.TabIndex = 6;
@@ -184,11 +185,22 @@
             this.label4.TabIndex = 12;
             this.label4.Text = "文件路径";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(383, 223);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(43, 23);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "clean";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(456, 410);
+            this.ClientSize = new System.Drawing.Size(456, 480);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
@@ -221,6 +233,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button1;
     }
 }
 
