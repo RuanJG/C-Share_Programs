@@ -58,7 +58,8 @@ namespace WindowsFormsApplication1
             //comSelectComboBox.Items.Add("NONE");
             comSelectComboBox.Items.Clear();
             com_Load();
-            comSelectComboBox.SelectedIndex = 0;
+            if(comSelectComboBox.Items.Count > 0)
+                comSelectComboBox.SelectedIndex = 0;
 
             serial.DataBits = 8;
             serial.StopBits = StopBits.One;
@@ -521,6 +522,7 @@ namespace WindowsFormsApplication1
 
         private void sendTextBox_TextChanged(object sender, EventArgs e)
         {
+            /*
             string cmd;
             if (sendTextBox.TextLength > 1 && sendTextBox.Text[sendTextBox.TextLength - 2].Equals('\\') && sendTextBox.Text[sendTextBox.TextLength - 1].Equals('n'))
             {
@@ -533,6 +535,7 @@ namespace WindowsFormsApplication1
                     log("send cmd: " + cmd);
                 }
             }
+             * */
         }
 
         private void chooseFileButton_Click(object sender, EventArgs e)
@@ -581,6 +584,26 @@ namespace WindowsFormsApplication1
         private void button1_Click(object sender, EventArgs e)
         {
             logTextBox.Clear();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //send text to remote 
+            string cmd = sendTextBox.Text;
+            //sendTextBox.Clear();
+            if (serial.IsOpen)
+            {
+                try
+                {
+                    serial.Write(cmd);
+                    log("send >>" + cmd+"\r\n");
+                }
+                catch
+                {
+
+                }
+                
+            }
         }
 
 
