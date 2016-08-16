@@ -654,7 +654,7 @@ namespace WindowsFormsApplication1
                 iapTcpClient = new TcpClient(ip, port); // maybe block
                 start_log_thread();
                 tcpConnectButton.Text = "Close";
-                log("TCP 连接成功");
+                log("TCP 连接成功\r\n");
             }
             catch
             {
@@ -671,7 +671,7 @@ namespace WindowsFormsApplication1
 
                 ProgramButton.Enabled = true;
                 tcpConnectButton.Text = "Connect";
-                log("Tcp Close\n");
+                log("Tcp Close\r\n");
             }
         }
         
@@ -774,7 +774,9 @@ namespace WindowsFormsApplication1
         {
             //send text to remote 
             string cmd = sendTextBox.Text;
-            byte[] data = System.Text.Encoding.ASCII.GetBytes(cmd); 
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(cmd);
+
+           // for (int i = 0; i < data.Length; i++) logTextBox.AppendText("0x"+Convert.ToString(data[i], 16)+" ");
             //sendTextBox.Clear();
             if (serial.IsOpen)
             {
@@ -810,7 +812,15 @@ namespace WindowsFormsApplication1
 
         private void tcpConnectButton_Click(object sender, EventArgs e)
         {
-            startConnectIapTcp();
+            try{
+                if (iapTcpClient != null && iapTcpClient.Connected)
+                    stopConnectIapTcp();
+                else
+                    startConnectIapTcp();
+            }catch{
+
+            }
+            
         }
 
 

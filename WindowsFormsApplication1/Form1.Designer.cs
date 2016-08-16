@@ -45,11 +45,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.tcpPortTextBox = new System.Windows.Forms.TextBox();
-            this.tcpIpAdressTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.tcpConnectButton = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tcpIpAdressTextBox = new System.Windows.Forms.TextBox();
+            this.tcpPortTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -229,28 +229,15 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Tcp";
             // 
-            // tcpPortTextBox
+            // tcpConnectButton
             // 
-            this.tcpPortTextBox.Location = new System.Drawing.Point(221, 48);
-            this.tcpPortTextBox.Name = "tcpPortTextBox";
-            this.tcpPortTextBox.Size = new System.Drawing.Size(100, 21);
-            this.tcpPortTextBox.TabIndex = 0;
-            // 
-            // tcpIpAdressTextBox
-            // 
-            this.tcpIpAdressTextBox.Location = new System.Drawing.Point(8, 48);
-            this.tcpIpAdressTextBox.Name = "tcpIpAdressTextBox";
-            this.tcpIpAdressTextBox.Size = new System.Drawing.Size(173, 21);
-            this.tcpIpAdressTextBox.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "IP Address";
+            this.tcpConnectButton.Location = new System.Drawing.Point(329, 48);
+            this.tcpConnectButton.Name = "tcpConnectButton";
+            this.tcpConnectButton.Size = new System.Drawing.Size(85, 23);
+            this.tcpConnectButton.TabIndex = 12;
+            this.tcpConnectButton.Text = "Connect";
+            this.tcpConnectButton.UseVisualStyleBackColor = true;
+            this.tcpConnectButton.Click += new System.EventHandler(this.tcpConnectButton_Click);
             // 
             // label5
             // 
@@ -261,15 +248,30 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "Port";
             // 
-            // tcpConnectButton
+            // label1
             // 
-            this.tcpConnectButton.Location = new System.Drawing.Point(329, 48);
-            this.tcpConnectButton.Name = "tcpConnectButton";
-            this.tcpConnectButton.Size = new System.Drawing.Size(85, 23);
-            this.tcpConnectButton.TabIndex = 12;
-            this.tcpConnectButton.Text = "连接";
-            this.tcpConnectButton.UseVisualStyleBackColor = true;
-            this.tcpConnectButton.Click += new System.EventHandler(this.tcpConnectButton_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "IP Address";
+            // 
+            // tcpIpAdressTextBox
+            // 
+            this.tcpIpAdressTextBox.Location = new System.Drawing.Point(8, 48);
+            this.tcpIpAdressTextBox.Name = "tcpIpAdressTextBox";
+            this.tcpIpAdressTextBox.Size = new System.Drawing.Size(173, 21);
+            this.tcpIpAdressTextBox.TabIndex = 1;
+            this.tcpIpAdressTextBox.Text = "192.168.127.254";
+            // 
+            // tcpPortTextBox
+            // 
+            this.tcpPortTextBox.Location = new System.Drawing.Point(221, 48);
+            this.tcpPortTextBox.Name = "tcpPortTextBox";
+            this.tcpPortTextBox.Size = new System.Drawing.Size(100, 21);
+            this.tcpPortTextBox.TabIndex = 0;
+            this.tcpPortTextBox.Text = "4001";
             // 
             // mainForm
             // 
