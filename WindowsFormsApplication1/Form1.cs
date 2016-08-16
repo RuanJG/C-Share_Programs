@@ -10,6 +10,10 @@ using System.IO;
 using System.Threading;//用于启用线程类；
 using System.IO.Ports;//用于调用串口类函数
 
+using System.Net.Sockets;
+using System.Threading;
+using System.Net;
+using System.Collections;
 
 /*
 public string iPort = "com1"; //默认为串口1
@@ -32,7 +36,7 @@ namespace WindowsFormsApplication1
 
         int count=0;
         SerialPort serial = new SerialPort();
-        Thread com_read_thread ;
+        Thread iap_thread ;
       
 
         private delegate void DelegateComRead();
@@ -110,21 +114,9 @@ namespace WindowsFormsApplication1
         // if has ack false , the flash process shuld be restart
 
 
-        void cleanSerialData()
-        {
-            try
-            {
-                int len = serial.BytesToRead;
-                byte[] RecieveBuf = new byte[len];
-                serial.Read(RecieveBuf, 0, len);
-            }
-            catch
-            {
 
-            }
-        }
 
-        int myEncoderSendCallback(byte c)
+        int myUartEncoderSendCallback(byte c)
         {
             try
             {
@@ -140,18 +132,144 @@ namespace WindowsFormsApplication1
             return 0;
         }
 
+        int myTcpEncoderSendCallback(byte c)
+        {
+            try
+            {
+                if (iapTcpClient!= null && iapTcpClient.Connected)
+                {
+                    NetworkStream sendStream = iapTcpClient.GetStream();
+                    sendStream.WriteByte(c);
+                    sendStream.Flush();
+                }
+                
+            }
+            catch
+            {
+                MessageBox.Show("tcp send error");
+            }
+            return 0;
+        }
+
+
+        void cleanIapBufferData()
+        {
+            try
+            {
+                if (serial.IsOpen)
+                {
+                    int len = serial.BytesToRead;
+                    byte[] RecieveBuf = new byte[len];
+                    serial.Read(RecieveBuf, 0, len);
+                }
+                
+            }
+            catch
+            {
+
+            }
+
+            try
+            {
+                if (iapTcpClient != null && iapTcpClient.Connected)
+                {
+                    NetworkStream stream = iapTcpClient.GetStream();
+                    if (stream.DataAvailable)
+                    {
+                        int len;
+                        byte[] buffer = new byte[1024];
+                        len = stream.Read(buffer, 0, buffer.Length);
+                    }
+                }
+
+            }
+            catch
+            {
+
+            }
+        }
         void sendPackget(byte p_id, byte[] data, int len)
         {
-            cmdCoder encoder = new cmdCoder(p_id, myEncoderSendCallback);
+            cmdCoder encoder;
+            if (serial.IsOpen)
+            {
+                encoder = new cmdCoder(p_id, myUartEncoderSendCallback);
+            }
+            else if (iapTcpClient != null && iapTcpClient.Connected)
+            {
+                encoder = new cmdCoder(p_id, myTcpEncoderSendCallback);
+            }
+            else
+            {
+                MessageBox.Show("send packget set path error");
+                return;
+            }
             encoder.cmdcoder_send_bytes(data, len);
+        }
+        byte[] getBytesFromUart()
+        {
+            try
+            {
+                if (serial.BytesToRead > 0)
+                {
+                    int len = serial.BytesToRead;
+                    byte[] RecieveBuf = new byte[len];
+                    serial.Read(RecieveBuf, 0, len);
+                    return RecieveBuf;
+                }
+            }
+            catch
+            {
+                thread_log("read serial error");
+            }
+
+            return null;
+        }
+        byte[] getBytesFromTcp()
+        {
+            try
+            {
+                if (iapTcpClient != null && iapTcpClient.Connected)
+                {
+                    NetworkStream stream = iapTcpClient.GetStream();
+                    if (stream.DataAvailable)
+                    {
+                        int len;
+                        byte[] buffer = new byte[1024];
+                        len = stream.Read(buffer, 0, buffer.Length);
+                        if( len > 0){
+                            byte[] res = new byte[len];
+                            Array.Copy(buffer, res, len);
+                            return res;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                thread_log("read tcp  error");
+            }
+            return null;
+
+        }
+        byte[] getBytesFromRemote()
+        {
+            if (serial.IsOpen)
+            {
+                return getBytesFromUart();
+            }
+            if (iapTcpClient != null && iapTcpClient.Connected)
+            {
+                return getBytesFromTcp();
+            }
+            return null;
         }
 
         bool sendEndStopPackget()
         {
-            cmdCoder encoder = new cmdCoder(PACKGET_END_ID, myEncoderSendCallback);
             byte[] data = new byte[2];
             data[0] = PACKGET_END_STOP;
-            encoder.cmdcoder_send_bytes(data, 1);
+            sendPackget(PACKGET_END_ID, data, 1);
             if (getAckResult(1000) == PACKGET_ACK_OK)
             {
                 return true;
@@ -163,10 +281,9 @@ namespace WindowsFormsApplication1
         }
         bool sendEndJumpPackget()
         {
-            cmdCoder encoder = new cmdCoder(PACKGET_END_ID, myEncoderSendCallback);
             byte[] data = new byte[2];
             data[0] = PACKGET_END_JUMP;
-            encoder.cmdcoder_send_bytes(data, 1);
+            sendPackget(PACKGET_END_ID, data, 1);
 
             if (getAckResult(1000) == PACKGET_ACK_OK)
             {
@@ -186,12 +303,11 @@ namespace WindowsFormsApplication1
                 int retry = 0;
                 while (retry++ < timeoutMs)
                 {
-                    if (serial.BytesToRead > 0)
+
+                    byte[] RecieveBuf = getBytesFromRemote();
+                    if (RecieveBuf != null)
                     {
-                        int len = serial.BytesToRead;
-                        byte[] RecieveBuf = new byte[len];
-                        serial.Read(RecieveBuf, 0, len);
-                        for (int i = 0; i < len; i++)
+                        for (int i = 0; i < RecieveBuf.Length; i++)
                         {
                             if (mDecoder.cmdcoder_Parse_byte(RecieveBuf[i]) == 1)
                             {
@@ -256,8 +372,8 @@ namespace WindowsFormsApplication1
             //cmdCoder encoder = new cmdCoder(PACKGET_START_ID, myEncoderSendCallback);
             byte[] data = new byte[2];
 
-            cleanSerialData();
-            while (!thread_need_quit)
+            cleanIapBufferData();
+            while (!iap_thread_need_quit)
             {
                 sendPackget(PACKGET_START_ID, data, 1);
                 byte res = getAckResult(500);
@@ -281,7 +397,7 @@ namespace WindowsFormsApplication1
 
             while (retry-- > 0)
             {
-                cleanSerialData();
+                cleanIapBufferData();
                 sendPackget(PACKGET_DATA_ID, sendData, len);
                 ack = getAckResult(1000);
                 if (ack == PACKGET_ACK_OK)
@@ -409,11 +525,16 @@ namespace WindowsFormsApplication1
         }
 
 
-        bool thread_need_quit = false;
-        private  void thread_com_read()
+
+
+
+
+
+        bool iap_thread_need_quit = false;
+        private  void thread_iap()
         {
 
-            while (!thread_need_quit)
+            while (!iap_thread_need_quit)
             {
                 if (!sendStartAndWaitAck())
                     break;
@@ -436,6 +557,28 @@ namespace WindowsFormsApplication1
             start_log_thread();
 
         }
+        void start_iap_thread()
+        {
+            iap_thread_need_quit = false;
+            iap_thread = new Thread(new ThreadStart(thread_iap));
+            iap_thread.IsBackground = true;
+            iap_thread.Start();
+        }
+        void stop_iap_thread()
+        {
+            iap_thread_need_quit = true;
+            if (iap_thread != null)
+            {
+                iap_thread.Abort();
+                iap_thread = null;
+            }
+        }
+
+
+
+
+
+
 
         bool log_thread_need_quit = false;
         Thread log_read_thread;
@@ -445,10 +588,9 @@ namespace WindowsFormsApplication1
             {
                 try
                 {
-                    int len = serial.BytesToRead;
-                    byte[] RecieveBuf = new byte[len];
-                    serial.Read(RecieveBuf, 0, len);
-                    thread_log(System.Text.Encoding.UTF8.GetString(RecieveBuf));
+                    byte[] RecieveBuf = getBytesFromRemote();
+                    if( RecieveBuf != null)
+                        thread_log(System.Text.Encoding.UTF8.GetString(RecieveBuf));
                 }
                 catch
                 {
@@ -469,7 +611,68 @@ namespace WindowsFormsApplication1
         {
             log_thread_need_quit = true;
             Thread.Sleep(100);
-            log_read_thread.Abort();
+            if (null != log_read_thread)
+            {
+                log_read_thread.Abort();
+                log_read_thread = null;
+            }
+        }
+
+
+
+
+
+
+        //#######################  tcp 
+
+
+        private TcpClient iapTcpClient = null;
+        private bool iapTcpThreadNeedQuit = false;
+
+
+        bool isIapTcpConnected()
+        {
+            if (iapTcpClient != null && iapTcpClient.Connected)
+                return true;
+            return false;
+        }
+        public void startConnectIapTcp()
+        {
+            string ip;
+            int port;
+
+            if (tcpIpAdressTextBox.Text == null || tcpPortTextBox.Text == null)
+            {
+                MessageBox.Show("Set Right ip and port first");
+                return;
+            }
+            ip = tcpIpAdressTextBox.Text;
+            port = int.Parse(tcpPortTextBox.Text);
+            
+            try
+            {
+                iapTcpClient = new TcpClient(ip, port); // maybe block
+                start_log_thread();
+                tcpConnectButton.Text = "Close";
+                log("TCP 连接成功");
+            }
+            catch
+            {
+                MessageBox.Show("Tcp connect Error\r\n");
+            }
+        }
+        void stopConnectIapTcp()
+        {
+            if (iapTcpClient != null && iapTcpClient.Connected)
+            {
+                stop_iap_thread();
+                stop_log_thread();
+                iapTcpClient.Close();
+
+                ProgramButton.Enabled = true;
+                tcpConnectButton.Text = "Connect";
+                log("Tcp Close\n");
+            }
         }
         
         //##############################################################  UI fucntion
@@ -477,17 +680,17 @@ namespace WindowsFormsApplication1
         private void startButton_Click(object sender, EventArgs e)
         {
             if (serial.IsOpen){
-                thread_need_quit = true;
-                if (com_read_thread != null)
-                    com_read_thread.Abort();
-                ProgramButton.Enabled = true;
+                stop_iap_thread();
                 stop_log_thread();
                 serial.Close();
+
+                ProgramButton.Enabled = true;
                 startButton.Text = "Open";
                 log("serial Close\n");
             }else{
                 serial.Open();
                 start_log_thread();
+
                 startButton.Text = "Close";
                 log("serial Starting\n");
             }
@@ -507,12 +710,10 @@ namespace WindowsFormsApplication1
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
         }
 
         private void logTextBox_TextChanged(object sender, EventArgs e)
         {
-            //log("log text changed\n");
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -522,20 +723,6 @@ namespace WindowsFormsApplication1
 
         private void sendTextBox_TextChanged(object sender, EventArgs e)
         {
-            /*
-            string cmd;
-            if (sendTextBox.TextLength > 1 && sendTextBox.Text[sendTextBox.TextLength - 2].Equals('\\') && sendTextBox.Text[sendTextBox.TextLength - 1].Equals('n'))
-            {
-                cmd = sendTextBox.Text;
-                sendTextBox.Clear();
-                cmd = cmd.Remove(cmd.Length - 2);
-                if (serial.IsOpen)
-                {
-                    serial.Write(cmd);
-                    log("send cmd: " + cmd);
-                }
-            }
-             * */
         }
 
         private void chooseFileButton_Click(object sender, EventArgs e)
@@ -565,19 +752,16 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("先选择可用的Bin文件 !!!");
                 return;
             }
-            if (!serial.IsOpen)
+            if (!serial.IsOpen && iapTcpClient != null && !iapTcpClient.Connected)
             {
-                MessageBox.Show("先打开串口!!!");
+                MessageBox.Show("先打开串口 或者 TCP 连接 !!!");
                 return;
             }
             ProgramButton.Enabled = false;
 
             stop_log_thread();
 
-            thread_need_quit = false;
-            com_read_thread = new Thread(new ThreadStart(thread_com_read));
-            com_read_thread.IsBackground = true;
-            com_read_thread.Start();
+            start_iap_thread();
            
         }
 
@@ -590,6 +774,7 @@ namespace WindowsFormsApplication1
         {
             //send text to remote 
             string cmd = sendTextBox.Text;
+            byte[] data = System.Text.Encoding.ASCII.GetBytes(cmd); 
             //sendTextBox.Clear();
             if (serial.IsOpen)
             {
@@ -604,6 +789,28 @@ namespace WindowsFormsApplication1
                 }
                 
             }
+            if (iapTcpClient != null && iapTcpClient.Connected)
+            {
+                try
+                {
+                    if (iapTcpClient != null && iapTcpClient.Connected)
+                    {
+                        NetworkStream sendStream = iapTcpClient.GetStream();
+                        sendStream.Write(data, 0, data.Length);
+                        sendStream.Flush();
+                    }
+                    log("send >>" + cmd + "\r\n");
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        private void tcpConnectButton_Click(object sender, EventArgs e)
+        {
+            startConnectIapTcp();
         }
 
 
