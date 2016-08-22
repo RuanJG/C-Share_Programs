@@ -376,7 +376,7 @@ namespace WindowsFormsApplication1
             while (!iap_thread_need_quit)
             {
                 sendPackget(PACKGET_START_ID, data, 1);
-                byte res = getAckResult(500);
+                byte res = getAckResult(100);
                 if (res == PACKGET_ACK_OK)
                 {
                     thread_log("get ack ok\r\n");
@@ -589,8 +589,41 @@ namespace WindowsFormsApplication1
                 try
                 {
                     byte[] RecieveBuf = getBytesFromRemote();
-                    if( RecieveBuf != null)
-                        thread_log(System.Text.Encoding.UTF8.GetString(RecieveBuf));
+
+                    if (RecieveBuf != null)
+                    {
+                        string str = System.Text.Encoding.UTF8.GetString(RecieveBuf);
+                        if (filtTtextBox.Text != null)
+                        {
+                            //Invoke((MethodInvoker)delegate
+                            //{
+                            //speepTtextBox.Text = str;
+                            string filt = filtTtextBox.Text;
+                            //});
+                            string[] splitmask = { "/r/n" };
+                            string[] sArray = str.Split(splitmask,StringSplitOptions.None);
+                            foreach (string i in sArray)
+                            {
+                                if (0 <= i.IndexOf(filt))
+                                {
+                                    thread_log(i);
+                                }
+                            }
+                            
+                        }
+                        else
+                        {
+                            thread_log(str);
+                            /*
+                            if (0 <= str.IndexOf("speed"))
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    speepTtextBox.Text = str;
+                                });
+                            }*/
+                        }    
+                    }
                 }
                 catch
                 {
@@ -823,12 +856,197 @@ namespace WindowsFormsApplication1
             
         }
 
+        private void sendCmdToRemote(string cmd)
+        {
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(cmd);
+            //log("send >>" + cmd + "\r\n");
+            if (serial.IsOpen)
+            {
+                try
+                {
+                    serial.Write(cmd);
+                    log("uart send >>" + cmd + "\r\n");
+                    
+                }
+                catch
+                {
+
+                }
+
+            }
+            if (iapTcpClient != null && iapTcpClient.Connected)
+            {
+                try
+                {
+                    if (iapTcpClient != null && iapTcpClient.Connected)
+                    {
+                        NetworkStream sendStream = iapTcpClient.GetStream();
+                        sendStream.Write(data, 0, data.Length);
+                        sendStream.Flush();
+                        log("tcp send >>" + cmd + "\r\n");
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //发动机开
+            sendCmdToRemote("#5#241");
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //发动机关
+            sendCmdToRemote("#5#240");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //发动机打火
+            sendCmdToRemote("#5#2331");
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            //发电机开
+            sendCmdToRemote("#5#2233");//3s
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //发电机关
+            sendCmdToRemote("#5#2131");
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            //侧推充电
+            sendCmdToRemote("#5#421");
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            //侧推上电
+            sendCmdToRemote("#5#411");
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            //侧推关充电
+            sendCmdToRemote("#5#420");
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            //侧推关电
+            sendCmdToRemote("#5#410");
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            //侧推左控制开
+            sendCmdToRemote("#5#431");
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            //侧推左控制关
+            sendCmdToRemote("#5#430");
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            //侧推左控制前开
+            sendCmdToRemote("#5#511");
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            //侧推左控制后关
+            sendCmdToRemote("#5#520");
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            //侧推左控制前关
+            sendCmdToRemote("#5#510");
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            //侧推左控制后开
+            sendCmdToRemote("#5#521");
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            //侧推右控制开
+            sendCmdToRemote("#5#441");
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            //侧推右控制关
+            sendCmdToRemote("#5#440");
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            //侧推右控制后关
+            sendCmdToRemote("#5#540");
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            //侧推右控制前开
+            sendCmdToRemote("#5#531");
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            //侧推右控制前关
+            sendCmdToRemote("#5#530");
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            //侧推右控制后开
+            sendCmdToRemote("#5#541");
+        }
+
+        private void DamOpenButton_Click(object sender, EventArgs e)
+        {
+            string addr = a485AddrTextBox.Text;
+            string num = a485NumberTextBox.Text;
+            if (addr == null || num == null)
+            {
+                MessageBox.Show("先设置好继电进地址与开关号");
+                return;
+            }
 
 
+            sendCmdToRemote("#5#"+addr+num+"1");
 
+        }
 
+        private void damCloseButton_Click(object sender, EventArgs e)
+        {
+            string addr = a485AddrTextBox.Text;
+            string num = a485NumberTextBox.Text;
+            if (addr == null || num == null)
+            {
+                MessageBox.Show("先设置好继电进地址与开关号");
+                return;
+            }
 
-
+            sendCmdToRemote("#5#" + addr + num + "0");
+        }
 
 
 
