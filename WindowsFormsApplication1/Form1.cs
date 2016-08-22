@@ -859,7 +859,7 @@ namespace WindowsFormsApplication1
         private void sendCmdToRemote(string cmd)
         {
             byte[] data = System.Text.Encoding.UTF8.GetBytes(cmd);
-            //log("send >>" + cmd + "\r\n");
+            log("send >>" + cmd + "\r\n");
             if (serial.IsOpen)
             {
                 try
@@ -1046,6 +1046,61 @@ namespace WindowsFormsApplication1
             }
 
             sendCmdToRemote("#5#" + addr + num + "0");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string addr = a485AddrTextBox.Text;
+            string num = a485NumberTextBox.Text;
+            if (addr == null || num == null)
+            {
+                MessageBox.Show("先设置好继电进地址与开关号");
+                return;
+            }
+            string ms = damDelayMsTextBox.Text;
+            if (ms == null)
+            {
+                MessageBox.Show("设置闪开闪闭的时间间隔");
+                return;
+            }
+
+            int ims = int.Parse(ms);
+            if (ims < 100 || (ims % 100) != 0)
+            {
+                MessageBox.Show("时间间隔应大于100ms，并且为100ms整倍数");
+                return;
+            }
+            //string flash_ms = (ims / 100).ToString("D2") ;
+            string flash_ms = (ims / 1000).ToString("D1");
+            sendCmdToRemote("#5#" + addr + num + "3"+flash_ms);
+
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            string addr = a485AddrTextBox.Text;
+            string num = a485NumberTextBox.Text;
+            if (addr == null || num == null)
+            {
+                MessageBox.Show("先设置好继电进地址与开关号");
+                return;
+            }
+            string ms = damDelayMsTextBox.Text;
+            if (ms == null)
+            {
+                MessageBox.Show("设置闪开闪闭的时间间隔");
+                return;
+            }
+
+            int ims = int.Parse(ms);
+            if (ims < 100 || (ims % 100) != 0)
+            {
+                MessageBox.Show("时间间隔应大于100ms，并且为100ms整倍数");
+                return;
+            }
+            //string flash_ms = (ims / 100).ToString("D2");
+            string flash_ms = (ims / 1000).ToString("D1");
+            sendCmdToRemote("#5#" + addr + num + "2" + flash_ms);
         }
 
 

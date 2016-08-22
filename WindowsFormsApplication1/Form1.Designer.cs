@@ -85,6 +85,11 @@
             this.a485AddrTextBox = new System.Windows.Forms.TextBox();
             this.a485NumberTextBox = new System.Windows.Forms.TextBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.damDelayMsTextBox = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.button25 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.damCloseButton = new System.Windows.Forms.Button();
             this.DamOpenButton = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
@@ -119,7 +124,7 @@
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
             this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.logTextBox.Size = new System.Drawing.Size(463, 420);
+            this.logTextBox.Size = new System.Drawing.Size(463, 447);
             this.logTextBox.TabIndex = 2;
             this.logTextBox.TextChanged += new System.EventHandler(this.logTextBox_TextChanged);
             // 
@@ -402,7 +407,7 @@
             this.groupBox8.Controls.Add(this.button11);
             this.groupBox8.Location = new System.Drawing.Point(907, 137);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(207, 324);
+            this.groupBox8.Size = new System.Drawing.Size(207, 351);
             this.groupBox8.TabIndex = 21;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "侧推";
@@ -663,7 +668,7 @@
             // 
             // a485NumberTextBox
             // 
-            this.a485NumberTextBox.Location = new System.Drawing.Point(181, 22);
+            this.a485NumberTextBox.Location = new System.Drawing.Point(146, 23);
             this.a485NumberTextBox.Name = "a485NumberTextBox";
             this.a485NumberTextBox.Size = new System.Drawing.Size(35, 21);
             this.a485NumberTextBox.TabIndex = 23;
@@ -671,6 +676,11 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.label15);
+            this.groupBox10.Controls.Add(this.damDelayMsTextBox);
+            this.groupBox10.Controls.Add(this.label14);
+            this.groupBox10.Controls.Add(this.button25);
+            this.groupBox10.Controls.Add(this.button7);
             this.groupBox10.Controls.Add(this.damCloseButton);
             this.groupBox10.Controls.Add(this.DamOpenButton);
             this.groupBox10.Controls.Add(this.label13);
@@ -680,35 +690,81 @@
             this.groupBox10.Controls.Add(this.a485NumberTextBox);
             this.groupBox10.Location = new System.Drawing.Point(12, 405);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(420, 56);
+            this.groupBox10.Size = new System.Drawing.Size(420, 83);
             this.groupBox10.TabIndex = 25;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "继电器开关";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(183, 59);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(17, 12);
+            this.label15.TabIndex = 34;
+            this.label15.Text = "ms";
+            // 
+            // damDelayMsTextBox
+            // 
+            this.damDelayMsTextBox.Location = new System.Drawing.Point(146, 54);
+            this.damDelayMsTextBox.Name = "damDelayMsTextBox";
+            this.damDelayMsTextBox.Size = new System.Drawing.Size(35, 21);
+            this.damDelayMsTextBox.TabIndex = 33;
+            this.damDelayMsTextBox.Text = "1000";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(14, 57);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(113, 12);
+            this.label14.TabIndex = 32;
+            this.label14.Text = "闪开/闪闭     间隔";
+            // 
+            // button25
+            // 
+            this.button25.Location = new System.Drawing.Point(329, 54);
+            this.button25.Name = "button25";
+            this.button25.Size = new System.Drawing.Size(59, 23);
+            this.button25.TabIndex = 31;
+            this.button25.Text = "闪开";
+            this.button25.UseVisualStyleBackColor = true;
+            this.button25.Click += new System.EventHandler(this.button25_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(221, 54);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(61, 23);
+            this.button7.TabIndex = 30;
+            this.button7.Text = "闪闭";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // damCloseButton
             // 
-            this.damCloseButton.Location = new System.Drawing.Point(350, 20);
+            this.damCloseButton.Location = new System.Drawing.Point(329, 21);
             this.damCloseButton.Name = "damCloseButton";
-            this.damCloseButton.Size = new System.Drawing.Size(54, 23);
+            this.damCloseButton.Size = new System.Drawing.Size(59, 23);
             this.damCloseButton.TabIndex = 29;
-            this.damCloseButton.Text = "关";
+            this.damCloseButton.Text = "断开";
             this.damCloseButton.UseVisualStyleBackColor = true;
             this.damCloseButton.Click += new System.EventHandler(this.damCloseButton_Click);
             // 
             // DamOpenButton
             // 
-            this.DamOpenButton.Location = new System.Drawing.Point(284, 21);
+            this.DamOpenButton.Location = new System.Drawing.Point(221, 21);
             this.DamOpenButton.Name = "DamOpenButton";
-            this.DamOpenButton.Size = new System.Drawing.Size(51, 23);
+            this.DamOpenButton.Size = new System.Drawing.Size(61, 23);
             this.DamOpenButton.TabIndex = 28;
-            this.DamOpenButton.Text = "开";
+            this.DamOpenButton.Text = "连接";
             this.DamOpenButton.UseVisualStyleBackColor = true;
             this.DamOpenButton.Click += new System.EventHandler(this.DamOpenButton_Click);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(222, 25);
+            this.label13.Location = new System.Drawing.Point(187, 26);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(17, 12);
             this.label13.TabIndex = 27;
@@ -717,7 +773,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(161, 25);
+            this.label12.Location = new System.Drawing.Point(126, 26);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(17, 12);
             this.label12.TabIndex = 26;
@@ -736,7 +792,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1133, 474);
+            this.ClientSize = new System.Drawing.Size(1133, 492);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.filtTtextBox);
@@ -837,6 +893,11 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button button25;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox damDelayMsTextBox;
+        private System.Windows.Forms.Label label14;
     }
 }
 
