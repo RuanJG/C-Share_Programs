@@ -660,15 +660,16 @@
             // 
             // a485AddrTextBox
             // 
-            this.a485AddrTextBox.Location = new System.Drawing.Point(91, 23);
+            this.a485AddrTextBox.Location = new System.Drawing.Point(100, 23);
             this.a485AddrTextBox.Name = "a485AddrTextBox";
             this.a485AddrTextBox.Size = new System.Drawing.Size(21, 21);
             this.a485AddrTextBox.TabIndex = 13;
             this.a485AddrTextBox.Text = "5";
+            this.a485AddrTextBox.TextChanged += new System.EventHandler(this.a485AddrTextBox_TextChanged);
             // 
             // a485NumberTextBox
             // 
-            this.a485NumberTextBox.Location = new System.Drawing.Point(146, 23);
+            this.a485NumberTextBox.Location = new System.Drawing.Point(165, 23);
             this.a485NumberTextBox.Name = "a485NumberTextBox";
             this.a485NumberTextBox.Size = new System.Drawing.Size(35, 21);
             this.a485NumberTextBox.TabIndex = 23;
@@ -764,7 +765,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(187, 26);
+            this.label13.Location = new System.Drawing.Point(198, 26);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(17, 12);
             this.label13.TabIndex = 27;
@@ -773,20 +774,20 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(126, 26);
+            this.label12.Location = new System.Drawing.Point(127, 26);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(17, 12);
+            this.label12.Size = new System.Drawing.Size(41, 12);
             this.label12.TabIndex = 26;
-            this.label12.Text = "第";
+            this.label12.Text = "第 0x0";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(14, 26);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(77, 12);
+            this.label11.Size = new System.Drawing.Size(83, 12);
             this.label11.TabIndex = 25;
-            this.label11.Text = "485地址：0x0";
+            this.label11.Text = "485地址：整数";
             // 
             // mainForm
             // 

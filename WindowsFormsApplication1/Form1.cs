@@ -909,19 +909,19 @@ namespace WindowsFormsApplication1
         private void button4_Click(object sender, EventArgs e)
         {
             //发动机打火
-            sendCmdToRemote("#5#2331");
+            sendCmdToRemote("#5#23305");//500ms
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
             //发电机开
-            sendCmdToRemote("#5#2233");//3s
+            sendCmdToRemote("#5#22330");//3s
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             //发电机关
-            sendCmdToRemote("#5#2131");
+            sendCmdToRemote("#5#21310");//1s
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -1070,8 +1070,8 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("时间间隔应大于100ms，并且为100ms整倍数");
                 return;
             }
-            //string flash_ms = (ims / 100).ToString("D2") ;
-            string flash_ms = (ims / 1000).ToString("D1");
+            string flash_ms = (ims / 100).ToString("D2") ;
+            //string flash_ms = (ims / 1000).ToString("D1");
             sendCmdToRemote("#5#" + addr + num + "3"+flash_ms);
 
         }
@@ -1098,9 +1098,14 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("时间间隔应大于100ms，并且为100ms整倍数");
                 return;
             }
-            //string flash_ms = (ims / 100).ToString("D2");
-            string flash_ms = (ims / 1000).ToString("D1");
+            string flash_ms = (ims / 100).ToString("D2");
+            //string flash_ms = (ims / 1000).ToString("D1");
             sendCmdToRemote("#5#" + addr + num + "2" + flash_ms);
+        }
+
+        private void a485AddrTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
 
