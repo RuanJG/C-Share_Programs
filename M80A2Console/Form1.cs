@@ -362,13 +362,13 @@ namespace M80A2Console
                         }
                         //电池电压
                         float BAT_12V = (float)(command[di] | (command[di + 1] << 8)); // 0-30v map to 0-30000
-                        BAT_12V = BAT_12V * 30 / 30000;
+                        BAT_12V = BAT_12V / 1000;
                         //现在的12V电压
                         float a12V_EXT = (float)(command[di+2] | (command[di + 3] << 8)); // 0-30v map to 0-30000
-                        a12V_EXT = a12V_EXT * 30 / 30000;
+                        a12V_EXT = a12V_EXT  / 1000;
                         //现在输出的24V电压
                         float a24V_EXT = (float)(command[di+4] | (command[di + 5] << 8)); //0-30v map to 0-30000
-                        a24V_EXT = a24V_EXT * 30 / 30000;
+                        a24V_EXT = a24V_EXT / 1000;
 
                         Invoke((MethodInvoker)delegate
                         {
@@ -416,7 +416,7 @@ namespace M80A2Console
 
                         Invoke((MethodInvoker)delegate
                         {
-                            aGauge2.Value = speed;
+                            aGauge2.Value = speed/10; //speed
                         });
                         break;
 
@@ -614,7 +614,194 @@ namespace M80A2Console
 
         private void btn_multi_wave_open_Click(object sender, EventArgs e)
         {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x09, 2, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
 
+        private void btn_antenna_start_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x01, 0x01, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_antenna_stop_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x02, 0x01, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_laser_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x06, 0x01, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_laser_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x06, 0x00, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_rudder_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x07, 0x01, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_rudder_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x07, 0x00, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_ke4_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x08, 0x01, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_ke4_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x08, 0x00, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_break_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x09, 0x01, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_break_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x09, 0x00, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_front_fan_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 10, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_front_fan_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 10, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_back_fan_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 11, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_back_fan_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 11, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_pump_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 12, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_pump_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 12, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_radar_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 13, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_radar_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 13, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_camera_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 14, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_camera_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 14, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_gps_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 16, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_gps_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 16, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_switch_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 15, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_switch_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 15, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_sonar_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x09, 1, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_sonar_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x09, 1, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_multi_wave_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x09, 2, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_lte_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x09, 3, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_lte_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x09, 3, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_computer_open_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x09, 4, 1, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void btn_computer_close_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x09, 4, 0, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
         }
     }
 

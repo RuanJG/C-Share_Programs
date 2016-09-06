@@ -334,7 +334,7 @@
             this.aGauge12.Center = new System.Drawing.Point(70, 70);
             this.aGauge12.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold);
             this.aGauge12.Location = new System.Drawing.Point(124, 15);
-            this.aGauge12.MaxValue = 50F;
+            this.aGauge12.MaxValue = 20F;
             this.aGauge12.MinValue = 0F;
             this.aGauge12.Name = "aGauge12";
             this.aGauge12.NeedleColor1 = AGaugeApp.AGauge.NeedleColorEnum.Green;
@@ -392,11 +392,11 @@
             this.aGauge12.ScaleLinesMajorColor = System.Drawing.Color.Black;
             this.aGauge12.ScaleLinesMajorInnerRadius = 40;
             this.aGauge12.ScaleLinesMajorOuterRadius = 50;
-            this.aGauge12.ScaleLinesMajorStepValue = 10F;
+            this.aGauge12.ScaleLinesMajorStepValue = 5F;
             this.aGauge12.ScaleLinesMajorWidth = 2;
             this.aGauge12.ScaleLinesMinorColor = System.Drawing.Color.Gray;
             this.aGauge12.ScaleLinesMinorInnerRadius = 43;
-            this.aGauge12.ScaleLinesMinorNumOf = 1;
+            this.aGauge12.ScaleLinesMinorNumOf = 4;
             this.aGauge12.ScaleLinesMinorOuterRadius = 50;
             this.aGauge12.ScaleLinesMinorWidth = 1;
             this.aGauge12.ScaleNumbersColor = System.Drawing.Color.Black;
@@ -1803,7 +1803,7 @@
             this.aGauge15.CapText = "电流12";
             this.aGauge15.Center = new System.Drawing.Point(70, 70);
             this.aGauge15.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aGauge15.Location = new System.Drawing.Point(6, 20);
+            this.aGauge15.Location = new System.Drawing.Point(3, 20);
             this.aGauge15.MaxValue = 100F;
             this.aGauge15.MinValue = 0F;
             this.aGauge15.Name = "aGauge15";
@@ -1911,8 +1911,8 @@
             this.aGauge16.CapText = "电压";
             this.aGauge16.Center = new System.Drawing.Point(20, 70);
             this.aGauge16.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aGauge16.Location = new System.Drawing.Point(87, 20);
-            this.aGauge16.MaxValue = 100F;
+            this.aGauge16.Location = new System.Drawing.Point(92, 20);
+            this.aGauge16.MaxValue = 15F;
             this.aGauge16.MinValue = 0F;
             this.aGauge16.Name = "aGauge16";
             this.aGauge16.NeedleColor1 = AGaugeApp.AGauge.NeedleColorEnum.Gray;
@@ -1970,11 +1970,11 @@
             this.aGauge16.ScaleLinesMajorColor = System.Drawing.Color.Black;
             this.aGauge16.ScaleLinesMajorInnerRadius = 40;
             this.aGauge16.ScaleLinesMajorOuterRadius = 50;
-            this.aGauge16.ScaleLinesMajorStepValue = 50F;
+            this.aGauge16.ScaleLinesMajorStepValue = 5F;
             this.aGauge16.ScaleLinesMajorWidth = 2;
             this.aGauge16.ScaleLinesMinorColor = System.Drawing.Color.Black;
             this.aGauge16.ScaleLinesMinorInnerRadius = 43;
-            this.aGauge16.ScaleLinesMinorNumOf = 9;
+            this.aGauge16.ScaleLinesMinorNumOf = 4;
             this.aGauge16.ScaleLinesMinorOuterRadius = 50;
             this.aGauge16.ScaleLinesMinorWidth = 2;
             this.aGauge16.ScaleNumbersColor = System.Drawing.Color.Black;
@@ -2420,6 +2420,7 @@
             this.btn_pump_close.TabIndex = 0;
             this.btn_pump_close.Text = "关闭";
             this.btn_pump_close.UseVisualStyleBackColor = true;
+            this.btn_pump_close.Click += new System.EventHandler(this.btn_pump_close_Click);
             // 
             // btn_pump_open
             // 
@@ -2430,6 +2431,7 @@
             this.btn_pump_open.TabIndex = 0;
             this.btn_pump_open.Text = "打开";
             this.btn_pump_open.UseVisualStyleBackColor = true;
+            this.btn_pump_open.Click += new System.EventHandler(this.btn_pump_open_Click);
             // 
             // groupBox21
             // 
@@ -2451,6 +2453,7 @@
             this.btn_back_fan_close.TabIndex = 0;
             this.btn_back_fan_close.Text = "关闭";
             this.btn_back_fan_close.UseVisualStyleBackColor = true;
+            this.btn_back_fan_close.Click += new System.EventHandler(this.btn_back_fan_close_Click);
             // 
             // btn_back_fan_open
             // 
@@ -2461,6 +2464,7 @@
             this.btn_back_fan_open.TabIndex = 0;
             this.btn_back_fan_open.Text = "打开";
             this.btn_back_fan_open.UseVisualStyleBackColor = true;
+            this.btn_back_fan_open.Click += new System.EventHandler(this.btn_back_fan_open_Click);
             // 
             // groupBox20
             // 
@@ -2482,6 +2486,7 @@
             this.btn_front_fan_close.TabIndex = 0;
             this.btn_front_fan_close.Text = "关闭";
             this.btn_front_fan_close.UseVisualStyleBackColor = true;
+            this.btn_front_fan_close.Click += new System.EventHandler(this.btn_front_fan_close_Click);
             // 
             // btn_front_fan_open
             // 
@@ -2492,6 +2497,7 @@
             this.btn_front_fan_open.TabIndex = 0;
             this.btn_front_fan_open.Text = "打开";
             this.btn_front_fan_open.UseVisualStyleBackColor = true;
+            this.btn_front_fan_open.Click += new System.EventHandler(this.btn_front_fan_open_Click);
             // 
             // groupBox19
             // 
@@ -2513,6 +2519,7 @@
             this.btn_break_close.TabIndex = 0;
             this.btn_break_close.Text = "关闭";
             this.btn_break_close.UseVisualStyleBackColor = true;
+            this.btn_break_close.Click += new System.EventHandler(this.btn_break_close_Click);
             // 
             // btn_break_open
             // 
@@ -2523,6 +2530,7 @@
             this.btn_break_open.TabIndex = 0;
             this.btn_break_open.Text = "打开";
             this.btn_break_open.UseVisualStyleBackColor = true;
+            this.btn_break_open.Click += new System.EventHandler(this.btn_break_open_Click);
             // 
             // groupBox28
             // 
@@ -2544,6 +2552,7 @@
             this.btn_multi_wave_close.TabIndex = 0;
             this.btn_multi_wave_close.Text = "关闭";
             this.btn_multi_wave_close.UseVisualStyleBackColor = true;
+            this.btn_multi_wave_close.Click += new System.EventHandler(this.btn_multi_wave_close_Click);
             // 
             // btn_multi_wave_open
             // 
@@ -2576,6 +2585,7 @@
             this.btn_computer_close.TabIndex = 0;
             this.btn_computer_close.Text = "关闭";
             this.btn_computer_close.UseVisualStyleBackColor = true;
+            this.btn_computer_close.Click += new System.EventHandler(this.btn_computer_close_Click);
             // 
             // btn_computer_open
             // 
@@ -2586,6 +2596,7 @@
             this.btn_computer_open.TabIndex = 0;
             this.btn_computer_open.Text = "打开";
             this.btn_computer_open.UseVisualStyleBackColor = true;
+            this.btn_computer_open.Click += new System.EventHandler(this.btn_computer_open_Click);
             // 
             // groupBox29
             // 
@@ -2607,6 +2618,7 @@
             this.btn_lte_close.TabIndex = 0;
             this.btn_lte_close.Text = "关闭";
             this.btn_lte_close.UseVisualStyleBackColor = true;
+            this.btn_lte_close.Click += new System.EventHandler(this.btn_lte_close_Click);
             // 
             // btn_lte_open
             // 
@@ -2617,6 +2629,7 @@
             this.btn_lte_open.TabIndex = 0;
             this.btn_lte_open.Text = "打开";
             this.btn_lte_open.UseVisualStyleBackColor = true;
+            this.btn_lte_open.Click += new System.EventHandler(this.btn_lte_open_Click);
             // 
             // groupBox27
             // 
@@ -2638,6 +2651,7 @@
             this.btn_sonar_close.TabIndex = 0;
             this.btn_sonar_close.Text = "关闭";
             this.btn_sonar_close.UseVisualStyleBackColor = true;
+            this.btn_sonar_close.Click += new System.EventHandler(this.btn_sonar_close_Click);
             // 
             // btn_sonar_open
             // 
@@ -2648,6 +2662,7 @@
             this.btn_sonar_open.TabIndex = 0;
             this.btn_sonar_open.Text = "打开";
             this.btn_sonar_open.UseVisualStyleBackColor = true;
+            this.btn_sonar_open.Click += new System.EventHandler(this.btn_sonar_open_Click);
             // 
             // groupBox18
             // 
@@ -2669,6 +2684,7 @@
             this.btn_ke4_close.TabIndex = 0;
             this.btn_ke4_close.Text = "关闭";
             this.btn_ke4_close.UseVisualStyleBackColor = true;
+            this.btn_ke4_close.Click += new System.EventHandler(this.btn_ke4_close_Click);
             // 
             // btn_ke4_open
             // 
@@ -2679,6 +2695,7 @@
             this.btn_ke4_open.TabIndex = 0;
             this.btn_ke4_open.Text = "打开";
             this.btn_ke4_open.UseVisualStyleBackColor = true;
+            this.btn_ke4_open.Click += new System.EventHandler(this.btn_ke4_open_Click);
             // 
             // groupBox17
             // 
@@ -2700,6 +2717,7 @@
             this.btn_rudder_close.TabIndex = 0;
             this.btn_rudder_close.Text = "关闭";
             this.btn_rudder_close.UseVisualStyleBackColor = true;
+            this.btn_rudder_close.Click += new System.EventHandler(this.btn_rudder_close_Click);
             // 
             // btn_rudder_open
             // 
@@ -2710,6 +2728,7 @@
             this.btn_rudder_open.TabIndex = 0;
             this.btn_rudder_open.Text = "打开";
             this.btn_rudder_open.UseVisualStyleBackColor = true;
+            this.btn_rudder_open.Click += new System.EventHandler(this.btn_rudder_open_Click);
             // 
             // groupBox25
             // 
@@ -2731,6 +2750,7 @@
             this.btn_camera_close.TabIndex = 0;
             this.btn_camera_close.Text = "关闭";
             this.btn_camera_close.UseVisualStyleBackColor = true;
+            this.btn_camera_close.Click += new System.EventHandler(this.btn_camera_close_Click);
             // 
             // btn_camera_open
             // 
@@ -2741,6 +2761,7 @@
             this.btn_camera_open.TabIndex = 0;
             this.btn_camera_open.Text = "打开";
             this.btn_camera_open.UseVisualStyleBackColor = true;
+            this.btn_camera_open.Click += new System.EventHandler(this.btn_camera_open_Click);
             // 
             // groupBox26
             // 
@@ -2762,6 +2783,7 @@
             this.btn_switch_close.TabIndex = 0;
             this.btn_switch_close.Text = "关闭";
             this.btn_switch_close.UseVisualStyleBackColor = true;
+            this.btn_switch_close.Click += new System.EventHandler(this.btn_switch_close_Click);
             // 
             // btn_switch_open
             // 
@@ -2772,6 +2794,7 @@
             this.btn_switch_open.TabIndex = 0;
             this.btn_switch_open.Text = "打开";
             this.btn_switch_open.UseVisualStyleBackColor = true;
+            this.btn_switch_open.Click += new System.EventHandler(this.btn_switch_open_Click);
             // 
             // groupBox24
             // 
@@ -2793,6 +2816,7 @@
             this.btn_gps_close.TabIndex = 0;
             this.btn_gps_close.Text = "关闭";
             this.btn_gps_close.UseVisualStyleBackColor = true;
+            this.btn_gps_close.Click += new System.EventHandler(this.btn_gps_close_Click);
             // 
             // btn_gps_open
             // 
@@ -2803,6 +2827,7 @@
             this.btn_gps_open.TabIndex = 0;
             this.btn_gps_open.Text = "打开";
             this.btn_gps_open.UseVisualStyleBackColor = true;
+            this.btn_gps_open.Click += new System.EventHandler(this.btn_gps_open_Click);
             // 
             // groupBox23
             // 
@@ -2824,6 +2849,7 @@
             this.btn_radar_close.TabIndex = 0;
             this.btn_radar_close.Text = "关闭";
             this.btn_radar_close.UseVisualStyleBackColor = true;
+            this.btn_radar_close.Click += new System.EventHandler(this.btn_radar_close_Click);
             // 
             // btn_radar_open
             // 
@@ -2834,6 +2860,7 @@
             this.btn_radar_open.TabIndex = 0;
             this.btn_radar_open.Text = "打开";
             this.btn_radar_open.UseVisualStyleBackColor = true;
+            this.btn_radar_open.Click += new System.EventHandler(this.btn_radar_open_Click);
             // 
             // groupBox16
             // 
@@ -2855,6 +2882,7 @@
             this.btn_laser_close.TabIndex = 0;
             this.btn_laser_close.Text = "关闭";
             this.btn_laser_close.UseVisualStyleBackColor = true;
+            this.btn_laser_close.Click += new System.EventHandler(this.btn_laser_close_Click);
             // 
             // btn_laser_open
             // 
@@ -2865,6 +2893,7 @@
             this.btn_laser_open.TabIndex = 0;
             this.btn_laser_open.Text = "打开";
             this.btn_laser_open.UseVisualStyleBackColor = true;
+            this.btn_laser_open.Click += new System.EventHandler(this.btn_laser_open_Click);
             // 
             // groupBox12
             // 
@@ -2886,6 +2915,7 @@
             this.btn_antenna_stop.TabIndex = 0;
             this.btn_antenna_stop.Text = "停止";
             this.btn_antenna_stop.UseVisualStyleBackColor = true;
+            this.btn_antenna_stop.Click += new System.EventHandler(this.btn_antenna_stop_Click);
             // 
             // btn_antenna_start
             // 
@@ -2896,6 +2926,7 @@
             this.btn_antenna_start.TabIndex = 0;
             this.btn_antenna_start.Text = "启动";
             this.btn_antenna_start.UseVisualStyleBackColor = true;
+            this.btn_antenna_start.Click += new System.EventHandler(this.btn_antenna_start_Click);
             // 
             // groupBox11
             // 
