@@ -265,6 +265,13 @@ namespace M80A2Console
                         }
                         int eng_status = (command[di] | (command[di+1]<<8));
                         m_status.EnginSwitchOn = ((eng_status & 0x8) == 0) ? false : true;
+                        int oil_low_warning = command[di + 3]*100;
+                        int water_high_tempture_warning = command[di + 4]*100;
+                        Invoke((MethodInvoker)delegate
+                        {
+                            aGauge14.Value = oil_low_warning;
+                            aGauge13.Value = water_high_tempture_warning;
+                        });
                         break;
 
                     case 0x04: //侧推上电控制
