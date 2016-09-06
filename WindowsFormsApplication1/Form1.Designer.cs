@@ -95,6 +95,50 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.yawTurnLeftbutton = new System.Windows.Forms.Button();
+            this.yawManualModecheckBox = new System.Windows.Forms.CheckBox();
+            this.yawLogcheckBox = new System.Windows.Forms.CheckBox();
+            this.pitchMiddleButton = new System.Windows.Forms.Button();
+            this.pitchDownButton = new System.Windows.Forms.Button();
+            this.pitchUpButton = new System.Windows.Forms.Button();
+            this.yawTurnRightButton = new System.Windows.Forms.Button();
+            this.yawTurnStopButton = new System.Windows.Forms.Button();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.button27 = new System.Windows.Forms.Button();
+            this.button28 = new System.Windows.Forms.Button();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.button26 = new System.Windows.Forms.Button();
+            this.button29 = new System.Windows.Forms.Button();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.button30 = new System.Windows.Forms.Button();
+            this.button31 = new System.Windows.Forms.Button();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.button32 = new System.Windows.Forms.Button();
+            this.button33 = new System.Windows.Forms.Button();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.button34 = new System.Windows.Forms.Button();
+            this.button35 = new System.Windows.Forms.Button();
+            this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.button36 = new System.Windows.Forms.Button();
+            this.button37 = new System.Windows.Forms.Button();
+            this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.button38 = new System.Windows.Forms.Button();
+            this.button39 = new System.Windows.Forms.Button();
+            this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.button40 = new System.Windows.Forms.Button();
+            this.button41 = new System.Windows.Forms.Button();
+            this.groupBox21 = new System.Windows.Forms.GroupBox();
+            this.button42 = new System.Windows.Forms.Button();
+            this.button43 = new System.Windows.Forms.Button();
+            this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.button44 = new System.Windows.Forms.Button();
+            this.button45 = new System.Windows.Forms.Button();
+            this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.button46 = new System.Windows.Forms.Button();
+            this.button47 = new System.Windows.Forms.Button();
+            this.button48 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -105,6 +149,19 @@
             this.groupBox5.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            this.groupBox13.SuspendLayout();
+            this.groupBox14.SuspendLayout();
+            this.groupBox15.SuspendLayout();
+            this.groupBox16.SuspendLayout();
+            this.groupBox17.SuspendLayout();
+            this.groupBox18.SuspendLayout();
+            this.groupBox19.SuspendLayout();
+            this.groupBox20.SuspendLayout();
+            this.groupBox21.SuspendLayout();
+            this.groupBox22.SuspendLayout();
+            this.groupBox23.SuspendLayout();
             this.SuspendLayout();
             // 
             // startButton
@@ -124,7 +181,7 @@
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
             this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.logTextBox.Size = new System.Drawing.Size(463, 447);
+            this.logTextBox.Size = new System.Drawing.Size(463, 557);
             this.logTextBox.TabIndex = 2;
             this.logTextBox.TextChanged += new System.EventHandler(this.logTextBox_TextChanged);
             // 
@@ -341,7 +398,7 @@
             this.groupBox6.Controls.Add(this.button3);
             this.groupBox6.Location = new System.Drawing.Point(907, 37);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(181, 44);
+            this.groupBox6.Size = new System.Drawing.Size(207, 44);
             this.groupBox6.TabIndex = 19;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "发动机";
@@ -370,9 +427,9 @@
             // 
             this.groupBox7.Controls.Add(this.button6);
             this.groupBox7.Controls.Add(this.button8);
-            this.groupBox7.Location = new System.Drawing.Point(907, 87);
+            this.groupBox7.Location = new System.Drawing.Point(907, 98);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(181, 44);
+            this.groupBox7.Size = new System.Drawing.Size(207, 44);
             this.groupBox7.TabIndex = 20;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "发电机";
@@ -405,9 +462,9 @@
             this.groupBox8.Controls.Add(this.button12);
             this.groupBox8.Controls.Add(this.button9);
             this.groupBox8.Controls.Add(this.button11);
-            this.groupBox8.Location = new System.Drawing.Point(907, 137);
+            this.groupBox8.Location = new System.Drawing.Point(907, 161);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(207, 351);
+            this.groupBox8.Size = new System.Drawing.Size(207, 327);
             this.groupBox8.TabIndex = 21;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "侧推";
@@ -689,7 +746,7 @@
             this.groupBox10.Controls.Add(this.label11);
             this.groupBox10.Controls.Add(this.a485AddrTextBox);
             this.groupBox10.Controls.Add(this.a485NumberTextBox);
-            this.groupBox10.Location = new System.Drawing.Point(12, 405);
+            this.groupBox10.Location = new System.Drawing.Point(12, 415);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(420, 83);
             this.groupBox10.TabIndex = 25;
@@ -789,11 +846,487 @@
             this.label11.TabIndex = 25;
             this.label11.Text = "485地址：整数";
             // 
+            // yawTurnLeftbutton
+            // 
+            this.yawTurnLeftbutton.Enabled = false;
+            this.yawTurnLeftbutton.Location = new System.Drawing.Point(4, 50);
+            this.yawTurnLeftbutton.Name = "yawTurnLeftbutton";
+            this.yawTurnLeftbutton.Size = new System.Drawing.Size(48, 23);
+            this.yawTurnLeftbutton.TabIndex = 26;
+            this.yawTurnLeftbutton.Text = "左";
+            this.yawTurnLeftbutton.UseVisualStyleBackColor = true;
+            this.yawTurnLeftbutton.Click += new System.EventHandler(this.yawTurnLeftbutton_Click_1);
+            // 
+            // yawManualModecheckBox
+            // 
+            this.yawManualModecheckBox.AutoSize = true;
+            this.yawManualModecheckBox.Location = new System.Drawing.Point(2, 23);
+            this.yawManualModecheckBox.Name = "yawManualModecheckBox";
+            this.yawManualModecheckBox.Size = new System.Drawing.Size(72, 16);
+            this.yawManualModecheckBox.TabIndex = 27;
+            this.yawManualModecheckBox.Text = "手动模式";
+            this.yawManualModecheckBox.UseVisualStyleBackColor = true;
+            this.yawManualModecheckBox.CheckedChanged += new System.EventHandler(this.yawManualModecheckBox_CheckedChanged_1);
+            // 
+            // yawLogcheckBox
+            // 
+            this.yawLogcheckBox.AutoSize = true;
+            this.yawLogcheckBox.Location = new System.Drawing.Point(88, 23);
+            this.yawLogcheckBox.Name = "yawLogcheckBox";
+            this.yawLogcheckBox.Size = new System.Drawing.Size(66, 16);
+            this.yawLogcheckBox.TabIndex = 28;
+            this.yawLogcheckBox.Text = "打开LOG";
+            this.yawLogcheckBox.UseVisualStyleBackColor = true;
+            this.yawLogcheckBox.CheckedChanged += new System.EventHandler(this.yawLogcheckBox_CheckedChanged);
+            // 
+            // pitchMiddleButton
+            // 
+            this.pitchMiddleButton.Location = new System.Drawing.Point(66, 21);
+            this.pitchMiddleButton.Name = "pitchMiddleButton";
+            this.pitchMiddleButton.Size = new System.Drawing.Size(36, 23);
+            this.pitchMiddleButton.TabIndex = 29;
+            this.pitchMiddleButton.Text = "中";
+            this.pitchMiddleButton.UseVisualStyleBackColor = true;
+            this.pitchMiddleButton.Click += new System.EventHandler(this.pitchMiddleButton_Click);
+            // 
+            // pitchDownButton
+            // 
+            this.pitchDownButton.Location = new System.Drawing.Point(115, 20);
+            this.pitchDownButton.Name = "pitchDownButton";
+            this.pitchDownButton.Size = new System.Drawing.Size(35, 23);
+            this.pitchDownButton.TabIndex = 30;
+            this.pitchDownButton.Text = "下";
+            this.pitchDownButton.UseVisualStyleBackColor = true;
+            this.pitchDownButton.Click += new System.EventHandler(this.pitchDownButton_Click);
+            // 
+            // pitchUpButton
+            // 
+            this.pitchUpButton.Location = new System.Drawing.Point(22, 21);
+            this.pitchUpButton.Name = "pitchUpButton";
+            this.pitchUpButton.Size = new System.Drawing.Size(32, 23);
+            this.pitchUpButton.TabIndex = 31;
+            this.pitchUpButton.Text = "上";
+            this.pitchUpButton.UseVisualStyleBackColor = true;
+            this.pitchUpButton.Click += new System.EventHandler(this.pitchUpButton_Click);
+            // 
+            // yawTurnRightButton
+            // 
+            this.yawTurnRightButton.Enabled = false;
+            this.yawTurnRightButton.Location = new System.Drawing.Point(110, 50);
+            this.yawTurnRightButton.Name = "yawTurnRightButton";
+            this.yawTurnRightButton.Size = new System.Drawing.Size(48, 23);
+            this.yawTurnRightButton.TabIndex = 32;
+            this.yawTurnRightButton.Text = "右";
+            this.yawTurnRightButton.UseVisualStyleBackColor = true;
+            this.yawTurnRightButton.Click += new System.EventHandler(this.yawTurnRightButton_Click);
+            // 
+            // yawTurnStopButton
+            // 
+            this.yawTurnStopButton.Enabled = false;
+            this.yawTurnStopButton.Location = new System.Drawing.Point(57, 50);
+            this.yawTurnStopButton.Name = "yawTurnStopButton";
+            this.yawTurnStopButton.Size = new System.Drawing.Size(48, 23);
+            this.yawTurnStopButton.TabIndex = 33;
+            this.yawTurnStopButton.Text = "停";
+            this.yawTurnStopButton.UseVisualStyleBackColor = true;
+            this.yawTurnStopButton.Click += new System.EventHandler(this.yawTurnStopButton_Click_1);
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.pitchUpButton);
+            this.groupBox11.Controls.Add(this.pitchMiddleButton);
+            this.groupBox11.Controls.Add(this.pitchDownButton);
+            this.groupBox11.Location = new System.Drawing.Point(1122, 41);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(165, 44);
+            this.groupBox11.TabIndex = 34;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "倒车斗";
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.yawManualModecheckBox);
+            this.groupBox12.Controls.Add(this.yawLogcheckBox);
+            this.groupBox12.Controls.Add(this.yawTurnRightButton);
+            this.groupBox12.Controls.Add(this.yawTurnStopButton);
+            this.groupBox12.Controls.Add(this.yawTurnLeftbutton);
+            this.groupBox12.Location = new System.Drawing.Point(1122, 96);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(165, 88);
+            this.groupBox12.TabIndex = 35;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "液压泵转向";
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.button27);
+            this.groupBox13.Controls.Add(this.button28);
+            this.groupBox13.Location = new System.Drawing.Point(1122, 190);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(165, 43);
+            this.groupBox13.TabIndex = 35;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "激光雷达";
+            // 
+            // button27
+            // 
+            this.button27.Location = new System.Drawing.Point(22, 18);
+            this.button27.Name = "button27";
+            this.button27.Size = new System.Drawing.Size(65, 23);
+            this.button27.TabIndex = 29;
+            this.button27.Text = "开";
+            this.button27.UseVisualStyleBackColor = true;
+            this.button27.Click += new System.EventHandler(this.button27_Click);
+            // 
+            // button28
+            // 
+            this.button28.Location = new System.Drawing.Point(99, 18);
+            this.button28.Name = "button28";
+            this.button28.Size = new System.Drawing.Size(62, 23);
+            this.button28.TabIndex = 30;
+            this.button28.Text = "关";
+            this.button28.UseVisualStyleBackColor = true;
+            this.button28.Click += new System.EventHandler(this.button28_Click);
+            // 
+            // groupBox14
+            // 
+            this.groupBox14.Controls.Add(this.button26);
+            this.groupBox14.Controls.Add(this.button29);
+            this.groupBox14.Location = new System.Drawing.Point(1124, 232);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(165, 43);
+            this.groupBox14.TabIndex = 36;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "转向助力泵";
+            // 
+            // button26
+            // 
+            this.button26.Location = new System.Drawing.Point(22, 18);
+            this.button26.Name = "button26";
+            this.button26.Size = new System.Drawing.Size(65, 23);
+            this.button26.TabIndex = 29;
+            this.button26.Text = "开";
+            this.button26.UseVisualStyleBackColor = true;
+            this.button26.Click += new System.EventHandler(this.button26_Click);
+            // 
+            // button29
+            // 
+            this.button29.Location = new System.Drawing.Point(99, 18);
+            this.button29.Name = "button29";
+            this.button29.Size = new System.Drawing.Size(62, 23);
+            this.button29.TabIndex = 30;
+            this.button29.Text = "关";
+            this.button29.UseVisualStyleBackColor = true;
+            this.button29.Click += new System.EventHandler(this.button29_Click);
+            // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.button30);
+            this.groupBox15.Controls.Add(this.button31);
+            this.groupBox15.Location = new System.Drawing.Point(1124, 274);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(165, 43);
+            this.groupBox15.TabIndex = 37;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "KE4";
+            // 
+            // button30
+            // 
+            this.button30.Location = new System.Drawing.Point(22, 18);
+            this.button30.Name = "button30";
+            this.button30.Size = new System.Drawing.Size(65, 23);
+            this.button30.TabIndex = 29;
+            this.button30.Text = "开";
+            this.button30.UseVisualStyleBackColor = true;
+            this.button30.Click += new System.EventHandler(this.button30_Click);
+            // 
+            // button31
+            // 
+            this.button31.Location = new System.Drawing.Point(99, 18);
+            this.button31.Name = "button31";
+            this.button31.Size = new System.Drawing.Size(62, 23);
+            this.button31.TabIndex = 30;
+            this.button31.Text = "关";
+            this.button31.UseVisualStyleBackColor = true;
+            this.button31.Click += new System.EventHandler(this.button31_Click);
+            // 
+            // groupBox16
+            // 
+            this.groupBox16.Controls.Add(this.button32);
+            this.groupBox16.Controls.Add(this.button33);
+            this.groupBox16.Location = new System.Drawing.Point(1124, 319);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(165, 43);
+            this.groupBox16.TabIndex = 38;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "翻斗";
+            // 
+            // button32
+            // 
+            this.button32.Location = new System.Drawing.Point(22, 18);
+            this.button32.Name = "button32";
+            this.button32.Size = new System.Drawing.Size(65, 23);
+            this.button32.TabIndex = 29;
+            this.button32.Text = "开";
+            this.button32.UseVisualStyleBackColor = true;
+            this.button32.Click += new System.EventHandler(this.button32_Click);
+            // 
+            // button33
+            // 
+            this.button33.Location = new System.Drawing.Point(99, 18);
+            this.button33.Name = "button33";
+            this.button33.Size = new System.Drawing.Size(62, 23);
+            this.button33.TabIndex = 30;
+            this.button33.Text = "关";
+            this.button33.UseVisualStyleBackColor = true;
+            this.button33.Click += new System.EventHandler(this.button33_Click);
+            // 
+            // groupBox17
+            // 
+            this.groupBox17.Controls.Add(this.button34);
+            this.groupBox17.Controls.Add(this.button35);
+            this.groupBox17.Location = new System.Drawing.Point(1126, 363);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(165, 43);
+            this.groupBox17.TabIndex = 39;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "前舱风机";
+            // 
+            // button34
+            // 
+            this.button34.Location = new System.Drawing.Point(22, 18);
+            this.button34.Name = "button34";
+            this.button34.Size = new System.Drawing.Size(65, 23);
+            this.button34.TabIndex = 29;
+            this.button34.Text = "开";
+            this.button34.UseVisualStyleBackColor = true;
+            this.button34.Click += new System.EventHandler(this.button34_Click);
+            // 
+            // button35
+            // 
+            this.button35.Location = new System.Drawing.Point(99, 18);
+            this.button35.Name = "button35";
+            this.button35.Size = new System.Drawing.Size(62, 23);
+            this.button35.TabIndex = 30;
+            this.button35.Text = "关";
+            this.button35.UseVisualStyleBackColor = true;
+            this.button35.Click += new System.EventHandler(this.button35_Click);
+            // 
+            // groupBox18
+            // 
+            this.groupBox18.Controls.Add(this.button36);
+            this.groupBox18.Controls.Add(this.button37);
+            this.groupBox18.Location = new System.Drawing.Point(1126, 409);
+            this.groupBox18.Name = "groupBox18";
+            this.groupBox18.Size = new System.Drawing.Size(165, 43);
+            this.groupBox18.TabIndex = 40;
+            this.groupBox18.TabStop = false;
+            this.groupBox18.Text = "后舱风机";
+            // 
+            // button36
+            // 
+            this.button36.Location = new System.Drawing.Point(22, 18);
+            this.button36.Name = "button36";
+            this.button36.Size = new System.Drawing.Size(65, 23);
+            this.button36.TabIndex = 29;
+            this.button36.Text = "开";
+            this.button36.UseVisualStyleBackColor = true;
+            this.button36.Click += new System.EventHandler(this.button36_Click);
+            // 
+            // button37
+            // 
+            this.button37.Location = new System.Drawing.Point(99, 18);
+            this.button37.Name = "button37";
+            this.button37.Size = new System.Drawing.Size(62, 23);
+            this.button37.TabIndex = 30;
+            this.button37.Text = "关";
+            this.button37.UseVisualStyleBackColor = true;
+            this.button37.Click += new System.EventHandler(this.button37_Click);
+            // 
+            // groupBox19
+            // 
+            this.groupBox19.Controls.Add(this.button38);
+            this.groupBox19.Controls.Add(this.button39);
+            this.groupBox19.Location = new System.Drawing.Point(1126, 453);
+            this.groupBox19.Name = "groupBox19";
+            this.groupBox19.Size = new System.Drawing.Size(165, 43);
+            this.groupBox19.TabIndex = 41;
+            this.groupBox19.TabStop = false;
+            this.groupBox19.Text = "舱底泵";
+            // 
+            // button38
+            // 
+            this.button38.Location = new System.Drawing.Point(22, 18);
+            this.button38.Name = "button38";
+            this.button38.Size = new System.Drawing.Size(65, 23);
+            this.button38.TabIndex = 29;
+            this.button38.Text = "开";
+            this.button38.UseVisualStyleBackColor = true;
+            this.button38.Click += new System.EventHandler(this.button38_Click);
+            // 
+            // button39
+            // 
+            this.button39.Location = new System.Drawing.Point(99, 18);
+            this.button39.Name = "button39";
+            this.button39.Size = new System.Drawing.Size(62, 23);
+            this.button39.TabIndex = 30;
+            this.button39.Text = "关";
+            this.button39.UseVisualStyleBackColor = true;
+            this.button39.Click += new System.EventHandler(this.button39_Click);
+            // 
+            // groupBox20
+            // 
+            this.groupBox20.Controls.Add(this.button40);
+            this.groupBox20.Controls.Add(this.button41);
+            this.groupBox20.Location = new System.Drawing.Point(1126, 499);
+            this.groupBox20.Name = "groupBox20";
+            this.groupBox20.Size = new System.Drawing.Size(165, 43);
+            this.groupBox20.TabIndex = 41;
+            this.groupBox20.TabStop = false;
+            this.groupBox20.Text = "4G雷达";
+            // 
+            // button40
+            // 
+            this.button40.Location = new System.Drawing.Point(22, 18);
+            this.button40.Name = "button40";
+            this.button40.Size = new System.Drawing.Size(65, 23);
+            this.button40.TabIndex = 29;
+            this.button40.Text = "开";
+            this.button40.UseVisualStyleBackColor = true;
+            this.button40.Click += new System.EventHandler(this.button40_Click);
+            // 
+            // button41
+            // 
+            this.button41.Location = new System.Drawing.Point(99, 18);
+            this.button41.Name = "button41";
+            this.button41.Size = new System.Drawing.Size(62, 23);
+            this.button41.TabIndex = 30;
+            this.button41.Text = "关";
+            this.button41.UseVisualStyleBackColor = true;
+            this.button41.Click += new System.EventHandler(this.button41_Click);
+            // 
+            // groupBox21
+            // 
+            this.groupBox21.Controls.Add(this.button42);
+            this.groupBox21.Controls.Add(this.button43);
+            this.groupBox21.Location = new System.Drawing.Point(913, 494);
+            this.groupBox21.Name = "groupBox21";
+            this.groupBox21.Size = new System.Drawing.Size(165, 43);
+            this.groupBox21.TabIndex = 41;
+            this.groupBox21.TabStop = false;
+            this.groupBox21.Text = "交换机";
+            // 
+            // button42
+            // 
+            this.button42.Location = new System.Drawing.Point(22, 18);
+            this.button42.Name = "button42";
+            this.button42.Size = new System.Drawing.Size(65, 23);
+            this.button42.TabIndex = 29;
+            this.button42.Text = "开";
+            this.button42.UseVisualStyleBackColor = true;
+            this.button42.Click += new System.EventHandler(this.button42_Click);
+            // 
+            // button43
+            // 
+            this.button43.Location = new System.Drawing.Point(99, 18);
+            this.button43.Name = "button43";
+            this.button43.Size = new System.Drawing.Size(62, 23);
+            this.button43.TabIndex = 30;
+            this.button43.Text = "关";
+            this.button43.UseVisualStyleBackColor = true;
+            this.button43.Click += new System.EventHandler(this.button43_Click);
+            // 
+            // groupBox22
+            // 
+            this.groupBox22.Controls.Add(this.button44);
+            this.groupBox22.Controls.Add(this.button45);
+            this.groupBox22.Location = new System.Drawing.Point(913, 543);
+            this.groupBox22.Name = "groupBox22";
+            this.groupBox22.Size = new System.Drawing.Size(165, 43);
+            this.groupBox22.TabIndex = 41;
+            this.groupBox22.TabStop = false;
+            this.groupBox22.Text = "GPS";
+            // 
+            // button44
+            // 
+            this.button44.Location = new System.Drawing.Point(22, 18);
+            this.button44.Name = "button44";
+            this.button44.Size = new System.Drawing.Size(65, 23);
+            this.button44.TabIndex = 29;
+            this.button44.Text = "开";
+            this.button44.UseVisualStyleBackColor = true;
+            this.button44.Click += new System.EventHandler(this.button44_Click);
+            // 
+            // button45
+            // 
+            this.button45.Location = new System.Drawing.Point(99, 18);
+            this.button45.Name = "button45";
+            this.button45.Size = new System.Drawing.Size(62, 23);
+            this.button45.TabIndex = 30;
+            this.button45.Text = "关";
+            this.button45.UseVisualStyleBackColor = true;
+            this.button45.Click += new System.EventHandler(this.button45_Click);
+            // 
+            // groupBox23
+            // 
+            this.groupBox23.Controls.Add(this.button46);
+            this.groupBox23.Controls.Add(this.button47);
+            this.groupBox23.Location = new System.Drawing.Point(1124, 547);
+            this.groupBox23.Name = "groupBox23";
+            this.groupBox23.Size = new System.Drawing.Size(165, 43);
+            this.groupBox23.TabIndex = 41;
+            this.groupBox23.TabStop = false;
+            this.groupBox23.Text = "摄像头";
+            // 
+            // button46
+            // 
+            this.button46.Location = new System.Drawing.Point(22, 18);
+            this.button46.Name = "button46";
+            this.button46.Size = new System.Drawing.Size(65, 23);
+            this.button46.TabIndex = 29;
+            this.button46.Text = "开";
+            this.button46.UseVisualStyleBackColor = true;
+            this.button46.Click += new System.EventHandler(this.button46_Click);
+            // 
+            // button47
+            // 
+            this.button47.Location = new System.Drawing.Point(99, 18);
+            this.button47.Name = "button47";
+            this.button47.Size = new System.Drawing.Size(62, 23);
+            this.button47.TabIndex = 30;
+            this.button47.Text = "关";
+            this.button47.UseVisualStyleBackColor = true;
+            this.button47.Click += new System.EventHandler(this.button47_Click);
+            // 
+            // button48
+            // 
+            this.button48.Location = new System.Drawing.Point(753, 12);
+            this.button48.Name = "button48";
+            this.button48.Size = new System.Drawing.Size(75, 23);
+            this.button48.TabIndex = 42;
+            this.button48.Text = "Stop";
+            this.button48.UseVisualStyleBackColor = true;
+            this.button48.Click += new System.EventHandler(this.button48_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1133, 492);
+            this.ClientSize = new System.Drawing.Size(1292, 610);
+            this.Controls.Add(this.button48);
+            this.Controls.Add(this.groupBox23);
+            this.Controls.Add(this.groupBox22);
+            this.Controls.Add(this.groupBox21);
+            this.Controls.Add(this.groupBox20);
+            this.Controls.Add(this.groupBox19);
+            this.Controls.Add(this.groupBox18);
+            this.Controls.Add(this.groupBox17);
+            this.Controls.Add(this.groupBox16);
+            this.Controls.Add(this.groupBox15);
+            this.Controls.Add(this.groupBox14);
+            this.Controls.Add(this.groupBox13);
+            this.Controls.Add(this.groupBox12);
+            this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.filtTtextBox);
@@ -825,6 +1358,20 @@
             this.groupBox9.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox16.ResumeLayout(false);
+            this.groupBox17.ResumeLayout(false);
+            this.groupBox18.ResumeLayout(false);
+            this.groupBox19.ResumeLayout(false);
+            this.groupBox20.ResumeLayout(false);
+            this.groupBox21.ResumeLayout(false);
+            this.groupBox22.ResumeLayout(false);
+            this.groupBox23.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -899,6 +1446,50 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox damDelayMsTextBox;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button yawTurnLeftbutton;
+        private System.Windows.Forms.CheckBox yawManualModecheckBox;
+        private System.Windows.Forms.CheckBox yawLogcheckBox;
+        private System.Windows.Forms.Button pitchMiddleButton;
+        private System.Windows.Forms.Button pitchDownButton;
+        private System.Windows.Forms.Button pitchUpButton;
+        private System.Windows.Forms.Button yawTurnRightButton;
+        private System.Windows.Forms.Button yawTurnStopButton;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.Button button27;
+        private System.Windows.Forms.Button button28;
+        private System.Windows.Forms.GroupBox groupBox14;
+        private System.Windows.Forms.Button button26;
+        private System.Windows.Forms.Button button29;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private System.Windows.Forms.Button button30;
+        private System.Windows.Forms.Button button31;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.Button button32;
+        private System.Windows.Forms.Button button33;
+        private System.Windows.Forms.GroupBox groupBox17;
+        private System.Windows.Forms.Button button34;
+        private System.Windows.Forms.Button button35;
+        private System.Windows.Forms.GroupBox groupBox18;
+        private System.Windows.Forms.Button button36;
+        private System.Windows.Forms.Button button37;
+        private System.Windows.Forms.GroupBox groupBox19;
+        private System.Windows.Forms.Button button38;
+        private System.Windows.Forms.Button button39;
+        private System.Windows.Forms.GroupBox groupBox20;
+        private System.Windows.Forms.Button button40;
+        private System.Windows.Forms.Button button41;
+        private System.Windows.Forms.GroupBox groupBox21;
+        private System.Windows.Forms.Button button42;
+        private System.Windows.Forms.Button button43;
+        private System.Windows.Forms.GroupBox groupBox22;
+        private System.Windows.Forms.Button button44;
+        private System.Windows.Forms.Button button45;
+        private System.Windows.Forms.GroupBox groupBox23;
+        private System.Windows.Forms.Button button46;
+        private System.Windows.Forms.Button button47;
+        private System.Windows.Forms.Button button48;
     }
 }
 

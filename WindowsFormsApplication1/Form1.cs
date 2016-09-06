@@ -82,14 +82,19 @@ namespace WindowsFormsApplication1
         }
         private void log(string str)
         {
-             logTextBox.AppendText(str);
+            if( !consoleStopTag )
+                logTextBox.AppendText(str);
         }
         private void  thread_log(string str)
         {
-            Invoke((MethodInvoker)delegate
+            if (!consoleStopTag)
             {
-                logTextBox.AppendText(str);
-            });
+                Invoke((MethodInvoker)delegate
+                {
+                    logTextBox.AppendText(str);
+                });
+            }
+            
         }
 
 
@@ -582,6 +587,7 @@ namespace WindowsFormsApplication1
 
         bool log_thread_need_quit = false;
         Thread log_read_thread;
+        string last_str="";
         private void thread_recive_log()
         {
             while ( ! log_thread_need_quit)
@@ -589,27 +595,34 @@ namespace WindowsFormsApplication1
                 try
                 {
                     byte[] RecieveBuf = getBytesFromRemote();
+                    string str="";
 
                     if (RecieveBuf != null)
+                        str = System.Text.Encoding.UTF8.GetString(RecieveBuf);
+                    str = last_str + str;
+                    last_str = "";
+
+                    if( str.Length > 0)
                     {
-                        string str = System.Text.Encoding.UTF8.GetString(RecieveBuf);
+                        writeLogFile(str);
+
                         if (filtTtextBox.Text != null)
                         {
-                            //Invoke((MethodInvoker)delegate
-                            //{
-                            //speepTtextBox.Text = str;
                             string filt = filtTtextBox.Text;
-                            //});
-                            string[] splitmask = { "/r/n" };
-                            string[] sArray = str.Split(splitmask,StringSplitOptions.None);
-                            foreach (string i in sArray)
+                            string spiltstr = "\r\n";
+                            int filtindex = str.IndexOf(spiltstr);
+                            if( filtindex >= 0 )
                             {
-                                if (0 <= i.IndexOf(filt))
-                                {
-                                    thread_log(i);
-                                }
+                                string alinestr = str.Substring(0,filtindex+2);
+                                if (0 <= alinestr.IndexOf(filt))
+                                        thread_log(alinestr);
+                                if( str.Length > (filtindex+2) )
+                                    last_str = str.Substring(filtindex+2);
+                                
+                            }else{
+                                last_str = str;
                             }
-                            
+
                         }
                         else
                         {
@@ -633,12 +646,73 @@ namespace WindowsFormsApplication1
                 Thread.Sleep(10);
             }
         }
+
+        FileStream logFileStream=null;
+        string logfilename;
+        private void openLogFile()
+        {
+            logfilename = ".\\iapwriterLog_";
+            DateTime date=System.DateTime.Now;
+
+            logfilename += date.ToString("yyyyMMddHHmmss");
+            logfilename += ".txt";
+
+            try
+            {
+                if (logFileStream != null)
+                {
+                    logFileStream.Close();
+                    logFileStream = null;
+                }
+                logFileStream = new FileStream(logfilename, FileMode.OpenOrCreate);
+                if (logFileStream != null)
+                {
+                    log("open log file " + logfilename);
+                }
+            }
+            catch
+            {
+
+            }
+            
+        }
+        private void closeLogFile()
+        {
+            if (logFileStream != null)
+            {
+                logFileStream.Close();
+                logFileStream = null;
+            }
+            log("close log file " + logfilename);
+        }
+        private void writeLogFile(string str)
+        {
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(str);
+            if (logFileStream != null)
+            {
+                try
+                {
+                    logFileStream.Seek(0, SeekOrigin.End);
+                    logFileStream.Write(data, 0, data.Length);
+                    //logFileStream.Close();
+                }
+                catch
+                {
+
+                }
+                
+            }
+            
+        }
         private void start_log_thread()
         {
+            openLogFile();
             log_thread_need_quit = false;
             log_read_thread = new Thread(new ThreadStart(thread_recive_log));
             log_read_thread.IsBackground = true;
             log_read_thread.Start();
+
+
         }
         private void stop_log_thread()
         {
@@ -649,6 +723,7 @@ namespace WindowsFormsApplication1
                 log_read_thread.Abort();
                 log_read_thread = null;
             }
+            closeLogFile();
         }
 
 
@@ -1106,6 +1181,212 @@ namespace WindowsFormsApplication1
         private void a485AddrTextBox_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pitchUpButton_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#8#f");
+        }
+
+        private void pitchMiddleButton_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#8#m");
+        }
+
+        private void pitchDownButton_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#8#b");
+        }
+
+        private void yawManualModecheckBox_CheckedChanged_1(object sender, EventArgs e)
+        {
+            //进入手动模式
+            if (yawManualModecheckBox.Checked){
+                sendCmdToRemote("#10#1");
+                yawTurnLeftbutton.Enabled = true;
+                yawTurnRightButton.Enabled = true;
+                yawTurnStopButton.Enabled = true;
+            }else{
+                sendCmdToRemote("#10#0");
+                yawTurnLeftbutton.Enabled = false;
+                yawTurnRightButton.Enabled = false;
+                yawTurnStopButton.Enabled = false;
+            }
+        }
+
+        private void yawLogcheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            //打开yaw log
+            if (yawLogcheckBox.Checked)
+                sendCmdToRemote("#11#1");
+            else
+                sendCmdToRemote("#11#0");
+        }
+
+        private void yawTurnLeftbutton_Click_1(object sender, EventArgs e)
+        {
+            if (yawManualModecheckBox.Checked)
+            {
+                sendCmdToRemote("#3#l");
+            }
+        }
+
+        private void yawTurnStopButton_Click_1(object sender, EventArgs e)
+        {
+            if (yawManualModecheckBox.Checked)
+            {
+                sendCmdToRemote("#3#s");
+            }
+        }
+
+        private void yawTurnRightButton_Click(object sender, EventArgs e)
+        {
+            if (yawManualModecheckBox.Checked)
+            {
+                sendCmdToRemote("#3#r");
+            }
+        }
+
+        private void button27_Click(object sender, EventArgs e)
+        {//打开激光雷达
+            sendCmdToRemote("#5#861");
+        }
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#860");
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            //转向助力泵
+            sendCmdToRemote("#5#871");
+        }
+
+        private void button29_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#870");
+        }
+
+        private void button30_Click(object sender, EventArgs e)
+        {
+            //ke4
+            sendCmdToRemote("#5#881");
+        }
+
+        private void button31_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#880");
+        }
+
+        private void button32_Click(object sender, EventArgs e)
+        {
+            //翻斗
+            sendCmdToRemote("#5#891");
+        }
+
+        private void button33_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#890");
+        }
+
+        private void button34_Click(object sender, EventArgs e)
+        {
+            //前舱风机
+            sendCmdToRemote("#5#8a1");
+        }
+
+        private void button35_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#8a0");
+        }
+
+        private void button36_Click(object sender, EventArgs e)
+        {
+            //后舱风机
+            sendCmdToRemote("#5#8b1");
+        }
+
+        private void button37_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#8b0");
+        }
+
+        private void button38_Click(object sender, EventArgs e)
+        {
+            //舱底泵
+            sendCmdToRemote("#5#8c1");
+        }
+
+        private void button39_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#8c0");
+        }
+
+        private void button40_Click(object sender, EventArgs e)
+        {
+            //4G雷达
+            sendCmdToRemote("#5#8d1");
+        }
+
+        private void button41_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#8d0");
+        }
+
+        private void button46_Click(object sender, EventArgs e)
+        {
+            //camera
+            sendCmdToRemote("#5#8e1");
+        }
+
+        private void button47_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#8e0");
+        }
+
+        private void button42_Click(object sender, EventArgs e)
+        {
+            //switch
+            sendCmdToRemote("#5#8f1");
+        }
+
+        private void button43_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#8f0");
+        }
+
+        private void button44_Click(object sender, EventArgs e)
+        {
+            //gps
+            sendCmdToRemote("#5#8g1");
+        }
+
+        private void button45_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#8g0");
+        }
+
+        bool consoleStopTag = false;
+        private void button48_Click(object sender, EventArgs e)
+        {
+            if (consoleStopTag)
+            {
+                button48.Text = "Stop";
+                consoleStopTag = false;
+            }
+            else
+            {
+                button48.Text = "Start";
+                consoleStopTag = true;
+            }
+            
         }
 
 
