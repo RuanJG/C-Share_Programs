@@ -291,8 +291,12 @@ namespace M80A2Console
                             return null;
                         }
                         int dc_status = (command[di] | (command[di + 1] << 8));
+                        
                         m_status.AntenaUpOn = ((dc_status & 0x1) == 0) ? false : true;
                         m_status.AntenaDownOn = ((dc_status & 0x2) == 0) ? false : true;
+                        m_status.SpeekerSwitchOn = ((dc_status & (0x1<<2)) == 0) ? false : true;// 蜂鸣器电源控制
+                        m_status.SerialServerSwitchOn = ((dc_status & (0x1 << 3)) == 0) ? false : true;
+                        m_status.WifiSwitchOn = ((dc_status & (0x1 << 4)) == 0) ? false : true;
                         m_status.RaserSwitchOn = ((dc_status & (0x1<<5)) == 0) ? false : true;
                         m_status.RudderSwitchOn = ((dc_status & (0x1<<6)) == 0) ? false : true;
                         m_status.KE4SwitchOn = ((dc_status & (0x1<<7)) == 0) ? false : true;
@@ -306,6 +310,9 @@ namespace M80A2Console
                         m_status.GPSSwitchOn = ((dc_status & (0x1 << 15)) == 0) ? false : true;
                         Invoke((MethodInvoker)delegate
                         {
+                            groupBox33.Text = "蜂鸣器控制" + (m_status.SpeekerSwitchOn ? "(开)" : "(关)");
+                            groupBox34.Text = "串口服务电源" + (m_status.SerialServerSwitchOn ? "(开)" : "(关)");
+                            groupBox35.Text = "WIFI电源控制" + (m_status.WifiSwitchOn ? "(开)" : "(关)");
                             groupBox16.Text = "激光雷达电源控制" + (m_status.RaserSwitchOn ? "(开)" : "(关)");
                             groupBox17.Text = "舵机电源控制" + (m_status.RudderSwitchOn ? "(开)" : "(关)");
                             groupBox18.Text = "KE4电源控制" + (m_status.KE4SwitchOn ? "(开)" : "(关)");
@@ -401,8 +408,11 @@ namespace M80A2Console
                         Invoke((MethodInvoker)delegate
                         {
                             aGauge16.Value = BAT_12V;
+                            aGauge16.CapText = "电压" + BAT_12V.ToString()+"V";
                             aGauge7.Value = a12V_EXT;
+                            aGauge7.CapText = "电压" + a12V_EXT.ToString() + "V";
                             aGauge11.Value = a24V_EXT;
+                            aGauge11.CapText = "电压" + a24V_EXT.ToString() + "V";
                         });
                         break;
 
@@ -426,8 +436,10 @@ namespace M80A2Console
                         {
                             //显示在电池电流上
                             aGauge15.Value = I_12V;
+                            aGauge15.CapText = "电流" + I_12V.ToString() + "A";
                             //显示在总线回路的电流
                             aGauge12.Value = I_24V;
+                            aGauge12.CapText = "电流" + I_24V.ToString() + "A";
                         });
                         break;
 
@@ -837,6 +849,18 @@ namespace M80A2Console
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x03, 0x01, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x03, 0x00, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
     }
 
     public class SwitchStatus
@@ -864,6 +888,9 @@ namespace M80A2Console
         public bool RightMotorForwardOn = false;
         public bool RightMotorBackOn = false;
         //DC配电箱
+        public bool SpeekerSwitchOn = false;
+        public bool SerialServerSwitchOn = false;
+        public bool WifiSwitchOn= false;
         public bool AntenaUpOn = false;
         public bool AntenaDownOn = false;
 
