@@ -271,6 +271,7 @@ namespace M80A2Console
                         {
                             aGauge14.Value = oil_low_warning;
                             aGauge13.Value = water_high_tempture_warning;
+                            groupBox11.Text = "发电机控制" + (m_status.EnginSwitchOn ? "(开)" : "(关)");
                         });
                         break;
 
@@ -303,7 +304,20 @@ namespace M80A2Console
                         m_status.CameraSwitchOn = ((dc_status & (0x1 << 13)) == 0) ? false : true;
                         m_status.SwitchSwitchOn = ((dc_status & (0x1 << 14)) == 0) ? false : true;
                         m_status.GPSSwitchOn = ((dc_status & (0x1 << 15)) == 0) ? false : true;
-
+                        Invoke((MethodInvoker)delegate
+                        {
+                            groupBox16.Text = "激光雷达电源控制" + (m_status.RaserSwitchOn ? "(开)" : "(关)");
+                            groupBox17.Text = "舵机电源控制" + (m_status.RudderSwitchOn ? "(开)" : "(关)");
+                            groupBox18.Text = "KE4电源控制" + (m_status.KE4SwitchOn ? "(开)" : "(关)");
+                            groupBox19.Text = "翻斗电源控制" + (m_status.BreakSwitchOn ? "(开)" : "(关)");
+                            groupBox20.Text = "前仓风机电源控制" + (m_status.FrontFanOn ? "(开)" : "(关)");
+                            groupBox21.Text = "后仓风机电源控制" + (m_status.BackFanOn ? "(开)" : "(关)");
+                            groupBox22.Text = "仓底泵电源控制" + (m_status.PumpSwitchOn ? "(开)" : "(关)");
+                            groupBox23.Text = "4G雷达电源控制" + (m_status.RadarSwitchOn ? "(开)" : "(关)");
+                            groupBox25.Text = "摄像头电源控制" + (m_status.CameraSwitchOn ? "(开)" : "(关)");
+                            groupBox26.Text = "交换机电源控制" + (m_status.SwitchSwitchOn ? "(开)" : "(关)");
+                            groupBox24.Text = "主控/GPS电源控制" + (m_status.GPSSwitchOn ? "(开)" : "(关)");
+                        });
                         break;
 
                     case 0x09: // 声纳，LTE等
@@ -318,6 +332,13 @@ namespace M80A2Console
                         m_status.MultiWaveOn = ((dam_status & 0x2) == 0) ? false : true;
                         m_status.LteSwitchOn = ((dam_status & 0x4) == 0) ? false : true;
                         m_status.ComputerSwitchOn = ((dam_status & 0x8) == 0) ? false : true;
+                        Invoke((MethodInvoker)delegate
+                        {
+                            groupBox27.Text = "前视声纳电源控制" + (m_status.ForwardSonarOn ? "(开)" : "(关)");
+                            groupBox29.Text = "LTE电源控制" + (m_status.LteSwitchOn ? "(开)" : "(关)");
+                            groupBox30.Text = "工控机电源控制" + (m_status.ComputerSwitchOn ? "(开)" : "(关)");
+                            groupBox28.Text = "多波速电源控制" + (m_status.MultiWaveOn ? "(开)" : "(关)");
+                        });
                         break;
 
                     case 0x10:
@@ -633,7 +654,7 @@ namespace M80A2Console
 
         private void btn_antenna_stop_Click(object sender, EventArgs e)
         {
-            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x02, 0x01, 0x00, 0x00 };
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x01, 0x00, 0x00, 0x00 };
             sendCommand(m_parser.packResponse(cmd));
         }
 
@@ -810,6 +831,12 @@ namespace M80A2Console
             byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x09, 4, 0, 0x00, 0x00 };
             sendCommand(m_parser.packResponse(cmd));
         }
+
+
+        private void updateDamSwitchStatus()
+        {
+
+        }
     }
 
     public class SwitchStatus
@@ -858,4 +885,5 @@ namespace M80A2Console
         public bool LteSwitchOn = false;
         public bool ComputerSwitchOn = false;
     }
+
 }
