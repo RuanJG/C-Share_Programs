@@ -179,8 +179,6 @@ namespace M80A2Console
                     m_reconnect = true;
                     return;
                 }
-
-                writeLog("Send " + len + " Bytes!!!" + "\r\n");
             }
             catch (Exception e)
             {
@@ -408,11 +406,11 @@ namespace M80A2Console
                         Invoke((MethodInvoker)delegate
                         {
                             aGauge16.Value = BAT_12V;
-                            aGauge16.CapText = "电压" + BAT_12V.ToString()+"V";
+                            aGauge16.CapText = "电压" + BAT_12V.ToString("f3")+"V";
                             aGauge7.Value = a12V_EXT;
-                            aGauge7.CapText = "电压" + a12V_EXT.ToString() + "V";
+                            aGauge7.CapText = "电压" + a12V_EXT.ToString("f3") + "V";
                             aGauge11.Value = a24V_EXT;
-                            aGauge11.CapText = "电压" + a24V_EXT.ToString() + "V";
+                            aGauge11.CapText = "电压" + a24V_EXT.ToString("f3") + "V";
                         });
                         break;
 
@@ -436,10 +434,10 @@ namespace M80A2Console
                         {
                             //显示在电池电流上
                             aGauge15.Value = I_12V;
-                            aGauge15.CapText = "电流" + I_12V.ToString() + "A";
+                            aGauge15.CapText = "电流" + I_12V.ToString("f3") + "A";
                             //显示在总线回路的电流
                             aGauge12.Value = I_24V;
-                            aGauge12.CapText = "电流" + I_24V.ToString() + "A";
+                            aGauge12.CapText = "电流" + I_24V.ToString("f3") + "A";
                         });
                         break;
 
@@ -452,11 +450,13 @@ namespace M80A2Console
                         }
                         //speed = (adc-6586.3)/8.955
                         Int32 speed = (command[di] | (command[di + 1]<<8) | (command[di + 2]<<16) | (command[di + 3] << 24)   );
+                        if (speed < 0) speed = 0;
                         speed = (speed - 6586) / 9;
 
                         Invoke((MethodInvoker)delegate
                         {
-                            aGauge2.Value = speed/10; //speed
+                            aGauge2.Value = speed/100; //speed
+                            aGauge2.CapText = speed.ToString() + " RPM";
                         });
                         break;
 
@@ -860,6 +860,40 @@ namespace M80A2Console
         {
             byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x03, 0x00, 0x00, 0x00 };
             sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x05, 0x00, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x05, 0x01, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x04, 0x01, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x08, 0x04, 0x00, 0x00, 0x00 };
+            sendCommand(m_parser.packResponse(cmd));
+        }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox36_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 
