@@ -193,11 +193,12 @@ namespace M80A2Console
 
         public void sendCommand(byte[] command)
         {
-            if (m_client == null || !m_client.Connected)
+            if (m_client == null || ! m_client.Connected )
             {
                 writeLog("Client Disconnected!!!" + "\r\n");
                 return;
             }
+           
 
             try
             {
@@ -450,9 +451,9 @@ namespace M80A2Console
                         }
                         //speed = (adc-6586.3)/8.955
                         Int32 speed = (command[di] | (command[di + 1]<<8) | (command[di + 2]<<16) | (command[di + 3] << 24)   );
-                        if (speed < 0) speed = 0;
+                        
                         speed = (speed - 6586) / 9;
-
+                        if (speed < 0) speed = 0;
                         Invoke((MethodInvoker)delegate
                         {
                             aGauge2.Value = speed/100; //speed
@@ -497,9 +498,34 @@ namespace M80A2Console
                             backLeakLabel.Text = back == 1 ? "后：有" : "后：无";
                         });
                         break;
+                    case 0xF4:
+                        index += 4;
+                        if (index > command.Length)
+                        {
+                            writeLog("Invalid 0x" + cmd.ToString("X2") + " command data from master control!\r\n");
+                            return null;
+                        }
+                        int thr = command[di] | (command[di + 1] << 8); // 0-4000
+                        int rudder = command[di + 2] | (command[di + 3] << 8); // 1000 - 2000
 
+                        break;
+                    case 0xF5:
+                        index += 2;
+                        if (index > command.Length)
+                        {
+                            writeLog("Invalid 0x" + cmd.ToString("X2") + " command data from master control!\r\n");
+                            return null;
+                        }
+                        int boat_speed = command[di] | (command[di + 1] << 8); // 0-4000
+                        
+                        Invoke((MethodInvoker)delegate
+                        {
+                            aGauge20.Value = boat_speed / 10;
+                        });
+                        break;
                     default:
-                        writeLog("Invalid command from master control!\r\n");
+                        //writeLog("Invalid command from master control!\r\n");
+                        writeLog("Invalid 0x" + cmd.ToString("X2") + " command  from master control!\r\n");
                         return null;
                 }
             }
@@ -552,7 +578,7 @@ namespace M80A2Console
 
         private void btn_generator_stop_Click(object sender, EventArgs e)
         {
-            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x02, 0x02, 0x00, 0x00, 0x00 };
+            byte[] cmd = new byte[] { 0x01, 0x12, 0x01, 0x02, 0x01, 0x03, 0xe8, 0x03 };
             sendCommand(m_parser.packResponse(cmd));
         }
 
