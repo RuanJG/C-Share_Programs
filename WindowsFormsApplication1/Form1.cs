@@ -502,6 +502,13 @@ namespace WindowsFormsApplication1
                 res =  false;
             }
 
+            /*
+            if (res == false)
+            {
+                return res;
+            }
+             * */
+
             //import to send end packget even false send data
             int retry = 0;
             while (!sendEndStopPackget())
@@ -551,9 +558,7 @@ namespace WindowsFormsApplication1
                     break;
                 }
                 break;
-                //start program bin
-                
-                //Thread.Sleep(1000);
+
             }
             Invoke((MethodInvoker)delegate
             {
@@ -1387,6 +1392,46 @@ namespace WindowsFormsApplication1
                 consoleStopTag = true;
             }
             
+        }
+
+        private void button49_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#911");
+        }
+
+        private void button50_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#910");
+        }
+
+        private void button51_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#921");
+        }
+
+        private void button52_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#920");
+        }
+
+        private void button53_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#931");
+        }
+
+        private void button54_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#930");
+        }
+
+        private void button55_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#941");
+        }
+
+        private void button56_Click(object sender, EventArgs e)
+        {
+            sendCmdToRemote("#5#940");
         }
 
 

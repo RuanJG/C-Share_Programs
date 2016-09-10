@@ -139,6 +139,18 @@
             this.button46 = new System.Windows.Forms.Button();
             this.button47 = new System.Windows.Forms.Button();
             this.button48 = new System.Windows.Forms.Button();
+            this.groupBox24 = new System.Windows.Forms.GroupBox();
+            this.button49 = new System.Windows.Forms.Button();
+            this.button50 = new System.Windows.Forms.Button();
+            this.groupBox25 = new System.Windows.Forms.GroupBox();
+            this.button51 = new System.Windows.Forms.Button();
+            this.button52 = new System.Windows.Forms.Button();
+            this.groupBox26 = new System.Windows.Forms.GroupBox();
+            this.button53 = new System.Windows.Forms.Button();
+            this.button54 = new System.Windows.Forms.Button();
+            this.groupBox27 = new System.Windows.Forms.GroupBox();
+            this.button55 = new System.Windows.Forms.Button();
+            this.button56 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -162,6 +174,10 @@
             this.groupBox21.SuspendLayout();
             this.groupBox22.SuspendLayout();
             this.groupBox23.SuspendLayout();
+            this.groupBox24.SuspendLayout();
+            this.groupBox25.SuspendLayout();
+            this.groupBox26.SuspendLayout();
+            this.groupBox27.SuspendLayout();
             this.SuspendLayout();
             // 
             // startButton
@@ -1308,11 +1324,139 @@
             this.button48.UseVisualStyleBackColor = true;
             this.button48.Click += new System.EventHandler(this.button48_Click);
             // 
+            // groupBox24
+            // 
+            this.groupBox24.Controls.Add(this.button49);
+            this.groupBox24.Controls.Add(this.button50);
+            this.groupBox24.Location = new System.Drawing.Point(12, 512);
+            this.groupBox24.Name = "groupBox24";
+            this.groupBox24.Size = new System.Drawing.Size(165, 43);
+            this.groupBox24.TabIndex = 43;
+            this.groupBox24.TabStop = false;
+            this.groupBox24.Text = "PosMV电源控制";
+            // 
+            // button49
+            // 
+            this.button49.Location = new System.Drawing.Point(22, 18);
+            this.button49.Name = "button49";
+            this.button49.Size = new System.Drawing.Size(65, 23);
+            this.button49.TabIndex = 29;
+            this.button49.Text = "开";
+            this.button49.UseVisualStyleBackColor = true;
+            this.button49.Click += new System.EventHandler(this.button49_Click);
+            // 
+            // button50
+            // 
+            this.button50.Location = new System.Drawing.Point(99, 18);
+            this.button50.Name = "button50";
+            this.button50.Size = new System.Drawing.Size(62, 23);
+            this.button50.TabIndex = 30;
+            this.button50.Text = "关";
+            this.button50.UseVisualStyleBackColor = true;
+            this.button50.Click += new System.EventHandler(this.button50_Click);
+            // 
+            // groupBox25
+            // 
+            this.groupBox25.Controls.Add(this.button51);
+            this.groupBox25.Controls.Add(this.button52);
+            this.groupBox25.Location = new System.Drawing.Point(197, 514);
+            this.groupBox25.Name = "groupBox25";
+            this.groupBox25.Size = new System.Drawing.Size(165, 43);
+            this.groupBox25.TabIndex = 42;
+            this.groupBox25.TabStop = false;
+            this.groupBox25.Text = "多波束电源控制";
+            // 
+            // button51
+            // 
+            this.button51.Location = new System.Drawing.Point(22, 18);
+            this.button51.Name = "button51";
+            this.button51.Size = new System.Drawing.Size(65, 23);
+            this.button51.TabIndex = 29;
+            this.button51.Text = "开";
+            this.button51.UseVisualStyleBackColor = true;
+            this.button51.Click += new System.EventHandler(this.button51_Click);
+            // 
+            // button52
+            // 
+            this.button52.Location = new System.Drawing.Point(99, 18);
+            this.button52.Name = "button52";
+            this.button52.Size = new System.Drawing.Size(62, 23);
+            this.button52.TabIndex = 30;
+            this.button52.Text = "关";
+            this.button52.UseVisualStyleBackColor = true;
+            this.button52.Click += new System.EventHandler(this.button52_Click);
+            // 
+            // groupBox26
+            // 
+            this.groupBox26.Controls.Add(this.button53);
+            this.groupBox26.Controls.Add(this.button54);
+            this.groupBox26.Location = new System.Drawing.Point(12, 559);
+            this.groupBox26.Name = "groupBox26";
+            this.groupBox26.Size = new System.Drawing.Size(165, 43);
+            this.groupBox26.TabIndex = 42;
+            this.groupBox26.TabStop = false;
+            this.groupBox26.Text = "LTE电源控制";
+            // 
+            // button53
+            // 
+            this.button53.Location = new System.Drawing.Point(22, 18);
+            this.button53.Name = "button53";
+            this.button53.Size = new System.Drawing.Size(65, 23);
+            this.button53.TabIndex = 29;
+            this.button53.Text = "开";
+            this.button53.UseVisualStyleBackColor = true;
+            this.button53.Click += new System.EventHandler(this.button53_Click);
+            // 
+            // button54
+            // 
+            this.button54.Location = new System.Drawing.Point(99, 18);
+            this.button54.Name = "button54";
+            this.button54.Size = new System.Drawing.Size(62, 23);
+            this.button54.TabIndex = 30;
+            this.button54.Text = "关";
+            this.button54.UseVisualStyleBackColor = true;
+            this.button54.Click += new System.EventHandler(this.button54_Click);
+            // 
+            // groupBox27
+            // 
+            this.groupBox27.Controls.Add(this.button55);
+            this.groupBox27.Controls.Add(this.button56);
+            this.groupBox27.Location = new System.Drawing.Point(197, 559);
+            this.groupBox27.Name = "groupBox27";
+            this.groupBox27.Size = new System.Drawing.Size(165, 43);
+            this.groupBox27.TabIndex = 42;
+            this.groupBox27.TabStop = false;
+            this.groupBox27.Text = "工控机电源控制";
+            // 
+            // button55
+            // 
+            this.button55.Location = new System.Drawing.Point(22, 18);
+            this.button55.Name = "button55";
+            this.button55.Size = new System.Drawing.Size(65, 23);
+            this.button55.TabIndex = 29;
+            this.button55.Text = "开";
+            this.button55.UseVisualStyleBackColor = true;
+            this.button55.Click += new System.EventHandler(this.button55_Click);
+            // 
+            // button56
+            // 
+            this.button56.Location = new System.Drawing.Point(99, 18);
+            this.button56.Name = "button56";
+            this.button56.Size = new System.Drawing.Size(62, 23);
+            this.button56.TabIndex = 30;
+            this.button56.Text = "关";
+            this.button56.UseVisualStyleBackColor = true;
+            this.button56.Click += new System.EventHandler(this.button56_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1292, 610);
+            this.Controls.Add(this.groupBox27);
+            this.Controls.Add(this.groupBox26);
+            this.Controls.Add(this.groupBox25);
+            this.Controls.Add(this.groupBox24);
             this.Controls.Add(this.button48);
             this.Controls.Add(this.groupBox23);
             this.Controls.Add(this.groupBox22);
@@ -1372,6 +1516,10 @@
             this.groupBox21.ResumeLayout(false);
             this.groupBox22.ResumeLayout(false);
             this.groupBox23.ResumeLayout(false);
+            this.groupBox24.ResumeLayout(false);
+            this.groupBox25.ResumeLayout(false);
+            this.groupBox26.ResumeLayout(false);
+            this.groupBox27.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1490,6 +1638,18 @@
         private System.Windows.Forms.Button button46;
         private System.Windows.Forms.Button button47;
         private System.Windows.Forms.Button button48;
+        private System.Windows.Forms.GroupBox groupBox24;
+        private System.Windows.Forms.Button button49;
+        private System.Windows.Forms.Button button50;
+        private System.Windows.Forms.GroupBox groupBox25;
+        private System.Windows.Forms.Button button51;
+        private System.Windows.Forms.Button button52;
+        private System.Windows.Forms.GroupBox groupBox26;
+        private System.Windows.Forms.Button button53;
+        private System.Windows.Forms.Button button54;
+        private System.Windows.Forms.GroupBox groupBox27;
+        private System.Windows.Forms.Button button55;
+        private System.Windows.Forms.Button button56;
     }
 }
 
