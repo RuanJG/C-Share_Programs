@@ -192,16 +192,14 @@ namespace M80A2Console
         }
 
         public void sendCommand(byte[] command)
-        {
-            if (m_client == null || ! m_client.Connected )
-            {
-                writeLog("Client Disconnected!!!" + "\r\n");
-                return;
-            }
-           
-
+        {       
             try
             {
+                if (m_client == null || !m_client.Connected)
+                {
+                    writeLog("Client Disconnected!!!" + "\r\n");
+                    return;
+                }
                 m_client.Client.BeginSend(command, 0, command.Length, SocketFlags.None, sendCallback, m_client);
             }
             catch (Exception e)
@@ -215,6 +213,7 @@ namespace M80A2Console
         {
             int index = 0;
             int di = 0;
+            int tmp_arg = 0;
             while (index < command.Length)
             {
                 int cmd = command[index]; //command[0];
@@ -235,10 +234,12 @@ namespace M80A2Console
                         {
                             aGauge10.Value = m_status.FrontHumidity;
                             aGauge9.Value = m_status.FrontTemperature;
+                            aGauge10.CapText="湿度=" + m_status.FrontHumidity.ToString();
+                            aGauge9.CapText = "温度=" + m_status.FrontTemperature.ToString();
                         });
                         
                         break;
-
+/*
                     case 0x0B: //后仓湿度温度
                         index += 4;
                         if (index > command.Length)
@@ -246,15 +247,17 @@ namespace M80A2Console
                             writeLog("Invalid 0x" + cmd.ToString("X2") + " command data from master control!\r\n");
                             return null;
                         }
-                        m_status.BackHumidity = 0.1f * (command[di] | (command[di + 1] << 8));
-                        m_status.BackTemperature = 0.1f * (command[di+2] | (command[di + 3] << 8));
+                        m_status.BackHumidity = (command[di] | (command[di + 1] << 8));
+                        m_status.BackTemperature = (command[di+2] | (command[di + 3] << 8));
                         Invoke((MethodInvoker)delegate
                         {
-                            aGauge19.Value = m_status.BackHumidity;
-                            aGauge18.Value = m_status.BackTemperature;
+                            aGauge19.Value = m_status.BackHumidity/10;
+                            aGauge18.Value = m_status.BackTemperature/10;
+                            aGauge19.CapText = "湿度=" + m_status.BackHumidity.ToString();
+                            aGauge18.CapText = "温度=" + m_status.BackTemperature.ToString();
                         });
                         break;
-
+*/
                     case 0x02: //发电机和发动机
                         index += 6;
                         if (index > command.Length)
@@ -270,7 +273,7 @@ namespace M80A2Console
                         {
                             aGauge14.Value = oil_low_warning;
                             aGauge13.Value = water_high_tempture_warning;
-                            groupBox11.Text = "发电机控制" + (m_status.EnginSwitchOn ? "(开)" : "(关)");
+                            groupBox10.Text = "发动机控制" + (m_status.EnginSwitchOn ? "(开)" : "(关)");
                         });
                         break;
 
@@ -312,7 +315,7 @@ namespace M80A2Console
                             groupBox33.Text = "蜂鸣器控制" + (m_status.SpeekerSwitchOn ? "(开)" : "(关)");
                             groupBox34.Text = "串口服务电源" + (m_status.SerialServerSwitchOn ? "(开)" : "(关)");
                             groupBox35.Text = "WIFI电源控制" + (m_status.WifiSwitchOn ? "(开)" : "(关)");
-                            groupBox16.Text = "激光雷达电源控制" + (m_status.RaserSwitchOn ? "(开)" : "(关)");
+                            groupBox16.Text = "雷达工控机电源" + (m_status.RaserSwitchOn ? "(开)" : "(关)");
                             groupBox17.Text = "舵机电源控制" + (m_status.RudderSwitchOn ? "(开)" : "(关)");
                             groupBox18.Text = "KE4电源控制" + (m_status.KE4SwitchOn ? "(开)" : "(关)");
                             groupBox19.Text = "翻斗电源控制" + (m_status.BreakSwitchOn ? "(开)" : "(关)");
@@ -340,10 +343,10 @@ namespace M80A2Console
                         m_status.ComputerSwitchOn = ((dam_status & 0x8) == 0) ? false : true;
                         Invoke((MethodInvoker)delegate
                         {
-                            groupBox27.Text = "前视声纳电源控制" + (m_status.ForwardSonarOn ? "(开)" : "(关)");
+                            groupBox27.Text = "PosMV电源控制" + (m_status.ForwardSonarOn ? "(开)" : "(关)");
                             groupBox29.Text = "LTE电源控制" + (m_status.LteSwitchOn ? "(开)" : "(关)");
                             groupBox30.Text = "工控机电源控制" + (m_status.ComputerSwitchOn ? "(开)" : "(关)");
-                            groupBox28.Text = "多波速电源控制" + (m_status.MultiWaveOn ? "(开)" : "(关)");
+                            groupBox28.Text = "多波束电源控制" + (m_status.MultiWaveOn ? "(开)" : "(关)");
                         });
                         break;
 
@@ -450,14 +453,16 @@ namespace M80A2Console
                             return null;
                         }
                         //speed = (adc-6586.3)/8.955
-                        Int32 speed = (command[di] | (command[di + 1]<<8) | (command[di + 2]<<16) | (command[di + 3] << 24)   );
-                        
-                        speed = (speed - 6586) / 9;
+                        Int32 speed_adc = (command[di] | (command[di + 1]<<8) | (command[di + 2]<<16) | (command[di + 3] << 24)   );
+                        //Int32 speed = (Int32) ((double)(speed_adc-3553)/11.725) ;//(speed_adc - 6586) / 9;
+                        //Int32 speed = (Int32) ((double)(speed_adc-5657)/9.9681) ;//(speed_adc - 6586) / 9;
+                        Int32 speed = (Int32)((double)(speed_adc - 6872) / 8.95);
                         if (speed < 0) speed = 0;
                         Invoke((MethodInvoker)delegate
                         {
-                            aGauge2.Value = speed/100; //speed
-                            aGauge2.CapText = speed.ToString() + " RPM";
+                            aGauge2.Value = speed/100;
+                            aGauge2.CapText = speed_adc.ToString()+","+speed.ToString() + " RPM"; 
+                            //aGauge2.CapsText = "asd";
                         });
                         break;
 
@@ -500,6 +505,7 @@ namespace M80A2Console
                         break;
                     case 0xF4:
                         index += 4;
+                        writeLog("get F4 cmd len =" + (command.Length-index).ToString());
                         if (index > command.Length)
                         {
                             writeLog("Invalid 0x" + cmd.ToString("X2") + " command data from master control!\r\n");
@@ -511,6 +517,7 @@ namespace M80A2Console
                         break;
                     case 0xF5:
                         index += 2;
+                        writeLog("get F5 cmd len =" + (command.Length - index).ToString());
                         if (index > command.Length)
                         {
                             writeLog("Invalid 0x" + cmd.ToString("X2") + " command data from master control!\r\n");
@@ -521,10 +528,12 @@ namespace M80A2Console
                         Invoke((MethodInvoker)delegate
                         {
                             aGauge20.Value = boat_speed / 10;
+                            aGauge20.CapText = (boat_speed).ToString();
                         });
                         break;
                     default:
                         //writeLog("Invalid command from master control!\r\n");
+                        //writeLog("get unkonw cmd len =" + (command.Length - index).ToString());
                         writeLog("Invalid 0x" + cmd.ToString("X2") + " command  from master control!\r\n");
                         return null;
                 }
