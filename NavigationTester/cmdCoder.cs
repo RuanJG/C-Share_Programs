@@ -13,24 +13,22 @@ namespace NavigationTester
         private int CMD_CODER_MAX_PACKGET_LEN = (2+1+4+128*2+1); //(2+1+4+CMD_CODER_MAX_DATA_LEN*2+1);
         private byte CMD_CODER_TAG = 0xff;
 
-//for encodeSendCallback fucntion , if NULL set it NULL or CMD_CODER_CALL_BACK_NULL
         public delegate int encodeSendCallback(byte c);
         private encodeSendCallback CMD_CODER_CALL_BACK_NULL = null;
 
 
-        //enum CmdCoderStep{
-	        byte FIND_TAG =0,
+	    byte FIND_TAG =0,
 	        FIND_ID=1,
 	        FIND_LEN=2,
 	        FIND_DATA=3,
 	        FIND_CRC=4,
 	        FIND_DONE=5;
-        //};
+
 
 //encodeSendCallback , send encoded byte in encode function, if fail return 0 ,else 1
         
 //typedef struct _cmdcoder_t{
-	        //a frame 
+
 	        public UInt32 len=0; //default = 0
 	        public byte[] data = new byte[128]; //CMD_CODER_MAX_DATA_LEN
 	        public byte  id;
@@ -84,6 +82,8 @@ namespace NavigationTester
 	        id = set_id;
         }
 
+        public int DecodeErrorCount = 0;
+        public int DecodeIgnoreByteCount = 0;
         public int cmdcoder_Parse_byte(byte pbyte )
         {
 	        byte  decode_a_packget = 0;
@@ -93,12 +93,11 @@ namespace NavigationTester
                 cmdcoder_init(id, send_cb);
             }
 	        switch( parse_status ){
-		        //case 5:{
-			       // cmdcoder_init(id,send_cb);
-		       // }
+
 		        case 0:{
 			        if( pbyte != CMD_CODER_TAG ){
 				        last_byte_is_tag=0;
+                        if( DecodeIgnoreByteCount < int.MaxValue ) DecodeIgnoreByteCount++;
 			        }else {
 				        if( last_byte_is_tag == 1 ){
 					        parse_status++; // found tag,next step
@@ -216,6 +215,7 @@ namespace NavigationTester
 	
 	        if( decode_failed == 1 ){
 		        cmdcoder_init(id,send_cb);
+                if (DecodeErrorCount < int.MaxValue) DecodeErrorCount++;
 	        }
 	
 	        return decode_a_packget;
