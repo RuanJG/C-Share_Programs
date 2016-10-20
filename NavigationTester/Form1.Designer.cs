@@ -50,18 +50,18 @@
             this.decodeErrorCountLable = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.modeDataNumber = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.statusNumber = new System.Windows.Forms.NumericUpDown();
             this.rNumber = new System.Windows.Forms.Label();
             this.powerNumber = new System.Windows.Forms.NumericUpDown();
             this.heartPackgetEnalebox = new System.Windows.Forms.CheckBox();
+            this.menulable = new System.Windows.Forms.Label();
+            this.okbtnLable = new System.Windows.Forms.Label();
+            this.cancelbtnlable = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.modeDataNumber)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.statusNumber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.powerNumber)).BeginInit();
             this.SuspendLayout();
             // 
@@ -144,7 +144,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(107, 156);
+            this.label4.Location = new System.Drawing.Point(91, 156);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(47, 12);
             this.label4.TabIndex = 3;
@@ -198,7 +198,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(250, 156);
+            this.label10.Location = new System.Drawing.Point(188, 156);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(41, 12);
             this.label10.TabIndex = 9;
@@ -207,7 +207,7 @@
             // alarmBtnLable
             // 
             this.alarmBtnLable.AutoSize = true;
-            this.alarmBtnLable.Location = new System.Drawing.Point(322, 156);
+            this.alarmBtnLable.Location = new System.Drawing.Point(249, 156);
             this.alarmBtnLable.Name = "alarmBtnLable";
             this.alarmBtnLable.Size = new System.Drawing.Size(11, 12);
             this.alarmBtnLable.TabIndex = 10;
@@ -216,7 +216,7 @@
             // sampleBtnLable
             // 
             this.sampleBtnLable.AutoSize = true;
-            this.sampleBtnLable.Location = new System.Drawing.Point(178, 156);
+            this.sampleBtnLable.Location = new System.Drawing.Point(149, 156);
             this.sampleBtnLable.Name = "sampleBtnLable";
             this.sampleBtnLable.Size = new System.Drawing.Size(11, 12);
             this.sampleBtnLable.TabIndex = 11;
@@ -234,7 +234,7 @@
             // decodeIgnoreCountLable
             // 
             this.decodeIgnoreCountLable.AutoSize = true;
-            this.decodeIgnoreCountLable.Location = new System.Drawing.Point(280, 248);
+            this.decodeIgnoreCountLable.Location = new System.Drawing.Point(280, 260);
             this.decodeIgnoreCountLable.Name = "decodeIgnoreCountLable";
             this.decodeIgnoreCountLable.Size = new System.Drawing.Size(11, 12);
             this.decodeIgnoreCountLable.TabIndex = 13;
@@ -243,7 +243,7 @@
             // decodeErrorCountLable
             // 
             this.decodeErrorCountLable.AutoSize = true;
-            this.decodeErrorCountLable.Location = new System.Drawing.Point(107, 248);
+            this.decodeErrorCountLable.Location = new System.Drawing.Point(107, 260);
             this.decodeErrorCountLable.Name = "decodeErrorCountLable";
             this.decodeErrorCountLable.Size = new System.Drawing.Size(11, 12);
             this.decodeErrorCountLable.TabIndex = 14;
@@ -252,7 +252,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 248);
+            this.label7.Location = new System.Drawing.Point(12, 260);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(89, 12);
             this.label7.TabIndex = 15;
@@ -261,74 +261,29 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(161, 248);
+            this.label6.Location = new System.Drawing.Point(161, 260);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(113, 12);
             this.label6.TabIndex = 16;
             this.label6.Text = "解码无用数据个数：";
-            // 
-            // modeDataNumber
-            // 
-            this.modeDataNumber.Location = new System.Drawing.Point(47, 20);
-            this.modeDataNumber.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.modeDataNumber.Name = "modeDataNumber";
-            this.modeDataNumber.Size = new System.Drawing.Size(59, 21);
-            this.modeDataNumber.TabIndex = 17;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 26);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 12);
-            this.label3.TabIndex = 18;
-            this.label3.Text = "mode:";
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.heartPackgetEnalebox);
             this.groupBox2.Controls.Add(this.rNumber);
             this.groupBox2.Controls.Add(this.powerNumber);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.statusNumber);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.modeDataNumber);
             this.groupBox2.Location = new System.Drawing.Point(14, 185);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(587, 50);
+            this.groupBox2.Size = new System.Drawing.Size(225, 59);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "发送心跳包：";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(160, 26);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(29, 12);
-            this.label8.TabIndex = 20;
-            this.label8.Text = "状态";
-            // 
-            // statusNumber
-            // 
-            this.statusNumber.Location = new System.Drawing.Point(201, 20);
-            this.statusNumber.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.statusNumber.Name = "statusNumber";
-            this.statusNumber.Size = new System.Drawing.Size(59, 21);
-            this.statusNumber.TabIndex = 19;
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // rNumber
             // 
             this.rNumber.AutoSize = true;
-            this.rNumber.Location = new System.Drawing.Point(311, 26);
+            this.rNumber.Location = new System.Drawing.Point(77, 30);
             this.rNumber.Name = "rNumber";
             this.rNumber.Size = new System.Drawing.Size(41, 12);
             this.rNumber.TabIndex = 22;
@@ -336,7 +291,7 @@
             // 
             // powerNumber
             // 
-            this.powerNumber.Location = new System.Drawing.Point(352, 20);
+            this.powerNumber.Location = new System.Drawing.Point(118, 24);
             this.powerNumber.Maximum = new decimal(new int[] {
             255,
             0,
@@ -349,18 +304,78 @@
             // heartPackgetEnalebox
             // 
             this.heartPackgetEnalebox.AutoSize = true;
-            this.heartPackgetEnalebox.Location = new System.Drawing.Point(486, 20);
+            this.heartPackgetEnalebox.Location = new System.Drawing.Point(7, 26);
             this.heartPackgetEnalebox.Name = "heartPackgetEnalebox";
             this.heartPackgetEnalebox.Size = new System.Drawing.Size(48, 16);
             this.heartPackgetEnalebox.TabIndex = 23;
             this.heartPackgetEnalebox.Text = "发送";
             this.heartPackgetEnalebox.UseVisualStyleBackColor = true;
             // 
+            // menulable
+            // 
+            this.menulable.AutoSize = true;
+            this.menulable.Location = new System.Drawing.Point(375, 156);
+            this.menulable.Name = "menulable";
+            this.menulable.Size = new System.Drawing.Size(11, 12);
+            this.menulable.TabIndex = 25;
+            this.menulable.Text = "1";
+            // 
+            // okbtnLable
+            // 
+            this.okbtnLable.AutoSize = true;
+            this.okbtnLable.Location = new System.Drawing.Point(472, 156);
+            this.okbtnLable.Name = "okbtnLable";
+            this.okbtnLable.Size = new System.Drawing.Size(11, 12);
+            this.okbtnLable.TabIndex = 24;
+            this.okbtnLable.Text = "1";
+            // 
+            // cancelbtnlable
+            // 
+            this.cancelbtnlable.AutoSize = true;
+            this.cancelbtnlable.Location = new System.Drawing.Point(580, 156);
+            this.cancelbtnlable.Name = "cancelbtnlable";
+            this.cancelbtnlable.Size = new System.Drawing.Size(11, 12);
+            this.cancelbtnlable.TabIndex = 23;
+            this.cancelbtnlable.Text = "0";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(507, 156);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(71, 12);
+            this.label13.TabIndex = 22;
+            this.label13.Text = "cancel_btn:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(314, 156);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(53, 12);
+            this.label14.TabIndex = 21;
+            this.label14.Text = "menu_btn";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(421, 156);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(41, 12);
+            this.label15.TabIndex = 20;
+            this.label15.Text = "ok_btn";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 623);
+            this.Controls.Add(this.menulable);
+            this.Controls.Add(this.okbtnLable);
+            this.Controls.Add(this.cancelbtnlable);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label7);
@@ -383,10 +398,8 @@
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.modeDataNumber)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.statusNumber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.powerNumber)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -417,14 +430,16 @@
         private System.Windows.Forms.Label decodeErrorCountLable;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown modeDataNumber;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox heartPackgetEnalebox;
         private System.Windows.Forms.Label rNumber;
         private System.Windows.Forms.NumericUpDown powerNumber;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown statusNumber;
+        private System.Windows.Forms.Label menulable;
+        private System.Windows.Forms.Label okbtnLable;
+        private System.Windows.Forms.Label cancelbtnlable;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
     }
 }
 

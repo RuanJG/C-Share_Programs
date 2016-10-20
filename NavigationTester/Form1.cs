@@ -88,10 +88,11 @@ namespace NavigationTester
         private void sendHeartPackget()
         {
             byte[] data = new byte[3];
-            data[0] = decimal.ToByte(modeDataNumber.Value);
-            data[1] = decimal.ToByte(statusNumber.Value);
-            data[2] = decimal.ToByte(powerNumber.Value);
-            mEncoder.cmdcoder_send_bytes(data,3);
+            //data[0] = decimal.ToByte(modeDataNumber.Value);
+            //data[1] = decimal.ToByte(statusNumber.Value);
+            //data[2] = decimal.ToByte(powerNumber.Value);
+            data[0] = decimal.ToByte(powerNumber.Value);
+            mEncoder.cmdcoder_send_bytes(data,1);
         }
         private void log(String str)
         {
@@ -167,7 +168,8 @@ cmdcoder Frame :
         alarmbtn: 1-0   1:press key
 	
 		2，心跳包, 监听主控发过来的心跳包数据，用来获取状态
-		cmdcoder id = 0 , data[]={模式（自动/手动）-8bit, 状态（采样，报警，监测，[运动中/停止])-8bit,电量-8bit}
+		cmdcoder id = 0 , data[]={电量-8bit}
+		byte2 : 0-100 , 电量
 	
 	}
 }
@@ -185,7 +187,7 @@ cmdcoder Frame :
             switch (id)
             {
                 case 1:
-                    if (len < 13) { MessageBox.Show("数据包长度有问题"); break; }
+                    if (len < 16) { MessageBox.Show("数据包长度有问题"); break; }
 
                     UInt16[] channel = new UInt16[5];
                     for( int i=0; i< 10; i++)
@@ -209,11 +211,16 @@ cmdcoder Frame :
                         sampleBtnLable.Text = data[11].ToString();
                         alarmBtnLable.Text = data[12].ToString();
 
+                        menulable.Text = data[13].ToString();
+                        okbtnLable.Text = data[14].ToString();
+                        cancelbtnlable.Text = data[15].ToString();
+
                     });
  
                     break;
                 case 0:
-                    log("mode: 0x" + data[0].ToString("X2") + "    status: 0x"+data[1].ToString("X2")+ "    Power: "+data[2].ToString()+"%\r\n");
+                    //log("mode: 0x" + data[0].ToString("X2") + "    status: 0x"+data[1].ToString("X2")+ "    Power: "+data[2].ToString()+"%\r\n");
+                    log("Boat Power: " + data[0].ToString() + "%\r\n");
                     break;
 
                 default:
@@ -300,6 +307,11 @@ cmdcoder Frame :
                     TimerStop();
                 }
             }
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
         }
 
 
