@@ -37,10 +37,10 @@ namespace NavigationTester
         }
         private void comRate_Init()
         {
+            baudrateComboBox.Items.Add("9600");
             baudrateComboBox.Items.Add("115200");
             baudrateComboBox.Items.Add("100000");
             baudrateComboBox.Items.Add("57600");
-            baudrateComboBox.Items.Add("9600");
             if (baudrateComboBox.Items.Count > 0)
                 baudrateComboBox.SelectedIndex = 0;
         }
@@ -105,7 +105,7 @@ namespace NavigationTester
         {
             byte[] data = new byte[1];
             data[0] = c;
-            if (mSerialPort != null && mSerialPort.IsOpen)
+            if (mSerialPort != null && mSerialPort.IsOpen && !startConfigTag)
             {
                 mSerialPort.Write(data,0,1);
             }
@@ -121,22 +121,36 @@ namespace NavigationTester
 
             byte[] data = new byte[size];
             mSerialPort.Read(data, 0, size);
+            if (startConfigTag){
+                log(System.Text.Encoding.Default.GetString(data));
+            }
+                
+
             for (int idx = 0; idx < size; idx++)
             {
                 //log(data[idx].ToString("X02"));
-                if (1 == mDecoder.cmdcoder_Parse_byte(data[idx]))
+                if (startConfigTag)
                 {
-                    /*
-                    log("\r\n");
-                    for (int i = 0; i < mDecoder.len; i++)
-                    {
-                        log(mDecoder.data[i].ToString("X02"));
-                    }
-                    log("\r\n");
-                    */
-                    handle_remoter_channel_packget(mDecoder.id,mDecoder.data,mDecoder.len);
-
+                    //log(data[idx].ToString("X02"));
+                    
                 }
+                else
+                {
+                    if (1 == mDecoder.cmdcoder_Parse_byte(data[idx]))
+                    {
+                        /*
+                        log("\r\n");
+                        for (int i = 0; i < mDecoder.len; i++)
+                        {
+                            log(mDecoder.data[i].ToString("X02"));
+                        }
+                        log("\r\n");
+                        */
+                        handle_remoter_channel_packget(mDecoder.id, mDecoder.data, mDecoder.len);
+
+                    }
+                }
+                
                 //winConsole.AppendText("\r\n");
             }
             
@@ -222,7 +236,9 @@ cmdcoder Frame :
                     //log("mode: 0x" + data[0].ToString("X2") + "    status: 0x"+data[1].ToString("X2")+ "    Power: "+data[2].ToString()+"%\r\n");
                     log("Boat Power: " + data[0].ToString() + "%\r\n");
                     break;
-
+                case 3:
+                    log("ack=" + data[0].ToString());
+                    break;
                 default:
                     break;
             }
@@ -312,6 +328,68 @@ cmdcoder Frame :
         private void groupBox2_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void sendSettingbutton_Click(object sender, EventArgs e)
+        {
+            byte[] data = new byte[3];
+            data[0] = decimal.ToByte(channlePicNumber.Value);
+
+            UInt16 tmp = decimal.ToUInt16(idPicNumber.Value);
+            byte[]tmpbytes = System.BitConverter.GetBytes(tmp);
+            data[1] = tmpbytes[0];
+            data[2] = tmpbytes[1];
+
+            //setting packget
+            mEncoder.id = 2;
+            mEncoder.cmdcoder_send_bytes(data, 3);
+        }
+
+        private void setIdbutton_Click(object sender, EventArgs e)
+        {
+            byte hp = decimal.ToByte(channlePicNumber.Value);
+            UInt16 id = decimal.ToUInt16(idPicNumber.Value);
+
+            string cmd = "ATHP" + hp.ToString("X4") + ",ID" + id.ToString("X4") + ",WR\r";
+            log("\nsend : " + cmd);
+            mSerialPort.Write(cmd);
+            
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        bool startConfigTag = false;
+        private void startAtbutton_Click(object sender, EventArgs e)
+        {
+            heartPackgetEnalebox.Checked = false;
+            startConfigTag = true;
+
+            log("\nsend +++ \n");
+            mSerialPort.Write("+++");
+            
+        }
+
+        private void getParamButton_Click(object sender, EventArgs e)
+        {
+            string cmd = "ATHP,ID,MY,DT,MK,PL,AP,TP\r";
+            log("\nsend: " + cmd + "\n");
+            mSerialPort.Write(cmd);
+        }
+
+        private void exitAtbutton_Click(object sender, EventArgs e)
+        {
+            string cmd = "ATCN\r";
+            log("\nsend: " + cmd + "\n");
+            mSerialPort.Write(cmd);
+            startConfigTag = false;
+        }
+
+        private void clearLogbutton_Click(object sender, EventArgs e)
+        {
+            winConsole.Text = "";
         }
 
 
