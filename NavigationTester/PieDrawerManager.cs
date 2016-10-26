@@ -20,12 +20,13 @@ namespace NavigationTester
             mHeight = height;
             mWidth = width;
             bcolor = col;
-            clear();
+            //clear();
         }
         public void clear()
         {
             for( int i=0 ; i< MAX_PART_ANGLE; i++)
                 mAngles[i] = false;
+
             updateValue(-1);
         }
         public int getPersen()
@@ -37,7 +38,10 @@ namespace NavigationTester
             return (int)ok*100 / MAX_PART_ANGLE;
         }
 
-        bool usePointer = true;
+
+        int pointerX = 0;
+        int pointerY = 0;
+        bool pointerDrawed = false;
         public void updateValue(float value)
         {
             int height = mHeight;
@@ -52,51 +56,72 @@ namespace NavigationTester
             width = (width - pen_size);
             height = height - pen_size;
             int raid = width > height ? height / 2 : width / 2;
-            raid = raid*2/3;
+            raid = raid*7/8;
 
-            if (usePointer)
-            {
-                mGraphic.Clear(bcolor);
-            }
-
+            
             //空圆 background
             myPen.Color = Color.DarkCyan;
-            myPen.Width = 2;
+            myPen.Width = 4;
             //myBrush.Color = Color.Cyan;
             formGraphics.DrawEllipse(myPen, new Rectangle(0, 0, width, height));
+
+
+
 
             //draw persen
             if (value >= 360) value = 359;
             if (value >= 0)
             {
+                //recovery the pointer 
+                if (pointerDrawed)
+                {
+                    myPen.Width = 4;
+                    myPen.Color = bcolor;
+                    formGraphics.DrawLine(myPen, x0, y0, x0 + pointerX, y0 - pointerY);
+                }
+
+
+                //draw persen
                 int index = (int)value / 10;
                 mAngles[index] = true;
-                myBrush.Color = Color.Blue;
                 for (index = 0; index < MAX_PART_ANGLE; index++)
                 {
                     if (mAngles[index])
-                        formGraphics.FillPie(myBrush, new Rectangle(pen_size / 2, pen_size / 2, width - pen_size, height - pen_size), -1 * index * 10, -10);
+                    {
+                        myBrush.Color = Color.Blue;
+                    }
+                    else
+                    {
+                        myBrush.Color = bcolor;
+                    }
+                    formGraphics.FillPie(myBrush, new Rectangle(pen_size / 2, pen_size / 2, width - pen_size, height - pen_size), -1 * index * 10, -10);
+
+
                 }
 
-            }
-            if (value < 0) 
-                value = 0;
-
-            if (usePointer)
-            {
-                //画中间0度线
-                myPen.Width = 2;
-                myPen.Color = Color.Red;
-                formGraphics.DrawLine(myPen, x0, y0, width, y0);
                 //画指针
-                myPen.Width = 5;
+                myPen.Width = 2;
                 myPen.Color = Color.Black;
-                int x = (int)(raid * System.Math.Cos(Math.PI * value / 180));
-                int y = (int)(raid * System.Math.Sin(Math.PI * value / 180));
-                formGraphics.DrawLine(myPen, x0, y0, x0 + x, y0 - y);
+                pointerX = (int)(raid * System.Math.Cos(Math.PI * value / 180));
+                pointerY = (int)(raid * System.Math.Sin(Math.PI * value / 180));
+                formGraphics.DrawLine(myPen, x0, y0, x0 + pointerX, y0 - pointerY);
+                pointerDrawed = true;
             }
+            else
+            {
+                //call clear
+                pointerDrawed = false;
+            }
+
+            //画中间0度线
+            myPen.Width = 2;
+            myPen.Color = Color.Red;
+            formGraphics.DrawLine(myPen, x0, y0, width, y0);
+
+
             myPen.Dispose();
-            myBrush.Dispose();
+            myBrush.Dispose();;
+
 
             
             /*

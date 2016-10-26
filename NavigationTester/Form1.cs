@@ -276,7 +276,7 @@ namespace NavigationTester
                 yawDrawer.updateValue(angle);
                 int persen = yawDrawer.getPersen();
                 YawPersenLabel.Text = persen.ToString() + "%";
-                yawAngleLabel.Text = angle.ToString() + "度";
+                yawAngleLabel.Text = angle.ToString();
             });
             
         }
@@ -287,7 +287,7 @@ namespace NavigationTester
             rollDrawer.updateValue(angle+180);
             int persen = rollDrawer.getPersen();
             rolllabel.Text = persen.ToString() + "%";
-            rollAngleLabel.Text = angle.ToString() + "度";
+            rollAngleLabel.Text = angle.ToString();
             });
         }
         private void updatePitchPic(float angle)
@@ -297,7 +297,7 @@ namespace NavigationTester
             pitchDrawer.updateValue(angle+180);
             int persen = pitchDrawer.getPersen();
             pitchlable.Text = persen.ToString() + "%";
-            pitchAngleLabel.Text = angle.ToString() + "度";
+            pitchAngleLabel.Text = angle.ToString();
             });
         }
         private void updateCompassData(float yaw, float roll, float pitch)
@@ -486,7 +486,7 @@ namespace NavigationTester
                     mSerialPort = new SerialPort(port, int.Parse(baud), Parity.None, 8, StopBits.One);
                     mSerialPort.Open();
                     mSerialPort.DataReceived += serialReciver;
-                    serialConnectButton.Text = "DisConnect";
+                    serialConnectButton.Text = "关闭串口";
                     isConnectBtnClick = true;
                     TimerStart();
                 }
@@ -507,8 +507,8 @@ namespace NavigationTester
                     {
                         MessageBox.Show("close Serial Error !!!");
                     }
-                    
-                    serialConnectButton.Text = "Connect";
+
+                    serialConnectButton.Text = "打开串口";
                     TimerStop();
                     isConnectBtnClick = false;
                 }
