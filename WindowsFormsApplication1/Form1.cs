@@ -461,7 +461,7 @@ namespace WindowsFormsApplication1
 
                 if (sendDataPackget(sendData, packgetLess + 1))
                 {
-                    sendSize += (packgetLess + 1);
+                    sendSize += (packgetLess);
                     thread_log("send " + sendSize.ToString() + "/" + len.ToString() + "\r\n");
                 }
                 else
