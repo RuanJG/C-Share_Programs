@@ -46,6 +46,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.rolllabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -53,20 +56,25 @@
             this.pitchAngleLabel = new System.Windows.Forms.Label();
             this.yawAngleLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.changeLocalGpsButton = new System.Windows.Forms.Button();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.MinDistanceTextBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.currentDistanceTextBox = new System.Windows.Forms.TextBox();
             this.MaxDistanceTextBox = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.GpsLattitudeTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.gpsLongtitudeTextBox = new System.Windows.Forms.TextBox();
+            this.GpsLattitudeTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.localLatTextBox = new System.Windows.Forms.TextBox();
-            this.locallongTextBox = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.changeLocalGpsButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.locallongTextBox = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.compassReflashLabel = new System.Windows.Forms.Label();
             this.gpsRefLabel = new System.Windows.Forms.Label();
@@ -75,15 +83,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.compassDataErrorCountLabel = new System.Windows.Forms.Label();
             this.gpsDataErrorCountLabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rollPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -91,9 +92,9 @@
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -271,6 +272,33 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "罗盘";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(550, 214);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(17, 12);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "度";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(352, 214);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 12);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "度";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(152, 214);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(17, 12);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "度";
+            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.rollPictureBox);
@@ -341,6 +369,40 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Gps";
             // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.MinDistanceTextBox);
+            this.groupBox9.Controls.Add(this.label10);
+            this.groupBox9.Controls.Add(this.button3);
+            this.groupBox9.Controls.Add(this.label11);
+            this.groupBox9.Controls.Add(this.label12);
+            this.groupBox9.Controls.Add(this.currentDistanceTextBox);
+            this.groupBox9.Controls.Add(this.MaxDistanceTextBox);
+            this.groupBox9.Location = new System.Drawing.Point(398, 12);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(174, 125);
+            this.groupBox9.TabIndex = 25;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "距离计算";
+            // 
+            // MinDistanceTextBox
+            // 
+            this.MinDistanceTextBox.Location = new System.Drawing.Point(64, 70);
+            this.MinDistanceTextBox.Name = "MinDistanceTextBox";
+            this.MinDistanceTextBox.ReadOnly = true;
+            this.MinDistanceTextBox.Size = new System.Drawing.Size(73, 21);
+            this.MinDistanceTextBox.TabIndex = 14;
+            this.MinDistanceTextBox.Text = "0.0";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(17, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(41, 12);
+            this.label10.TabIndex = 8;
+            this.label10.Text = "最大值";
+            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(28, 95);
@@ -351,24 +413,23 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // changeLocalGpsButton
+            // label11
             // 
-            this.changeLocalGpsButton.Location = new System.Drawing.Point(59, 91);
-            this.changeLocalGpsButton.Name = "changeLocalGpsButton";
-            this.changeLocalGpsButton.Size = new System.Drawing.Size(93, 23);
-            this.changeLocalGpsButton.TabIndex = 15;
-            this.changeLocalGpsButton.Text = "更改位置";
-            this.changeLocalGpsButton.UseVisualStyleBackColor = true;
-            this.changeLocalGpsButton.Click += new System.EventHandler(this.changeLocalGpsButton_Click);
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(17, 46);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 12);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "当前值";
             // 
-            // MinDistanceTextBox
+            // label12
             // 
-            this.MinDistanceTextBox.Location = new System.Drawing.Point(64, 70);
-            this.MinDistanceTextBox.Name = "MinDistanceTextBox";
-            this.MinDistanceTextBox.ReadOnly = true;
-            this.MinDistanceTextBox.Size = new System.Drawing.Size(73, 21);
-            this.MinDistanceTextBox.TabIndex = 14;
-            this.MinDistanceTextBox.Text = "0.0";
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(17, 70);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(41, 12);
+            this.label12.TabIndex = 10;
+            this.label12.Text = "最小值";
             // 
             // currentDistanceTextBox
             // 
@@ -389,41 +450,36 @@
             this.MaxDistanceTextBox.Text = "0.0";
             this.MaxDistanceTextBox.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
-            // label12
+            // groupBox8
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(17, 70);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(41, 12);
-            this.label12.TabIndex = 10;
-            this.label12.Text = "最小值";
+            this.groupBox8.Controls.Add(this.label16);
+            this.groupBox8.Controls.Add(this.label15);
+            this.groupBox8.Controls.Add(this.gpsLongtitudeTextBox);
+            this.groupBox8.Controls.Add(this.GpsLattitudeTextBox);
+            this.groupBox8.Location = new System.Drawing.Point(209, 17);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(179, 120);
+            this.groupBox8.TabIndex = 24;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "导航盒GPS位置";
             // 
-            // label11
+            // label16
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(17, 46);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 12);
-            this.label11.TabIndex = 9;
-            this.label11.Text = "当前值";
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(4, 64);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(29, 12);
+            this.label16.TabIndex = 16;
+            this.label16.Text = "北纬";
             // 
-            // label10
+            // label15
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(17, 22);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(41, 12);
-            this.label10.TabIndex = 8;
-            this.label10.Text = "最大值";
-            // 
-            // GpsLattitudeTextBox
-            // 
-            this.GpsLattitudeTextBox.Location = new System.Drawing.Point(38, 61);
-            this.GpsLattitudeTextBox.Name = "GpsLattitudeTextBox";
-            this.GpsLattitudeTextBox.ReadOnly = true;
-            this.GpsLattitudeTextBox.Size = new System.Drawing.Size(131, 21);
-            this.GpsLattitudeTextBox.TabIndex = 5;
-            this.GpsLattitudeTextBox.Text = "0.0";
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(4, 31);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(29, 12);
+            this.label15.TabIndex = 16;
+            this.label15.Text = "东经";
             // 
             // gpsLongtitudeTextBox
             // 
@@ -434,6 +490,29 @@
             this.gpsLongtitudeTextBox.TabIndex = 4;
             this.gpsLongtitudeTextBox.Text = "0.0";
             // 
+            // GpsLattitudeTextBox
+            // 
+            this.GpsLattitudeTextBox.Location = new System.Drawing.Point(38, 61);
+            this.GpsLattitudeTextBox.Name = "GpsLattitudeTextBox";
+            this.GpsLattitudeTextBox.ReadOnly = true;
+            this.GpsLattitudeTextBox.Size = new System.Drawing.Size(131, 21);
+            this.GpsLattitudeTextBox.TabIndex = 5;
+            this.GpsLattitudeTextBox.Text = "0.0";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.localLatTextBox);
+            this.groupBox7.Controls.Add(this.changeLocalGpsButton);
+            this.groupBox7.Controls.Add(this.label3);
+            this.groupBox7.Controls.Add(this.label4);
+            this.groupBox7.Controls.Add(this.locallongTextBox);
+            this.groupBox7.Location = new System.Drawing.Point(14, 17);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(186, 120);
+            this.groupBox7.TabIndex = 23;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "本机位置";
+            // 
             // localLatTextBox
             // 
             this.localLatTextBox.Location = new System.Drawing.Point(45, 60);
@@ -443,13 +522,24 @@
             this.localLatTextBox.Text = "22.289478673938376";
             this.localLatTextBox.TextChanged += new System.EventHandler(this.LatTextBox_TextChanged);
             // 
-            // locallongTextBox
+            // changeLocalGpsButton
             // 
-            this.locallongTextBox.Location = new System.Drawing.Point(45, 28);
-            this.locallongTextBox.Name = "locallongTextBox";
-            this.locallongTextBox.Size = new System.Drawing.Size(131, 21);
-            this.locallongTextBox.TabIndex = 2;
-            this.locallongTextBox.Text = "113.57701148948458";
+            this.changeLocalGpsButton.Location = new System.Drawing.Point(59, 91);
+            this.changeLocalGpsButton.Name = "changeLocalGpsButton";
+            this.changeLocalGpsButton.Size = new System.Drawing.Size(93, 23);
+            this.changeLocalGpsButton.TabIndex = 15;
+            this.changeLocalGpsButton.Text = "更改位置";
+            this.changeLocalGpsButton.UseVisualStyleBackColor = true;
+            this.changeLocalGpsButton.Click += new System.EventHandler(this.changeLocalGpsButton_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "东经";
             // 
             // label4
             // 
@@ -460,14 +550,13 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "北纬";
             // 
-            // label3
+            // locallongTextBox
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 31);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "东经";
+            this.locallongTextBox.Location = new System.Drawing.Point(45, 28);
+            this.locallongTextBox.Name = "locallongTextBox";
+            this.locallongTextBox.Size = new System.Drawing.Size(131, 21);
+            this.locallongTextBox.TabIndex = 2;
+            this.locallongTextBox.Text = "113.57701148948458";
             // 
             // label14
             // 
@@ -541,96 +630,9 @@
             this.gpsDataErrorCountLabel.TabIndex = 22;
             this.gpsDataErrorCountLabel.Text = "0";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(152, 214);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(17, 12);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "度";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(352, 214);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 12);
-            this.label6.TabIndex = 21;
-            this.label6.Text = "度";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(550, 214);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(17, 12);
-            this.label7.TabIndex = 22;
-            this.label7.Text = "度";
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.localLatTextBox);
-            this.groupBox7.Controls.Add(this.changeLocalGpsButton);
-            this.groupBox7.Controls.Add(this.label3);
-            this.groupBox7.Controls.Add(this.label4);
-            this.groupBox7.Controls.Add(this.locallongTextBox);
-            this.groupBox7.Location = new System.Drawing.Point(14, 17);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(186, 120);
-            this.groupBox7.TabIndex = 23;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "本机位置";
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.label16);
-            this.groupBox8.Controls.Add(this.label15);
-            this.groupBox8.Controls.Add(this.gpsLongtitudeTextBox);
-            this.groupBox8.Controls.Add(this.GpsLattitudeTextBox);
-            this.groupBox8.Location = new System.Drawing.Point(209, 17);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(179, 120);
-            this.groupBox8.TabIndex = 24;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "导航盒GPS位置";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(4, 31);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(29, 12);
-            this.label15.TabIndex = 16;
-            this.label15.Text = "东经";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(4, 64);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(29, 12);
-            this.label16.TabIndex = 16;
-            this.label16.Text = "北纬";
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.MinDistanceTextBox);
-            this.groupBox9.Controls.Add(this.label10);
-            this.groupBox9.Controls.Add(this.button3);
-            this.groupBox9.Controls.Add(this.label11);
-            this.groupBox9.Controls.Add(this.label12);
-            this.groupBox9.Controls.Add(this.currentDistanceTextBox);
-            this.groupBox9.Controls.Add(this.MaxDistanceTextBox);
-            this.groupBox9.Location = new System.Drawing.Point(398, 12);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(174, 125);
-            this.groupBox9.TabIndex = 25;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "距离计算";
-            // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.button4);
             this.groupBox10.Controls.Add(this.compassReflashLabel);
             this.groupBox10.Controls.Add(this.gpsDataErrorCountLabel);
             this.groupBox10.Controls.Add(this.label14);
@@ -646,6 +648,16 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "数据统计";
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(450, 28);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(97, 38);
+            this.button4.TabIndex = 23;
+            this.button4.Text = "罗盘重新校准";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -657,7 +669,7 @@
             this.Controls.Add(this.winConsole);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "导航盒测试工具 V1.0";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rollPictureBox)).EndInit();
@@ -667,12 +679,12 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.ResumeLayout(false);
@@ -736,6 +748,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Button button4;
     }
 }
 

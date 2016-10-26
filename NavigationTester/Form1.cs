@@ -584,6 +584,26 @@ namespace NavigationTester
 
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //罗盘校准
+            bool res = false;
+            if (mSerialPort != null && mSerialPort.IsOpen)
+            {
+                try
+                {
+                    mSerialPort.Write("cali\n");
+                    MessageBox.Show("请进行校准操作，当有数据更新时，校准完成");
+                    res = true;
+                }
+                catch
+                {
+                    MessageBox.Show("发送命令失败");
+                }
+
+            }
+        }
+
 
 
 
