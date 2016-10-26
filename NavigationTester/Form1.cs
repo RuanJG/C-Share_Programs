@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;//用于调用串口类函数
-
+using System.IO;
 
 namespace NavigationTester
 {
@@ -38,8 +38,13 @@ namespace NavigationTester
             yawDrawer = new PieDrawerManager(YawPanel.CreateGraphics(), YawPanel.Width, YawPanel.Height, YawPanel.BackColor);
             rollDrawer = new PieDrawerManager(rollPictureBox.CreateGraphics(), rollPictureBox.Width, rollPictureBox.Height, rollPictureBox.BackColor);
             pitchDrawer = new PieDrawerManager(PitchPanel.CreateGraphics(), PitchPanel.Width, PitchPanel.Height, PitchPanel.BackColor);
-            localLatitude = double.Parse(localLatTextBox.Text);
-            localLongitude = double.Parse(locallongTextBox.Text);
+
+            if (!loadLocalGPSFromFile())
+            {
+                localLatitude = double.Parse(localLatTextBox.Text);
+                localLongitude = double.Parse(locallongTextBox.Text);
+            }
+            
             serialReciver = new SerialDataReceivedEventHandler(serialPort_DataReceived);
 
             TimerIint();
@@ -104,6 +109,56 @@ namespace NavigationTester
                 //data[idx] = (byte)mSerialPort.ReadByte();
             }
             
+        }
+
+
+        private string saveFilePath = "localGPS.ini";
+        private bool loadLocalGPSFromFile()
+        {
+            if (!File.Exists(saveFilePath))
+            {
+                return false;
+            }
+            string latStr, lonStr;
+            string[] filelines,splitstr={"="};
+
+            filelines = File.ReadAllLines(saveFilePath);
+            latStr = filelines[0];
+            lonStr = filelines[1];
+
+            string[] sArray ;
+            sArray = latStr.Split(new char[1] { '=' });
+            localLatTextBox.Text = sArray[1];
+            sArray = lonStr.Split(new char[1] { '=' });
+            locallongTextBox.Text = sArray[1];
+
+            localLatitude = double.Parse(localLatTextBox.Text);
+            localLongitude = double.Parse(locallongTextBox.Text);
+
+            return true;
+        }
+        private bool saveLocalGpsToFile()
+        {
+            string latStr, lonStr;
+            latStr = "Latitude="+localLatitude.ToString();
+            lonStr = "Longitude="+localLongitude.ToString();
+            if (File.Exists(saveFilePath))
+            {
+                //clear
+                File.WriteAllBytes(saveFilePath, new byte[0]);
+            }
+
+            FileStream fs = new FileStream(saveFilePath, FileMode.Create);
+            StreamWriter sw = new StreamWriter(fs);
+            //开始写入
+            sw.WriteLine(latStr);
+            sw.WriteLine(lonStr);
+            //清空缓冲区
+            sw.Flush();
+            //关闭流
+            sw.Close();
+            fs.Close();
+            return true;
         }
 
 
@@ -510,6 +565,9 @@ namespace NavigationTester
         {
             localLatitude = double.Parse(localLatTextBox.Text);
             localLongitude = double.Parse(locallongTextBox.Text);
+
+            if (saveLocalGpsToFile())
+                MessageBox.Show("成功修改与保存坐标！");
         }
 
         private void button3_Click(object sender, EventArgs e)

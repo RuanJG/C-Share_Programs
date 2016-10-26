@@ -45,10 +45,10 @@
             this.pitchlable = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.rolllabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rollAngleLabel = new System.Windows.Forms.Label();
+            this.pitchAngleLabel = new System.Windows.Forms.Label();
+            this.yawAngleLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.changeLocalGpsButton = new System.Windows.Forms.Button();
@@ -73,13 +73,16 @@
             this.label13 = new System.Windows.Forms.Label();
             this.compassDataErrorCountLabel = new System.Windows.Forms.Label();
             this.gpsDataErrorCountLabel = new System.Windows.Forms.Label();
-            this.yawAngleLabel = new System.Windows.Forms.Label();
-            this.pitchAngleLabel = new System.Windows.Forms.Label();
-            this.rollAngleLabel = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rollPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -151,7 +154,7 @@
             // 
             // PitchPanel
             // 
-            this.PitchPanel.Location = new System.Drawing.Point(203, 40);
+            this.PitchPanel.Location = new System.Drawing.Point(6, 20);
             this.PitchPanel.Name = "PitchPanel";
             this.PitchPanel.Size = new System.Drawing.Size(160, 160);
             this.PitchPanel.TabIndex = 3;
@@ -159,7 +162,7 @@
             // rollPictureBox
             // 
             this.rollPictureBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("rollPictureBox.InitialImage")));
-            this.rollPictureBox.Location = new System.Drawing.Point(401, 40);
+            this.rollPictureBox.Location = new System.Drawing.Point(7, 20);
             this.rollPictureBox.Name = "rollPictureBox";
             this.rollPictureBox.Size = new System.Drawing.Size(160, 160);
             this.rollPictureBox.TabIndex = 4;
@@ -168,18 +171,18 @@
             // 
             // YawClearBtn
             // 
-            this.YawClearBtn.Location = new System.Drawing.Point(8, 214);
+            this.YawClearBtn.Location = new System.Drawing.Point(6, 214);
             this.YawClearBtn.Name = "YawClearBtn";
-            this.YawClearBtn.Size = new System.Drawing.Size(44, 23);
+            this.YawClearBtn.Size = new System.Drawing.Size(67, 23);
             this.YawClearBtn.TabIndex = 5;
-            this.YawClearBtn.Text = "Clear";
+            this.YawClearBtn.Text = "重新测试";
             this.YawClearBtn.UseVisualStyleBackColor = true;
             this.YawClearBtn.Click += new System.EventHandler(this.button1_Click);
             // 
             // YawPersenLabel
             // 
             this.YawPersenLabel.AutoSize = true;
-            this.YawPersenLabel.Location = new System.Drawing.Point(73, 214);
+            this.YawPersenLabel.Location = new System.Drawing.Point(81, 214);
             this.YawPersenLabel.Name = "YawPersenLabel";
             this.YawPersenLabel.Size = new System.Drawing.Size(17, 12);
             this.YawPersenLabel.TabIndex = 6;
@@ -188,18 +191,18 @@
             // 
             // YawPanel
             // 
-            this.YawPanel.Location = new System.Drawing.Point(8, 40);
+            this.YawPanel.Location = new System.Drawing.Point(6, 19);
             this.YawPanel.Name = "YawPanel";
             this.YawPanel.Size = new System.Drawing.Size(160, 160);
             this.YawPanel.TabIndex = 4;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(203, 214);
+            this.button1.Location = new System.Drawing.Point(200, 214);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(51, 23);
+            this.button1.Size = new System.Drawing.Size(64, 23);
             this.button1.TabIndex = 7;
-            this.button1.Text = "Clear";
+            this.button1.Text = "重新测试";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
@@ -214,67 +217,36 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(401, 214);
+            this.button2.Location = new System.Drawing.Point(398, 214);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(35, 23);
+            this.button2.Size = new System.Drawing.Size(64, 23);
             this.button2.TabIndex = 9;
-            this.button2.Text = "Clear";
+            this.button2.Text = "重新测试";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // rolllabel
             // 
             this.rolllabel.AutoSize = true;
-            this.rolllabel.Location = new System.Drawing.Point(461, 214);
+            this.rolllabel.Location = new System.Drawing.Point(470, 214);
             this.rolllabel.Name = "rolllabel";
             this.rolllabel.Size = new System.Drawing.Size(17, 12);
             this.rolllabel.TabIndex = 10;
             this.rolllabel.Text = "0%";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(81, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(23, 12);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Yaw";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(270, 25);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 12);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Pitch";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(475, 25);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(29, 12);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "Roll";
-            // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.groupBox6);
+            this.groupBox2.Controls.Add(this.groupBox5);
+            this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.rollAngleLabel);
             this.groupBox2.Controls.Add(this.pitchAngleLabel);
             this.groupBox2.Controls.Add(this.yawAngleLabel);
-            this.groupBox2.Controls.Add(this.rollPictureBox);
             this.groupBox2.Controls.Add(this.rolllabel);
-            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.pitchlable);
-            this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.PitchPanel);
             this.groupBox2.Controls.Add(this.YawPersenLabel);
-            this.groupBox2.Controls.Add(this.YawPanel);
             this.groupBox2.Controls.Add(this.YawClearBtn);
             this.groupBox2.Location = new System.Drawing.Point(12, 95);
             this.groupBox2.Name = "groupBox2";
@@ -282,6 +254,34 @@
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "罗盘";
+            // 
+            // rollAngleLabel
+            // 
+            this.rollAngleLabel.AutoSize = true;
+            this.rollAngleLabel.Location = new System.Drawing.Point(506, 214);
+            this.rollAngleLabel.Name = "rollAngleLabel";
+            this.rollAngleLabel.Size = new System.Drawing.Size(23, 12);
+            this.rollAngleLabel.TabIndex = 16;
+            this.rollAngleLabel.Text = "0度";
+            // 
+            // pitchAngleLabel
+            // 
+            this.pitchAngleLabel.AutoSize = true;
+            this.pitchAngleLabel.Location = new System.Drawing.Point(306, 214);
+            this.pitchAngleLabel.Name = "pitchAngleLabel";
+            this.pitchAngleLabel.Size = new System.Drawing.Size(23, 12);
+            this.pitchAngleLabel.TabIndex = 15;
+            this.pitchAngleLabel.Text = "0度";
+            // 
+            // yawAngleLabel
+            // 
+            this.yawAngleLabel.AutoSize = true;
+            this.yawAngleLabel.Location = new System.Drawing.Point(113, 214);
+            this.yawAngleLabel.Name = "yawAngleLabel";
+            this.yawAngleLabel.Size = new System.Drawing.Size(23, 12);
+            this.yawAngleLabel.TabIndex = 14;
+            this.yawAngleLabel.Text = "0度";
+            this.yawAngleLabel.Click += new System.EventHandler(this.label15_Click);
             // 
             // groupBox3
             // 
@@ -385,11 +385,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(282, 105);
+            this.label9.Location = new System.Drawing.Point(272, 105);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(47, 12);
+            this.label9.Size = new System.Drawing.Size(83, 12);
             this.label9.TabIndex = 7;
-            this.label9.Text = "GPS位置";
+            this.label9.Text = "导航盒GPS位置";
             // 
             // GpsLattitudeTextBox
             // 
@@ -401,7 +401,7 @@
             // 
             // gpsLongtitudeTextBox
             // 
-            this.gpsLongtitudeTextBox.Location = new System.Drawing.Point(248, 26);
+            this.gpsLongtitudeTextBox.Location = new System.Drawing.Point(248, 29);
             this.gpsLongtitudeTextBox.Name = "gpsLongtitudeTextBox";
             this.gpsLongtitudeTextBox.Size = new System.Drawing.Size(131, 21);
             this.gpsLongtitudeTextBox.TabIndex = 4;
@@ -514,39 +514,41 @@
             this.gpsDataErrorCountLabel.TabIndex = 22;
             this.gpsDataErrorCountLabel.Text = "0";
             // 
-            // yawAngleLabel
+            // groupBox4
             // 
-            this.yawAngleLabel.AutoSize = true;
-            this.yawAngleLabel.Location = new System.Drawing.Point(106, 214);
-            this.yawAngleLabel.Name = "yawAngleLabel";
-            this.yawAngleLabel.Size = new System.Drawing.Size(23, 12);
-            this.yawAngleLabel.TabIndex = 14;
-            this.yawAngleLabel.Text = "0度";
-            this.yawAngleLabel.Click += new System.EventHandler(this.label15_Click);
+            this.groupBox4.Controls.Add(this.YawPanel);
+            this.groupBox4.Location = new System.Drawing.Point(8, 20);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(172, 186);
+            this.groupBox4.TabIndex = 17;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Yaw";
             // 
-            // pitchAngleLabel
+            // groupBox5
             // 
-            this.pitchAngleLabel.AutoSize = true;
-            this.pitchAngleLabel.Location = new System.Drawing.Point(306, 214);
-            this.pitchAngleLabel.Name = "pitchAngleLabel";
-            this.pitchAngleLabel.Size = new System.Drawing.Size(23, 12);
-            this.pitchAngleLabel.TabIndex = 15;
-            this.pitchAngleLabel.Text = "0度";
+            this.groupBox5.Controls.Add(this.PitchPanel);
+            this.groupBox5.Location = new System.Drawing.Point(203, 20);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(173, 188);
+            this.groupBox5.TabIndex = 18;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Pitch";
             // 
-            // rollAngleLabel
+            // groupBox6
             // 
-            this.rollAngleLabel.AutoSize = true;
-            this.rollAngleLabel.Location = new System.Drawing.Point(491, 214);
-            this.rollAngleLabel.Name = "rollAngleLabel";
-            this.rollAngleLabel.Size = new System.Drawing.Size(23, 12);
-            this.rollAngleLabel.TabIndex = 16;
-            this.rollAngleLabel.Text = "0度";
+            this.groupBox6.Controls.Add(this.rollPictureBox);
+            this.groupBox6.Location = new System.Drawing.Point(398, 24);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(179, 184);
+            this.groupBox6.TabIndex = 19;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Roll";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 606);
+            this.ClientSize = new System.Drawing.Size(618, 623);
             this.Controls.Add(this.gpsDataErrorCountLabel);
             this.Controls.Add(this.compassDataErrorCountLabel);
             this.Controls.Add(this.label13);
@@ -568,6 +570,9 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -591,9 +596,6 @@
         private System.Windows.Forms.Label pitchlable;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label rolllabel;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label4;
@@ -622,6 +624,9 @@
         private System.Windows.Forms.Label rollAngleLabel;
         private System.Windows.Forms.Label pitchAngleLabel;
         private System.Windows.Forms.Label yawAngleLabel;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox groupBox4;
     }
 }
 
