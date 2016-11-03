@@ -73,6 +73,7 @@ namespace NavigationTester
         }
         private void log(String str)
         {
+            return;
             Invoke((MethodInvoker)delegate
             {
                 winConsole.AppendText(str);
@@ -105,7 +106,7 @@ namespace NavigationTester
                     handle_navi_can_message(mDecoder.data, mDecoder.len);
 
                 }
-                //winConsole.AppendText("\r\n");
+        
                 //data[idx] = (byte)mSerialPort.ReadByte();
             }
             
@@ -378,12 +379,15 @@ namespace NavigationTester
                 if (maxDistance < 0 || distance > maxDistance)
                     maxDistance = distance;
 
-                MaxDistanceTextBox.Text = maxDistance.ToString();
-                MinDistanceTextBox.Text = minDistance.ToString();
-                currentDistanceTextBox.Text = distance.ToString();
-
-                gpsLongtitudeTextBox.Text = lon.ToString();
-                GpsLattitudeTextBox.Text = lat.ToString();
+                Invoke((MethodInvoker)delegate
+                {
+                    MaxDistanceTextBox.Text = maxDistance.ToString();
+                    MinDistanceTextBox.Text = minDistance.ToString();
+                    currentDistanceTextBox.Text = distance.ToString();
+                    gpsLongtitudeTextBox.Text = lon.ToString();
+                    GpsLattitudeTextBox.Text = lat.ToString();
+                });
+                
 
                 if (tmpGpsDataErrorCount >= MAX_GPS_ERROR_COUNT)
                 {
