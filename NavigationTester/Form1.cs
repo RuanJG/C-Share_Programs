@@ -284,7 +284,7 @@ namespace NavigationTester
         {
             Invoke((MethodInvoker)delegate
             {
-            rollDrawer.updateValue(angle+180);
+            rollDrawer.updateValue(angle+180); //-180~180
             int persen = rollDrawer.getPersen();
             rolllabel.Text = persen.ToString() + "%";
             rollAngleLabel.Text = angle.ToString();
@@ -294,7 +294,7 @@ namespace NavigationTester
         {
             Invoke((MethodInvoker)delegate
             {
-            pitchDrawer.updateValue(angle+180);
+            pitchDrawer.updateValue(angle+180); //-90~90
             int persen = pitchDrawer.getPersen();
             pitchlable.Text = persen.ToString() + "%";
             pitchAngleLabel.Text = angle.ToString();
@@ -602,6 +602,13 @@ namespace NavigationTester
                 }
 
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            locallongTextBox.Text = gpsLongtitudeTextBox.Text;
+            localLatTextBox.Text = GpsLattitudeTextBox.Text;
+            changeLocalGpsButton_Click(sender, e);
         }
 
 

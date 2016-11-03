@@ -94,7 +94,7 @@ namespace NavigationTester
                     {
                         myBrush.Color = bcolor;
                     }
-                    formGraphics.FillPie(myBrush, new Rectangle(pen_size / 2, pen_size / 2, width - pen_size, height - pen_size), -1 * index * 10, -10);
+                    formGraphics.FillPie(myBrush, new Rectangle(pen_size / 2, pen_size / 2, width - pen_size, height - pen_size),  index * 10, -10);
 
 
                 }
@@ -102,8 +102,8 @@ namespace NavigationTester
                 //画指针
                 myPen.Width = 2;
                 myPen.Color = Color.Black;
-                pointerX = (int)(raid * System.Math.Cos(Math.PI * value / 180));
-                pointerY = (int)(raid * System.Math.Sin(Math.PI * value / 180));
+                pointerX = (int)(raid * System.Math.Cos(Math.PI * (360-value) / 180));
+                pointerY = (int)(raid * System.Math.Sin(Math.PI * (360-value) / 180));
                 formGraphics.DrawLine(myPen, x0, y0, x0 + pointerX, y0 - pointerY);
                 pointerDrawed = true;
             }
