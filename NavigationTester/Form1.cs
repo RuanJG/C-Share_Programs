@@ -16,6 +16,8 @@ namespace NavigationTester
         private SerialPort mSerialPort;
         private cmdCoder mDecoder;
         private cmdCoder mEncoder;
+        private Stm32Parser mCoder;
+
         System.Timers.Timer mTimer = new System.Timers.Timer(500); //设置时间间隔为0.5秒
         SerialDataReceivedEventHandler serialReciver;
 
@@ -25,13 +27,20 @@ namespace NavigationTester
             InitializeComponent();
             myInit();
         }
-        
+
+        int mcoderPackgetHandler(byte[] data, int start, int len)
+        {
+            handle_remoter_channel_packget(data[start],data, start + 1, len - 1);
+            return 1;
+        }
+
         private void myInit()
         {
             comRate_Init();
             com_Init();
             mDecoder = new cmdCoder(4, null);
             mEncoder = new cmdCoder(0, cmdcoderSendCallback);
+            mCoder = new Stm32Parser(mcoderPackgetHandler);
             serialReciver = new SerialDataReceivedEventHandler(serialPort_DataReceived);
             TimerIint();
         }
@@ -87,14 +96,22 @@ namespace NavigationTester
         }
         private void sendHeartPackget()
         {
+            /*
             byte[] data = new byte[3];
             //data[0] = decimal.ToByte(modeDataNumber.Value);
             //data[1] = decimal.ToByte(statusNumber.Value);
             //data[2] = decimal.ToByte(powerNumber.Value);
             data[0] = decimal.ToByte(powerNumber.Value);
+            mEncoder.id = 0;
             mEncoder.cmdcoder_send_bytes(data,1);
+             * */
+
+            byte[] dataa = new byte[2];
+            dataa[0]=0;//id
+            dataa[1]=decimal.ToByte(powerNumber.Value);
+            serialSendDatas( mCoder.encodeDatas(dataa) );
         }
-        private void log(String str)
+        void log(String str)
         {
             Invoke((MethodInvoker)delegate
             {
@@ -111,6 +128,14 @@ namespace NavigationTester
             }
             return 1;
         }
+        private int serialSendDatas(byte[] data)
+        {
+            if (mSerialPort != null && mSerialPort.IsOpen && !startConfigTag)
+            {
+                mSerialPort.Write(data, 0, data.Length);
+            }
+            return 1;
+        }
         void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int size = mSerialPort.BytesToRead;
@@ -121,39 +146,24 @@ namespace NavigationTester
 
             byte[] data = new byte[size];
             mSerialPort.Read(data, 0, size);
-            if (startConfigTag){
+            if (startConfigTag)
+            {
                 log(System.Text.Encoding.Default.GetString(data));
             }
-                
-
-            for (int idx = 0; idx < size; idx++)
+            else
             {
-                //log(data[idx].ToString("X02"));
-                if (startConfigTag)
-                {
-                    //log(data[idx].ToString("X02"));
-                    
-                }
-                else
+                mCoder.parse(data, 0, size);
+                /*
+                for (int idx = 0; idx < size; idx++)
                 {
                     if (1 == mDecoder.cmdcoder_Parse_byte(data[idx]))
                     {
-                        /*
-                        log("\r\n");
-                        for (int i = 0; i < mDecoder.len; i++)
-                        {
-                            log(mDecoder.data[i].ToString("X02"));
-                        }
-                        log("\r\n");
-                        */
-                        handle_remoter_channel_packget(mDecoder.id, mDecoder.data, mDecoder.len);
-
+                        handle_remoter_channel_packget(mDecoder.id, mDecoder.data,0, mDecoder.len);
                     }
                 }
-                
-                //winConsole.AppendText("\r\n");
+                 * */
             }
-            
+                  
         }
 
 
@@ -194,17 +204,17 @@ cmdcoder Frame :
         byte JOSTICK_PACKGET_ID= 1;
         byte HEART_PACKGET_ID =0;
 
-        void handle_remoter_channel_packget(byte id, byte[] data,UInt32 len)
+        void handle_remoter_channel_packget(byte id, byte[] data,int start , int len)
         {
             byte[] channleArray = new byte[2];
-            
+            int i;
             switch (id)
             {
                 case 1:
                     if (len < 16) { MessageBox.Show("数据包长度有问题"); break; }
 
                     UInt16[] channel = new UInt16[5];
-                    for( int i=0; i< 10; i++)
+                    for( i=start; i< (start+10); i++)
                     {
                         channleArray[0]=data[i];
                         channleArray[1]=data[i+1];
@@ -221,23 +231,23 @@ cmdcoder Frame :
                         channelLable4.Text = channel[3].ToString();
                         channelLable5.Text = channel[4].ToString();
 
-                        modeBtnLable.Text = data[10].ToString();
-                        sampleBtnLable.Text = data[11].ToString();
-                        alarmBtnLable.Text = data[12].ToString();
+                        modeBtnLable.Text = data[i++].ToString();
+                        sampleBtnLable.Text = data[i++].ToString();
+                        alarmBtnLable.Text = data[i++].ToString();
 
-                        menulable.Text = data[13].ToString();
-                        okbtnLable.Text = data[14].ToString();
-                        cancelbtnlable.Text = data[15].ToString();
+                        menulable.Text = data[i++].ToString();
+                        okbtnLable.Text = data[i++].ToString();
+                        cancelbtnlable.Text = data[i++].ToString();
 
                     });
  
                     break;
                 case 0:
                     //log("mode: 0x" + data[0].ToString("X2") + "    status: 0x"+data[1].ToString("X2")+ "    Power: "+data[2].ToString()+"%\r\n");
-                    log("Boat Power: " + data[0].ToString() + "%\r\n");
+                    log("Boat Power: " + data[start].ToString() + "%\r\n");
                     break;
                 case 3:
-                    log("ack=" + data[0].ToString());
+                    log("ack=" + data[start].ToString());
                     break;
                 default:
                     break;
@@ -340,9 +350,16 @@ cmdcoder Frame :
             data[1] = tmpbytes[0];
             data[2] = tmpbytes[1];
 
+            /*
             //setting packget
             mEncoder.id = 2;
-            mEncoder.cmdcoder_send_bytes(data, 3);
+            mEncoder.cmdcoder_send_bytes(data, 3);*/
+
+            byte[] dataa = new byte[2];
+            dataa[0] = 2;//id
+            dataa[1] = tmpbytes[0];
+            dataa[2] = tmpbytes[1];
+            serialSendDatas(mCoder.encodeDatas(dataa));
         }
 
         private void setIdbutton_Click(object sender, EventArgs e)
