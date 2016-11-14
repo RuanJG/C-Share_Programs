@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;//用于调用串口类函数
 using System.IO;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace NavigationTester
 {
@@ -19,6 +20,7 @@ namespace NavigationTester
         private PieDrawerManager pitchDrawer;
         private PieDrawerManager rollDrawer;
         System.Timers.Timer mTimer = new System.Timers.Timer(1000); //设置时间间隔为1秒
+        System.Timers.Timer updateTimer = new System.Timers.Timer(100); //设置时间间隔为1秒
         SerialDataReceivedEventHandler serialReciver;
 
         private int MAX_GPS_ERROR_COUNT = 5;
@@ -47,14 +49,127 @@ namespace NavigationTester
             
             serialReciver = new SerialDataReceivedEventHandler(serialPort_DataReceived);
 
+
+            compassChartInit();
+
             TimerIint();
+
+
+
         }
+
+        private void compassChartInit()
+        {
+
+            Random random = new Random();
+            compassChart.Series.Clear();
+
+            Series yawSeries = new Series("yaw");
+            Series pitchSeries = new Series("pitch");
+            Series rollSeries = new Series("roll");
+            Series zeroSeries = new Series("0");
+
+
+            yawSeries.BorderColor = Color.Blue;
+            pitchSeries.BorderColor = Color.Green;
+            rollSeries.BorderColor = Color.Red;
+            yawSeries.BorderWidth = 3;
+            pitchSeries.BorderWidth = 3;
+            rollSeries.BorderWidth = 3;
+
+            zeroSeries.BorderColor = Color.Black;
+            zeroSeries.BorderWidth = 2;
+
+
+
+            yawSeries.ChartType = SeriesChartType.Spline;
+            pitchSeries.ChartType = SeriesChartType.Spline;
+            rollSeries.ChartType = SeriesChartType.Spline;
+            zeroSeries.ChartType = SeriesChartType.Line;
+
+
+
+            compassChart.Series.Add(yawSeries);
+            compassChart.Series.Add(pitchSeries);
+            compassChart.Series.Add(rollSeries);
+            compassChart.Series.Add(zeroSeries);
+
+
+
+
+            //yaw
+            /*
+            compassChart.ChartAreas[0].AxisX.Maximum = 50;// 1s 20hz compass data 
+            compassChart.ChartAreas[0].AxisY.Maximum = 360;
+            compassChart.ChartAreas[0].AxisY.Interval = 5;
+            compassChart.ChartAreas[0].AxisX.Interval = 1;
+            */
+
+            // pitch roll
+            compassChart.ChartAreas[0].AxisX.Maximum = 50;// 1s 20hz compass data 
+            compassChart.ChartAreas[0].AxisY.Maximum = 90;
+            compassChart.ChartAreas[0].AxisY.Minimum = -90;
+            compassChart.ChartAreas[0].AxisY.Interval = 5;
+            compassChart.ChartAreas[0].AxisX.Interval = 1;
+           
+
+            //compassChart.ChartAreas[0].AxisX.ArrowStyle = AxisArrowStyle.None;
+            /*
+            for (int i = 0; i < 10; i++)
+            {
+                compassChart.Series["yaw"].Points.AddY(random.Next(0, 360));
+                compassChart.Series["roll"].Points.AddY(random.Next(0, 180));
+                compassChart.Series["pitch"].Points.AddY(random.Next(0, 180));
+            }*/
+        }
+
+        void updateCompassChartValue(float yaw, float pitch, float roll)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                compassChart.Series["0"].Points.AddY(0);
+
+                if (compassChart.Series["yaw"].Points.Count > compassChart.ChartAreas[0].AxisX.Maximum)
+                    compassChart.Series["yaw"].Points.RemoveAt(0);
+                if (compassChart.Series["roll"].Points.Count > compassChart.ChartAreas[0].AxisX.Maximum)
+                    compassChart.Series["roll"].Points.RemoveAt(0);
+                if (compassChart.Series["pitch"].Points.Count > compassChart.ChartAreas[0].AxisX.Maximum)
+                    compassChart.Series["pitch"].Points.RemoveAt(0);
+
+                if (rollChatCheckBox.Checked)
+                {
+                    compassChart.Series["roll"].Points.AddY(roll);
+                }
+                else
+                {
+                    if (compassChart.Series["roll"].Points.Count > 0)
+                        compassChart.Series["roll"].Points.Clear();
+                }
+
+                if (pitchChartCheckBox.Checked)
+                {
+                    compassChart.Series["pitch"].Points.AddY(pitch);
+                }
+                else
+                {
+                    if (compassChart.Series["pitch"].Points.Count > 0)
+                        compassChart.Series["pitch"].Points.Clear();
+                }
+
+                //compassChart.Series["yaw"].Points.AddY(NaviYaw);
+                //compassChart.Series["roll"].Points.AddY(NaviRoll);
+                //compassChart.Series["pitch"].Points.AddY(NaviPitch);
+
+
+            });
+        }
+
         private void comRate_Init()
         {
+            baudrateComboBox.Items.Add("9600");
             baudrateComboBox.Items.Add("115200");
             baudrateComboBox.Items.Add("100000");
             baudrateComboBox.Items.Add("57600");
-            baudrateComboBox.Items.Add("9600");
             if (baudrateComboBox.Items.Count > 0)
                 baudrateComboBox.SelectedIndex = 0;
         }
@@ -73,7 +188,7 @@ namespace NavigationTester
         }
         private void log(String str)
         {
-            return;
+            //return;
             Invoke((MethodInvoker)delegate
             {
                 winConsole.AppendText(str);
@@ -276,7 +391,17 @@ namespace NavigationTester
             {
                 yawDrawer.updateValue(angle);
                 int persen = yawDrawer.getPersen();
-                YawPersenLabel.Text = persen.ToString() + "%";
+                //YawPersenLabel.Text = persen.ToString() + "%";
+                if (yawMinValue == 0 && yawMaxValue == 0)
+                {
+                    yawMaxValue = angle;
+                    yawMinValue = angle;
+                }
+                if (yawMinValue > angle) yawMinValue = angle;
+                if (yawMaxValue < angle) yawMaxValue = angle;
+                YawPersenLabel.Text = yawMaxValue.ToString();
+                yawminlable.Text = yawMinValue.ToString();
+
                 yawAngleLabel.Text = angle.ToString();
             });
             
@@ -287,7 +412,17 @@ namespace NavigationTester
             {
             rollDrawer.updateValue(angle+180); //-180~180
             int persen = rollDrawer.getPersen();
-            rolllabel.Text = persen.ToString() + "%";
+            //rolllabel.Text = persen.ToString() + "%";
+            if (rollMin == 0 && rollMax == 0)
+            {
+                rollMin = angle;
+                rollMax = angle;
+            }
+            if (rollMin > angle) rollMin = angle;
+            if (rollMax < angle) rollMax = angle;
+            rolllabel.Text = rollMax.ToString();
+            rollMinlable.Text = rollMin.ToString();
+
             rollAngleLabel.Text = angle.ToString();
             });
         }
@@ -297,7 +432,17 @@ namespace NavigationTester
             {
             pitchDrawer.updateValue(angle+180); //-90~90
             int persen = pitchDrawer.getPersen();
-            pitchlable.Text = persen.ToString() + "%";
+            //pitchlable.Text = persen.ToString() + "%";
+            if (pitchMin == 0 && pitchMax == 0)
+            {
+                pitchMin = angle;
+                pitchMax = angle;
+            }
+            if (pitchMin > angle) pitchMin = angle;
+            if (pitchMax < angle) pitchMax = angle;
+            pitchlable.Text = pitchMax.ToString();
+            pitchMinLable.Text = pitchMin.ToString();
+
             pitchAngleLabel.Text = angle.ToString();
             });
         }
@@ -312,9 +457,10 @@ namespace NavigationTester
                 NaviYaw = yaw;
                 NaviRoll = roll;
                 NaviPitch = pitch;
-                updateYawPic(NaviYaw);
-                updatePitchPic(NaviPitch);
-                updateRollPic(NaviRoll);
+                //updateYawPic(NaviYaw);
+                //updatePitchPic(NaviPitch);
+                //updateRollPic(NaviRoll);
+                updateCompassChartValue(NaviYaw, NaviPitch, NaviRoll);
 
                 if (tmpCompassDataErrorCount >= MAX_COMPASS_ERROR_COUNT)
                 {
@@ -360,6 +506,35 @@ namespace NavigationTester
             return s;
         }
 
+        double gpsSpeed = 0;
+        double gpsSpeedLat0 = 0;
+        double gpsSpeedLon0 = 0;
+        int gpsSpeedTimeMS = 0 ;
+        private void updateGpsSpeed()
+        {
+            int interval = 1000; //1000 = 1s
+            int ms;
+
+            if (gpsSpeedLat0 == 0 && gpsSpeedLon0 == 0)
+            {
+                gpsSpeedLon0 = newGpsLongitude;
+                gpsSpeedLat0 = newGpsLatitude;
+                gpsSpeed = 0;
+                gpsSpeedTimeMS = DateTime.Now.Millisecond;
+                return;
+            }
+            ms = DateTime.Now.Millisecond - gpsSpeedTimeMS;
+            if (ms > interval)
+            {
+                double distance = caliGpsDistance(newGpsLatitude, newGpsLongitude, gpsSpeedLat0, gpsSpeedLon0);
+                gpsSpeed = distance / ms;
+                gpsSpeedlabel.Text = gpsSpeed.ToString();
+                gpsSpeedLon0 = newGpsLongitude;
+                gpsSpeedLat0 = newGpsLatitude;
+                gpsSpeedTimeMS = DateTime.Now.Millisecond;
+            }
+        }
+
         double maxDistance = -1.0;
         double minDistance = -1.0;
         private void updateGpsLatitudeLongtitude( double lat,double lon)
@@ -387,7 +562,8 @@ namespace NavigationTester
                     gpsLongtitudeTextBox.Text = lon.ToString();
                     GpsLattitudeTextBox.Text = lat.ToString();
                 });
-                
+
+                updateGpsSpeed();
 
                 if (tmpGpsDataErrorCount >= MAX_GPS_ERROR_COUNT)
                 {
@@ -425,19 +601,42 @@ namespace NavigationTester
             gpsDataUpdataCount = 0;
             compassDataUpdataCount = 0;
         }
+
+        private void updateTimerHandler(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            updateYawPic(NaviYaw);
+            updatePitchPic(NaviPitch);
+            updateRollPic(NaviRoll);
+        }
         private void TimerStart()
         {
             mTimer.Enabled = true; //是否触发Elapsed事件
             mTimer.Start();
+
+            updateTimerStart();
         }
         private void TimerStop()
         {
             mTimer.Stop();
+
+            updateTimerStop();
+        }
+        private void updateTimerStart()
+        {
+            updateTimer.Enabled = true;
+            updateTimer.Start();
+        }
+        private void updateTimerStop()
+        {
+            updateTimer.Stop();
         }
         private void TimerIint()
         {
             mTimer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_TimesUp);
             mTimer.AutoReset = true; //每到指定时间Elapsed事件是触发一次（false），还是一直触发（true）
+
+            updateTimer.Elapsed += new System.Timers.ElapsedEventHandler(updateTimerHandler);
+            updateTimer.AutoReset = true;
         }
 
 
@@ -524,11 +723,18 @@ namespace NavigationTester
 
         }
 
+        float yawMinValue = 0;
+        float yawMaxValue = 0;
         private void button1_Click(object sender, EventArgs e)
         {
             yawDrawer.clear();
-            int persen = yawDrawer.getPersen();
-            YawPersenLabel.Text = persen.ToString() + "%";
+           // int persen = yawDrawer.getPersen();
+            YawPersenLabel.Text = "0";
+            yawminlable.Text = "0";
+            yawMinValue = 0;
+            yawMaxValue = 0;
+
+
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -536,18 +742,28 @@ namespace NavigationTester
 
         }
 
+        float pitchMin = 0;
+        float pitchMax = 0;
         private void button1_Click_1(object sender, EventArgs e)
         {
             pitchDrawer.clear();
-            int persen = pitchDrawer.getPersen();
-            pitchlable.Text = persen.ToString() + "%";
+            //int persen = pitchDrawer.getPersen();
+            pitchlable.Text = "0";
+            pitchMinLable.Text = "0";
+            pitchMin = 0;
+            pitchMax = 0;
         }
 
+        float rollMin = 0;
+        float rollMax = 0;
         private void button2_Click(object sender, EventArgs e)
         {
             rollDrawer.clear();
-            int persen = rollDrawer.getPersen();
-            rolllabel.Text = persen.ToString() + "%";
+            //int persen = rollDrawer.getPersen();
+            rolllabel.Text = "0";
+            rollMinlable.Text = "0";
+            rollMin = 0;
+            rollMax = 0;
         }
 
         private void YawPersenLabel_Click(object sender, EventArgs e)

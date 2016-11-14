@@ -11,6 +11,7 @@ namespace NavigationTester
         private Graphics mGraphic;
         private int mHeight, mWidth;
         private int MAX_PART_ANGLE = 36;
+        private int PartAngle = 10;//360 / MAX_PART_ANGLE;
         private bool[] mAngles = new bool[36]; // 360/36 = 10, each 10 deg a range 
         Color bcolor;
 
@@ -82,7 +83,7 @@ namespace NavigationTester
 
 
                 //draw persen
-                int index = (int)value / 10;
+                int index = (int)value / PartAngle;
                 mAngles[index] = true;
                 for (index = 0; index < MAX_PART_ANGLE; index++)
                 {
@@ -94,7 +95,7 @@ namespace NavigationTester
                     {
                         myBrush.Color = bcolor;
                     }
-                    formGraphics.FillPie(myBrush, new Rectangle(pen_size / 2, pen_size / 2, width - pen_size, height - pen_size),  index * 10, -10);
+                    formGraphics.FillPie(myBrush, new Rectangle(pen_size / 2, pen_size / 2, width - pen_size, height - pen_size), index * PartAngle, -1 * PartAngle);
 
 
                 }
