@@ -97,7 +97,7 @@ namespace NavigationTester
 
 
 
-            //yaw
+            //yaw 0-360
             /*
             compassChart.ChartAreas[0].AxisX.Maximum = 50;// 1s 20hz compass data 
             compassChart.ChartAreas[0].AxisY.Maximum = 360;
@@ -105,10 +105,19 @@ namespace NavigationTester
             compassChart.ChartAreas[0].AxisX.Interval = 1;
             */
 
-            // pitch roll
+            // pitch -90->0<-90  
+            /*
             compassChart.ChartAreas[0].AxisX.Maximum = 50;// 1s 20hz compass data 
             compassChart.ChartAreas[0].AxisY.Maximum = 90;
             compassChart.ChartAreas[0].AxisY.Minimum = -90;
+            compassChart.ChartAreas[0].AxisY.Interval = 5;
+            compassChart.ChartAreas[0].AxisX.Interval = 1;
+             * */
+
+            // roll  0->180 180-> -180 
+            compassChart.ChartAreas[0].AxisX.Maximum = 50;// 1s 20hz compass data 
+            compassChart.ChartAreas[0].AxisY.Maximum = 185;
+            compassChart.ChartAreas[0].AxisY.Minimum = -185;
             compassChart.ChartAreas[0].AxisY.Interval = 5;
             compassChart.ChartAreas[0].AxisX.Interval = 1;
            
@@ -410,7 +419,10 @@ namespace NavigationTester
         {
             Invoke((MethodInvoker)delegate
             {
-            rollDrawer.updateValue(angle+180); //-180~180
+            if( angle < 0 )
+                rollDrawer.updateValue(360 + angle); //-180~180
+            else
+                rollDrawer.updateValue(angle); //-180~180
             int persen = rollDrawer.getPersen();
             //rolllabel.Text = persen.ToString() + "%";
             if (rollMin == 0 && rollMax == 0)
@@ -430,7 +442,11 @@ namespace NavigationTester
         {
             Invoke((MethodInvoker)delegate
             {
-            pitchDrawer.updateValue(angle+180); //-90~90
+
+                if (angle < 0)
+                    pitchDrawer.updateValue(angle+360); //-90~90
+                else
+                    pitchDrawer.updateValue(angle); //-90~90
             int persen = pitchDrawer.getPersen();
             //pitchlable.Text = persen.ToString() + "%";
             if (pitchMin == 0 && pitchMax == 0)
