@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.baudrateComboBox = new System.Windows.Forms.ComboBox();
@@ -42,12 +42,12 @@
             this.PitchPanel = new System.Windows.Forms.Panel();
             this.rollPictureBox = new System.Windows.Forms.PictureBox();
             this.YawClearBtn = new System.Windows.Forms.Button();
-            this.YawPersenLabel = new System.Windows.Forms.Label();
+            this.YawmaxLabel = new System.Windows.Forms.Label();
             this.YawPanel = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
-            this.pitchlable = new System.Windows.Forms.Label();
+            this.pitchmaxlable = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.rolllabel = new System.Windows.Forms.Label();
+            this.rollmaxlabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.yawminlable = new System.Windows.Forms.Label();
             this.pitchMinLable = new System.Windows.Forms.Label();
@@ -99,6 +99,11 @@
             this.label9 = new System.Windows.Forms.Label();
             this.gpsSpeedlabel = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.sensorGpsSpeedlabel = new System.Windows.Forms.Label();
+            this.ChartStopbutton = new System.Windows.Forms.Button();
+            this.YawPersenLabel = new System.Windows.Forms.Label();
+            this.pitchlable = new System.Windows.Forms.Label();
+            this.rolllabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rollPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -207,15 +212,15 @@
             this.YawClearBtn.UseVisualStyleBackColor = true;
             this.YawClearBtn.Click += new System.EventHandler(this.button1_Click);
             // 
-            // YawPersenLabel
+            // YawmaxLabel
             // 
-            this.YawPersenLabel.AutoSize = true;
-            this.YawPersenLabel.Location = new System.Drawing.Point(68, 214);
-            this.YawPersenLabel.Name = "YawPersenLabel";
-            this.YawPersenLabel.Size = new System.Drawing.Size(17, 12);
-            this.YawPersenLabel.TabIndex = 6;
-            this.YawPersenLabel.Text = "0%";
-            this.YawPersenLabel.Click += new System.EventHandler(this.YawPersenLabel_Click);
+            this.YawmaxLabel.AutoSize = true;
+            this.YawmaxLabel.Location = new System.Drawing.Point(68, 214);
+            this.YawmaxLabel.Name = "YawmaxLabel";
+            this.YawmaxLabel.Size = new System.Drawing.Size(11, 12);
+            this.YawmaxLabel.TabIndex = 6;
+            this.YawmaxLabel.Text = "0";
+            this.YawmaxLabel.Click += new System.EventHandler(this.YawPersenLabel_Click);
             // 
             // YawPanel
             // 
@@ -235,14 +240,14 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // pitchlable
+            // pitchmaxlable
             // 
-            this.pitchlable.AutoSize = true;
-            this.pitchlable.Location = new System.Drawing.Point(259, 214);
-            this.pitchlable.Name = "pitchlable";
-            this.pitchlable.Size = new System.Drawing.Size(17, 12);
-            this.pitchlable.TabIndex = 8;
-            this.pitchlable.Text = "0%";
+            this.pitchmaxlable.AutoSize = true;
+            this.pitchmaxlable.Location = new System.Drawing.Point(259, 214);
+            this.pitchmaxlable.Name = "pitchmaxlable";
+            this.pitchmaxlable.Size = new System.Drawing.Size(11, 12);
+            this.pitchmaxlable.TabIndex = 8;
+            this.pitchmaxlable.Text = "0";
             // 
             // button2
             // 
@@ -254,17 +259,20 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // rolllabel
+            // rollmaxlabel
             // 
-            this.rolllabel.AutoSize = true;
-            this.rolllabel.Location = new System.Drawing.Point(460, 214);
-            this.rolllabel.Name = "rolllabel";
-            this.rolllabel.Size = new System.Drawing.Size(17, 12);
-            this.rolllabel.TabIndex = 10;
-            this.rolllabel.Text = "0%";
+            this.rollmaxlabel.AutoSize = true;
+            this.rollmaxlabel.Location = new System.Drawing.Point(460, 214);
+            this.rollmaxlabel.Name = "rollmaxlabel";
+            this.rollmaxlabel.Size = new System.Drawing.Size(11, 12);
+            this.rollmaxlabel.TabIndex = 10;
+            this.rollmaxlabel.Text = "0";
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.rolllabel);
+            this.groupBox2.Controls.Add(this.pitchlable);
+            this.groupBox2.Controls.Add(this.YawPersenLabel);
             this.groupBox2.Controls.Add(this.yawminlable);
             this.groupBox2.Controls.Add(this.pitchMinLable);
             this.groupBox2.Controls.Add(this.rollMinlable);
@@ -277,11 +285,11 @@
             this.groupBox2.Controls.Add(this.rollAngleLabel);
             this.groupBox2.Controls.Add(this.pitchAngleLabel);
             this.groupBox2.Controls.Add(this.yawAngleLabel);
-            this.groupBox2.Controls.Add(this.rolllabel);
+            this.groupBox2.Controls.Add(this.rollmaxlabel);
             this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.pitchlable);
+            this.groupBox2.Controls.Add(this.pitchmaxlable);
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.YawPersenLabel);
+            this.groupBox2.Controls.Add(this.YawmaxLabel);
             this.groupBox2.Controls.Add(this.YawClearBtn);
             this.groupBox2.Location = new System.Drawing.Point(12, 95);
             this.groupBox2.Name = "groupBox2";
@@ -297,7 +305,7 @@
             this.yawminlable.Name = "yawminlable";
             this.yawminlable.Size = new System.Drawing.Size(11, 12);
             this.yawminlable.TabIndex = 25;
-            this.yawminlable.Text = "V";
+            this.yawminlable.Text = "0";
             // 
             // pitchMinLable
             // 
@@ -306,16 +314,16 @@
             this.pitchMinLable.Name = "pitchMinLable";
             this.pitchMinLable.Size = new System.Drawing.Size(11, 12);
             this.pitchMinLable.TabIndex = 24;
-            this.pitchMinLable.Text = "V";
+            this.pitchMinLable.Text = "0";
             // 
             // rollMinlable
             // 
             this.rollMinlable.AutoSize = true;
             this.rollMinlable.Location = new System.Drawing.Point(461, 235);
             this.rollMinlable.Name = "rollMinlable";
-            this.rollMinlable.Size = new System.Drawing.Size(17, 12);
+            this.rollMinlable.Size = new System.Drawing.Size(11, 12);
             this.rollMinlable.TabIndex = 23;
-            this.rollMinlable.Text = "0%";
+            this.rollMinlable.Text = "0";
             // 
             // label7
             // 
@@ -716,16 +724,16 @@
             // 
             // compassChart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.compassChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.compassChart.Legends.Add(legend1);
+            chartArea3.Name = "ChartArea1";
+            this.compassChart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.compassChart.Legends.Add(legend3);
             this.compassChart.Location = new System.Drawing.Point(609, 22);
             this.compassChart.Name = "compassChart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.compassChart.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.compassChart.Series.Add(series3);
             this.compassChart.Size = new System.Drawing.Size(683, 563);
             this.compassChart.TabIndex = 24;
             this.compassChart.Text = "compassChart";
@@ -733,13 +741,13 @@
             // yawChartCheckBox
             // 
             this.yawChartCheckBox.AutoSize = true;
-            this.yawChartCheckBox.Enabled = false;
-            this.yawChartCheckBox.Location = new System.Drawing.Point(654, 602);
+            this.yawChartCheckBox.Location = new System.Drawing.Point(1018, 603);
             this.yawChartCheckBox.Name = "yawChartCheckBox";
             this.yawChartCheckBox.Size = new System.Drawing.Size(42, 16);
             this.yawChartCheckBox.TabIndex = 25;
             this.yawChartCheckBox.Text = "Yaw";
             this.yawChartCheckBox.UseVisualStyleBackColor = true;
+            this.yawChartCheckBox.CheckedChanged += new System.EventHandler(this.yawChartCheckBox_CheckedChanged);
             // 
             // pitchChartCheckBox
             // 
@@ -768,7 +776,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1041, 602);
+            this.label9.Location = new System.Drawing.Point(1141, 606);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(65, 12);
             this.label9.TabIndex = 28;
@@ -777,7 +785,7 @@
             // gpsSpeedlabel
             // 
             this.gpsSpeedlabel.AutoSize = true;
-            this.gpsSpeedlabel.Location = new System.Drawing.Point(1132, 602);
+            this.gpsSpeedlabel.Location = new System.Drawing.Point(1212, 606);
             this.gpsSpeedlabel.Name = "gpsSpeedlabel";
             this.gpsSpeedlabel.Size = new System.Drawing.Size(11, 12);
             this.gpsSpeedlabel.TabIndex = 29;
@@ -786,17 +794,65 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(1189, 601);
+            this.label18.Location = new System.Drawing.Point(1269, 603);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(23, 12);
             this.label18.TabIndex = 30;
             this.label18.Text = "m/s";
+            // 
+            // sensorGpsSpeedlabel
+            // 
+            this.sensorGpsSpeedlabel.AutoSize = true;
+            this.sensorGpsSpeedlabel.Location = new System.Drawing.Point(1212, 627);
+            this.sensorGpsSpeedlabel.Name = "sensorGpsSpeedlabel";
+            this.sensorGpsSpeedlabel.Size = new System.Drawing.Size(11, 12);
+            this.sensorGpsSpeedlabel.TabIndex = 31;
+            this.sensorGpsSpeedlabel.Text = "0";
+            // 
+            // ChartStopbutton
+            // 
+            this.ChartStopbutton.Location = new System.Drawing.Point(633, 599);
+            this.ChartStopbutton.Name = "ChartStopbutton";
+            this.ChartStopbutton.Size = new System.Drawing.Size(75, 23);
+            this.ChartStopbutton.TabIndex = 32;
+            this.ChartStopbutton.Text = "暂停";
+            this.ChartStopbutton.UseVisualStyleBackColor = true;
+            this.ChartStopbutton.Click += new System.EventHandler(this.ChartStopbutton_Click);
+            // 
+            // YawPersenLabel
+            // 
+            this.YawPersenLabel.AutoSize = true;
+            this.YawPersenLabel.Location = new System.Drawing.Point(121, 235);
+            this.YawPersenLabel.Name = "YawPersenLabel";
+            this.YawPersenLabel.Size = new System.Drawing.Size(17, 12);
+            this.YawPersenLabel.TabIndex = 26;
+            this.YawPersenLabel.Text = "0%";
+            // 
+            // pitchlable
+            // 
+            this.pitchlable.AutoSize = true;
+            this.pitchlable.Location = new System.Drawing.Point(319, 235);
+            this.pitchlable.Name = "pitchlable";
+            this.pitchlable.Size = new System.Drawing.Size(17, 12);
+            this.pitchlable.TabIndex = 27;
+            this.pitchlable.Text = "0%";
+            // 
+            // rolllabel
+            // 
+            this.rolllabel.AutoSize = true;
+            this.rolllabel.Location = new System.Drawing.Point(521, 235);
+            this.rolllabel.Name = "rolllabel";
+            this.rolllabel.Size = new System.Drawing.Size(17, 12);
+            this.rolllabel.TabIndex = 28;
+            this.rolllabel.Text = "0%";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1327, 640);
+            this.Controls.Add(this.ChartStopbutton);
+            this.Controls.Add(this.sensorGpsSpeedlabel);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.gpsSpeedlabel);
             this.Controls.Add(this.label9);
@@ -846,12 +902,12 @@
         private System.Windows.Forms.Panel PitchPanel;
         private System.Windows.Forms.PictureBox rollPictureBox;
         private System.Windows.Forms.Button YawClearBtn;
-        private System.Windows.Forms.Label YawPersenLabel;
+        private System.Windows.Forms.Label YawmaxLabel;
         private System.Windows.Forms.Panel YawPanel;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label pitchlable;
+        private System.Windows.Forms.Label pitchmaxlable;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label rolllabel;
+        private System.Windows.Forms.Label rollmaxlabel;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label4;
@@ -903,6 +959,11 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label gpsSpeedlabel;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label sensorGpsSpeedlabel;
+        private System.Windows.Forms.Button ChartStopbutton;
+        private System.Windows.Forms.Label rolllabel;
+        private System.Windows.Forms.Label pitchlable;
+        private System.Windows.Forms.Label YawPersenLabel;
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace NavigationTester
 {
@@ -43,6 +44,7 @@ namespace NavigationTester
         int pointerX = 0;
         int pointerY = 0;
         bool pointerDrawed = false;
+        int lastIndex = -1;
         public void updateValue(float value)
         {
             int height = mHeight;
@@ -51,6 +53,7 @@ namespace NavigationTester
             Pen myPen = new Pen(Color.Red, pen_size);//画笔 
             SolidBrush myBrush = new SolidBrush(System.Drawing.Color.Blue);//画刷
             Graphics formGraphics = mGraphic;
+            formGraphics.SmoothingMode = SmoothingMode.AntiAlias;
 
             int x0 = mWidth/2;
             int y0 = mHeight/2;
@@ -77,7 +80,8 @@ namespace NavigationTester
                 if (pointerDrawed)
                 {
                     myPen.Width = 4;
-                    myPen.Color = bcolor;
+                    myPen.Color = Color.Blue;
+                    
                     formGraphics.DrawLine(myPen, x0, y0, x0 + pointerX, y0 - pointerY);
                 }
 
@@ -85,19 +89,16 @@ namespace NavigationTester
                 //draw persen
                 int index = (int)value / PartAngle;
                 mAngles[index] = true;
-                for (index = 0; index < MAX_PART_ANGLE; index++)
+
+                myBrush.Color = Color.Blue;
+                if( lastIndex >=0 )
+                    formGraphics.FillPie(myBrush, new Rectangle(pen_size / 2, pen_size / 2, width - pen_size, height - pen_size), lastIndex * PartAngle, -1 * PartAngle);
+
+                if (lastIndex != index)
                 {
-                    if (mAngles[index])
-                    {
-                        myBrush.Color = Color.Blue;
-                    }
-                    else
-                    {
-                        myBrush.Color = bcolor;
-                    }
+                    myBrush.Color = Color.Blue;
                     formGraphics.FillPie(myBrush, new Rectangle(pen_size / 2, pen_size / 2, width - pen_size, height - pen_size), index * PartAngle, -1 * PartAngle);
-
-
+                    lastIndex = index;
                 }
 
                 //画指针
@@ -111,6 +112,17 @@ namespace NavigationTester
             else
             {
                 //call clear
+                for (int i = 0; i < MAX_PART_ANGLE; i++)
+                {
+                    myBrush.Color = bcolor;
+                    formGraphics.FillPie(myBrush, new Rectangle(pen_size / 2, pen_size / 2, width - pen_size, height - pen_size), i * PartAngle, -1 * PartAngle);
+                }
+                if (pointerDrawed)
+                {
+                    myPen.Width = 4;
+                    myPen.Color = bcolor;
+                    formGraphics.DrawLine(myPen, x0, y0, x0 + pointerX, y0 - pointerY);
+                }
                 pointerDrawed = false;
             }
 
