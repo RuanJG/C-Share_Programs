@@ -211,7 +211,7 @@ cmdcoder Frame :
             switch (id)
             {
                 case 1:
-                    if (len < 16) { MessageBox.Show("数据包长度有问题"); break; }
+                    if ( len < 16) { MessageBox.Show("数据包长度有问题"); break; }
 
                     UInt16[] channel = new UInt16[5];
                     for( i=start; i< (start+10); i++)
@@ -342,23 +342,17 @@ cmdcoder Frame :
 
         private void sendSettingbutton_Click(object sender, EventArgs e)
         {
-            byte[] data = new byte[3];
-            data[0] = decimal.ToByte(channlePicNumber.Value);
-
+            byte[] dataa = new byte[4];
             UInt16 tmp = decimal.ToUInt16(idPicNumber.Value);
-            byte[]tmpbytes = System.BitConverter.GetBytes(tmp);
-            data[1] = tmpbytes[0];
-            data[2] = tmpbytes[1];
+            byte[] tmpbytes = System.BitConverter.GetBytes(tmp);
 
-            /*
-            //setting packget
-            mEncoder.id = 2;
-            mEncoder.cmdcoder_send_bytes(data, 3);*/
-
-            byte[] dataa = new byte[2];
             dataa[0] = 2;//id
-            dataa[1] = tmpbytes[0];
-            dataa[2] = tmpbytes[1];
+            dataa[1] = decimal.ToByte(channlePicNumber.Value);
+            dataa[2] = tmpbytes[0];
+            if (tmpbytes.Count() > 1)
+                dataa[3] = tmpbytes[1];
+            else
+                dataa[3] = 0;
             serialSendDatas(mCoder.encodeDatas(dataa));
         }
 
