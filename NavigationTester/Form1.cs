@@ -369,7 +369,8 @@ namespace NavigationTester
                         {
                             GPSLongitudeArray[i + 4] = data[2 + i];
                         }
-                        GPSSpeed = (float)((int)data[6] * 256 + (int)data[7] / 10.0f);
+                        int sp= (data[6]<<8) | data[7];
+                        GPSSpeed = (float) (sp / 10.0f);
 
                         checkLonLatData(0x20);
                         
@@ -541,6 +542,11 @@ namespace NavigationTester
             int interval = 1000; //1000 = 1s
             int ms;
 
+            Invoke((MethodInvoker)delegate
+            {
+                sensorGpsSpeedlabel.Text = GPSSpeed.ToString();
+            });
+
             if (gpsSpeedLat0 == 0 && gpsSpeedLon0 == 0)
             {
                 gpsSpeedLon0 = newGpsLongitude;
@@ -558,7 +564,7 @@ namespace NavigationTester
                 Invoke((MethodInvoker)delegate
                 {
                     gpsSpeedlabel.Text = gpsSpeed.ToString();// ("f3");
-                    sensorGpsSpeedlabel.Text = GPSSpeed.ToString();
+                    //sensorGpsSpeedlabel.Text = GPSSpeed.ToString();
                 });
                 gpsSpeedLon0 = newGpsLongitude;
                 gpsSpeedLat0 = newGpsLatitude;
