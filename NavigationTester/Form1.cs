@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using System.IO.Ports;//用于调用串口类函数
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Threading;
 
 namespace NavigationTester
 {
@@ -67,15 +69,18 @@ namespace NavigationTester
             Series yawSeries = new Series("yaw");
             Series pitchSeries = new Series("pitch");
             Series rollSeries = new Series("roll");
+            Series gpsSpeedSeries = new Series("speed");
             Series zeroSeries = new Series("0");
 
 
             yawSeries.BorderColor = Color.Blue;
             pitchSeries.BorderColor = Color.Green;
             rollSeries.BorderColor = Color.Red;
+            gpsSpeedSeries.BorderColor = Color.Yellow;
             yawSeries.BorderWidth = 3;
             pitchSeries.BorderWidth = 3;
             rollSeries.BorderWidth = 3;
+            gpsSpeedSeries.BorderWidth = 3;
 
             zeroSeries.BorderColor = Color.Black;
             zeroSeries.BorderWidth = 2;
@@ -84,6 +89,7 @@ namespace NavigationTester
 
             yawSeries.ChartType = SeriesChartType.Spline;
             pitchSeries.ChartType = SeriesChartType.Spline;
+            gpsSpeedSeries.ChartType = SeriesChartType.Spline;
             rollSeries.ChartType = SeriesChartType.Spline;
             zeroSeries.ChartType = SeriesChartType.Line;
 
@@ -93,9 +99,10 @@ namespace NavigationTester
             compassChart.Series.Add(pitchSeries);
             compassChart.Series.Add(rollSeries);
             compassChart.Series.Add(zeroSeries);
+            compassChart.Series.Add(gpsSpeedSeries);
 
 
-
+            compassChart.Series["speed"].BorderColor = Color.Black;
 
             //yaw 0-360
             /*
@@ -115,7 +122,7 @@ namespace NavigationTester
              * */
 
             // roll  0->180 180-> -180 
-            compassChart.ChartAreas[0].AxisX.Maximum = 50;// 1s 20hz compass data 
+            compassChart.ChartAreas[0].AxisX.Maximum = 100;// 1s 20hz compass data 
             compassChart.ChartAreas[0].AxisY.Maximum = 185;
             compassChart.ChartAreas[0].AxisY.Minimum = -185;
             compassChart.ChartAreas[0].AxisY.Interval = 5;
@@ -168,13 +175,16 @@ namespace NavigationTester
 
                 if (yawChartCheckBox.Checked)
                 {
-                    compassChart.Series["yaw"].Points.AddY(yaw);
+                    compassChart.Series["yaw"].Points.AddY(yaw-180);
                 }
                 else
                 {
                     if (compassChart.Series["yaw"].Points.Count > 0)
                         compassChart.Series["yaw"].Points.Clear();
                 }
+
+                compassChart.Series["speed"].Points.AddY(10*GPSSpeed);
+
                 //compassChart.Series["yaw"].Points.AddY(NaviYaw);
                 //compassChart.Series["roll"].Points.AddY(NaviRoll);
                 //compassChart.Series["pitch"].Points.AddY(NaviPitch);
@@ -258,6 +268,9 @@ namespace NavigationTester
             string[] filelines,splitstr={"="};
 
             filelines = File.ReadAllLines(saveFilePath);
+            if (filelines.Count() < 2)
+                return false;
+
             latStr = filelines[0];
             lonStr = filelines[1];
 
@@ -298,6 +311,191 @@ namespace NavigationTester
 
 
 
+        FileStream mCompassFileStream = null;
+        StreamWriter mCompassStreamWriter = null;
+        long mCompassDataSeq = 0;
+        Thread compassThread = null;
+        volatile bool compassThreadQuit = true;
+        //Semaphore compassSema;
+        Mutex compassMutex;
+        volatile bool _compassSaveData = false;
+
+        bool CompassSaveFileUsingThread = true;
+        void compassTasker()
+        {
+            while (!compassThreadQuit)
+            {
+                //compassSema.WaitOne();
+                compassMutex.WaitOne();
+                if (_compassSaveData)
+                {
+                    _compassSaveData = false;
+                    compassMutex.ReleaseMutex();
+                    saveCompassToFile(NaviYaw, NaviPitch, NaviRoll);
+                }
+                else
+                {
+                    compassMutex.ReleaseMutex();
+                    Thread.Sleep(1);
+                }
+            }
+        }
+        private bool openCompassDataFile(string path)
+        {
+            //openCompassExcelFile();
+
+            if (File.Exists(path))
+            {
+                
+                DialogResult res =   MessageBox.Show("己存在该文件，是否要覆盖！");
+                if (res == DialogResult.OK)
+                {
+                    File.WriteAllBytes(saveFilePath, new byte[0]);
+                }
+                else
+                {
+                    return false;
+                }
+                 
+            }
+
+            mCompassFileStream = new FileStream(path, FileMode.Create);
+            mCompassStreamWriter = new StreamWriter(mCompassFileStream);
+            string date = DateTime.Now.ToLongTimeString() + ":" + DateTime.Now.Millisecond.ToString(); 
+            string title = "转向角度 纵摇角度 横摇角度 GPS速度 电流 电压";
+            mCompassStreamWriter.WriteLine(date+" "+title);
+            mCompassDataSeq = 0;
+
+            if (CompassSaveFileUsingThread)
+            {
+                compassThread = new Thread(compassTasker);
+                compassThreadQuit = false;
+                compassMutex = new Mutex();
+                _compassSaveData = false;
+                compassThread.Start();
+            }
+
+            return true;
+        }
+        private bool saveCompassToFile(float yaw, float pitch, float roll)
+        {
+            //string time = mCompassDataSeq.ToString();
+            string date = DateTime.Now.ToLongTimeString() + ":" + DateTime.Now.Millisecond.ToString();
+            string str = date+" "+yaw.ToString("f1") + " " + pitch.ToString("f1") + " " + roll.ToString("f1") + " " + GPSSpeed.ToString("f1");
+            str += " " + mCurrentCnt.ToString("f4");
+            str += " " + mCurrentVol.ToString("f4");
+
+            if (mCompassStreamWriter == null)
+                return false;
+
+   
+
+            //开始写入
+            mCompassStreamWriter.WriteLine(str);
+            //mCompassStreamWriter.WriteLine(time+" "+str);
+            //mCompassDataSeq++;
+
+            //清空缓冲区
+            mCompassStreamWriter.Flush();
+
+            //writeCompassExcelFile(yaw, pitch, roll);
+            return true;
+        }
+        private void callThreadSaveCompassToFile()
+        {
+            if (compassMutex != null )
+            {
+                compassMutex.WaitOne();
+                _compassSaveData = true;
+                compassMutex.ReleaseMutex();
+            }
+            
+        }
+
+        private void closeCompassDataFile()
+        {
+            if (CompassSaveFileUsingThread)
+            {
+                compassThreadQuit = true;
+                Thread.Sleep(200);
+            }
+
+            if (mCompassFileStream != null || mCompassStreamWriter != null)
+            {
+                mCompassStreamWriter.Flush();
+                mCompassStreamWriter.Close();
+                mCompassFileStream.Close();
+                mCompassStreamWriter = null;
+                mCompassFileStream = null;
+
+            }
+            mCompassDataSeq = 0;
+            //closeCompassExcelFile();
+
+        }
+
+        string mCompassExcelFilePath = "Compass.xlsx";
+        Excel.Workbook mCompassWorkBook = null;
+        Excel.Worksheet mCompassWorkSheet = null;
+        Excel.Application mCompassExcelApp = null;
+        private void openCompassExcelFile()
+        {
+            if (mCompassExcelApp != null)
+                return;
+
+            object empty = System.Reflection.Missing.Value;
+            mCompassExcelApp = new Excel.Application();
+            mCompassExcelApp.Visible = false;
+
+            bool isfilehere = File.Exists(mCompassExcelFilePath);
+            if (isfilehere)
+            {
+                mCompassWorkBook = mCompassExcelApp.Workbooks.Open(mCompassExcelFilePath);
+                mCompassWorkSheet = mCompassWorkBook.Worksheets[mCompassWorkBook.Worksheets.Count + 1];
+            }
+            else
+            {
+                mCompassWorkBook = mCompassExcelApp.Workbooks.Add(empty);
+                mCompassWorkSheet = mCompassWorkBook.Sheets[1];
+            }
+
+            mCompassWorkSheet.Name = "compass";// DateTime.Now.ToLongTimeString();
+
+            mCompassWorkSheet.Cells[1, 1] = "Yaw";
+            mCompassWorkSheet.Cells[1, 2] = "Pitch";
+            mCompassWorkSheet.Cells[1, 3] = "Roll";
+            if( !isfilehere )
+                mCompassWorkSheet.SaveAs(mCompassExcelFilePath);
+            //mCompassWorkBook.Save();
+            closeCompassExcelFile();
+        }
+        private void closeCompassExcelFile()
+        {
+            if (mCompassWorkBook != null)
+            {
+                mCompassWorkBook.Save();
+                mCompassWorkBook.Close(false);
+                mCompassWorkBook = null;
+            }
+            if (mCompassExcelApp != null)
+            {
+                mCompassExcelApp.Quit();
+                mCompassExcelApp = null;
+            }
+        }
+
+        private void writeCompassExcelFile(float yaw, float pitch, float roll)
+        {
+            if (mCompassExcelApp == null) return;
+
+            int row = mCompassWorkSheet.UsedRange.Rows.Count+1;
+            mCompassWorkSheet.Cells[row, 1] = yaw.ToString("f1") ;
+            mCompassWorkSheet.Cells[row, 2] = pitch.ToString("f1");
+            mCompassWorkSheet.Cells[row, 3] = roll.ToString("f1");
+
+            mCompassWorkBook.Save();
+        }
+
         int can_data_updating = 0;
         byte[] GPSLatitudeArray = new byte[8];
         byte[] GPSLongitudeArray = new byte[8];
@@ -313,6 +511,13 @@ namespace NavigationTester
         byte GPSDateMonth;
         byte GPSDateDay;
         float NaviPitch, NaviRoll, NaviYaw;
+
+
+        float mCurrentCnt; //电流传感器的电流值
+        float mCurrentVol; //电流传感器的电压
+        float mCurrentPower; //有功功率
+        float mCurrentEnergy; //有功总电能
+
 
         byte gpsDataCompile = 0;
         void checkLonLatData( byte mask)
@@ -402,6 +607,36 @@ namespace NavigationTester
                         break;
                 }// end of case
             }// end of data from 0x11
+
+
+            //电流模块的数据
+            if (data[0] == 0x01)
+            {
+                int tmp;
+
+                if (len < 9) return false ;
+                tmp = (data[3]<<24) | (data[4]<<16) | (data[5]<<8) | data[6];
+                mCurrentVol = tmp / 10000;
+
+                if (len < 13) return false;
+                tmp = (data[7] << 24) | (data[8] << 16) | (data[9] << 8) | data[10];
+                mCurrentCnt = tmp / 10000;
+
+                if (len < 17) return false;
+                tmp = (data[11] << 24) | (data[12] << 16) | (data[13] << 8) | data[14];
+                mCurrentPower = tmp / 10000;
+
+                if (len < 21) return false;
+                tmp = (data[15] << 24) | (data[16] << 16) | (data[17] << 8) | data[18];
+                mCurrentEnergy = tmp / 10000;
+
+                Invoke((MethodInvoker)delegate
+                {
+                    currenttextBox.Text = mCurrentCnt.ToString("f4");
+                    currentVoltextBox.Text = mCurrentVol.ToString("f4");
+                });
+
+            }
             return false;
         }
 
@@ -489,6 +724,15 @@ namespace NavigationTester
                 //updateRollPic(NaviRoll);
                 updateCompassChartValue(NaviYaw, NaviPitch, NaviRoll);
 
+                if (CompassSaveFileUsingThread)
+                {
+                    callThreadSaveCompassToFile();
+                }
+                else
+                {
+                    saveCompassToFile(NaviYaw, NaviPitch, NaviRoll);
+                }
+
                 if (tmpCompassDataErrorCount >= MAX_COMPASS_ERROR_COUNT)
                 {
                     compassDataErrorCount++;
@@ -536,26 +780,27 @@ namespace NavigationTester
         double gpsSpeed = 0;
         double gpsSpeedLat0 = 0;
         double gpsSpeedLon0 = 0;
-        int gpsSpeedTimeMS = 0 ;
+        long gpsSpeedTimeMS = 0 ;
         private void updateGpsSpeed()
         {
             int interval = 1000; //1000 = 1s
-            int ms;
+            long ms;
 
             Invoke((MethodInvoker)delegate
             {
                 sensorGpsSpeedlabel.Text = GPSSpeed.ToString();
             });
 
+            /*
             if (gpsSpeedLat0 == 0 && gpsSpeedLon0 == 0)
             {
                 gpsSpeedLon0 = newGpsLongitude;
                 gpsSpeedLat0 = newGpsLatitude;
                 gpsSpeed = 0;
-                gpsSpeedTimeMS = DateTime.Now.Millisecond;
+                gpsSpeedTimeMS = DateTime.Now.Ticks/10000;
                 return;
             }
-            ms = DateTime.Now.Millisecond - gpsSpeedTimeMS;
+            ms = (DateTime.Now.Ticks/10000) - gpsSpeedTimeMS;
             if (ms > interval)
             {
                 double distance = caliGpsDistance(newGpsLatitude, newGpsLongitude, gpsSpeedLat0, gpsSpeedLon0);
@@ -570,6 +815,7 @@ namespace NavigationTester
                 gpsSpeedLat0 = newGpsLatitude;
                 gpsSpeedTimeMS = DateTime.Now.Millisecond;
             }
+             * */
         }
 
         double maxDistance = -1.0;
@@ -888,7 +1134,7 @@ namespace NavigationTester
 
         private void yawChartCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            
+            /*
 
             if (yawChartCheckBox.Checked)
             {
@@ -906,7 +1152,36 @@ namespace NavigationTester
                 compassChart.ChartAreas[0].AxisY.Maximum = 185;
                 compassChart.ChartAreas[0].AxisY.Minimum = -185;
             }
+             * */
             
+        }
+
+        private void compassSavebutton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog sf = new OpenFileDialog();
+            DialogResult res =  sf.ShowDialog();
+
+            if( res == DialogResult.OK )
+                compassSaveFiletextBox.Text = sf.FileName;
+        }
+
+        private void compassSavefilecheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (compassSavefilecheckBox.Checked)
+            {
+                openCompassDataFile(compassSaveFiletextBox.Text);
+            }
+            else
+            {
+                closeCompassDataFile();
+            }
+        }
+
+        float y = 0, r = -90, p = 90;
+        private void button6_Click(object sender, EventArgs e)
+        {
+            y += 2; r += 1; p -= 3;
+            updateCompassData(y+2, r+1, p-3);
         }
 
 

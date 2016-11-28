@@ -29,12 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.compassSavefilecheckBox = new System.Windows.Forms.CheckBox();
             this.baudrateComboBox = new System.Windows.Forms.ComboBox();
+            this.compassSaveFiletextBox = new System.Windows.Forms.TextBox();
+            this.compassSavebutton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.comComboBox = new System.Windows.Forms.ComboBox();
             this.serialConnectButton = new System.Windows.Forms.Button();
@@ -49,6 +52,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.rollmaxlabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rolllabel = new System.Windows.Forms.Label();
+            this.pitchlable = new System.Windows.Forms.Label();
+            this.YawPersenLabel = new System.Windows.Forms.Label();
             this.yawminlable = new System.Windows.Forms.Label();
             this.pitchMinLable = new System.Windows.Forms.Label();
             this.rollMinlable = new System.Windows.Forms.Label();
@@ -97,13 +103,13 @@
             this.pitchChartCheckBox = new System.Windows.Forms.CheckBox();
             this.rollChatCheckBox = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.gpsSpeedlabel = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.sensorGpsSpeedlabel = new System.Windows.Forms.Label();
             this.ChartStopbutton = new System.Windows.Forms.Button();
-            this.YawPersenLabel = new System.Windows.Forms.Label();
-            this.pitchlable = new System.Windows.Forms.Label();
-            this.rolllabel = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.currenttextBox = new System.Windows.Forms.TextBox();
+            this.currentVoltextBox = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rollPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -121,13 +127,16 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.compassSavefilecheckBox);
             this.groupBox1.Controls.Add(this.baudrateComboBox);
+            this.groupBox1.Controls.Add(this.compassSaveFiletextBox);
+            this.groupBox1.Controls.Add(this.compassSavebutton);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.comComboBox);
             this.groupBox1.Controls.Add(this.serialConnectButton);
             this.groupBox1.Location = new System.Drawing.Point(12, 22);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(591, 67);
+            this.groupBox1.Size = new System.Drawing.Size(591, 101);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "串口";
@@ -141,6 +150,17 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "COM";
             // 
+            // compassSavefilecheckBox
+            // 
+            this.compassSavefilecheckBox.AutoSize = true;
+            this.compassSavefilecheckBox.Location = new System.Drawing.Point(7, 76);
+            this.compassSavefilecheckBox.Name = "compassSavefilecheckBox";
+            this.compassSavefilecheckBox.Size = new System.Drawing.Size(72, 16);
+            this.compassSavefilecheckBox.TabIndex = 35;
+            this.compassSavefilecheckBox.Text = "数据保存";
+            this.compassSavefilecheckBox.UseVisualStyleBackColor = true;
+            this.compassSavefilecheckBox.CheckedChanged += new System.EventHandler(this.compassSavefilecheckBox_CheckedChanged);
+            // 
             // baudrateComboBox
             // 
             this.baudrateComboBox.FormattingEnabled = true;
@@ -148,6 +168,24 @@
             this.baudrateComboBox.Name = "baudrateComboBox";
             this.baudrateComboBox.Size = new System.Drawing.Size(121, 20);
             this.baudrateComboBox.TabIndex = 3;
+            // 
+            // compassSaveFiletextBox
+            // 
+            this.compassSaveFiletextBox.Location = new System.Drawing.Point(110, 72);
+            this.compassSaveFiletextBox.Name = "compassSaveFiletextBox";
+            this.compassSaveFiletextBox.Size = new System.Drawing.Size(346, 21);
+            this.compassSaveFiletextBox.TabIndex = 34;
+            this.compassSaveFiletextBox.Text = "compass.txt";
+            // 
+            // compassSavebutton
+            // 
+            this.compassSavebutton.Location = new System.Drawing.Point(462, 72);
+            this.compassSavebutton.Name = "compassSavebutton";
+            this.compassSavebutton.Size = new System.Drawing.Size(75, 23);
+            this.compassSavebutton.TabIndex = 33;
+            this.compassSavebutton.Text = "选择文件";
+            this.compassSavebutton.UseVisualStyleBackColor = true;
+            this.compassSavebutton.Click += new System.EventHandler(this.compassSavebutton_Click);
             // 
             // label1
             // 
@@ -178,7 +216,7 @@
             // 
             // winConsole
             // 
-            this.winConsole.Location = new System.Drawing.Point(10, 591);
+            this.winConsole.Location = new System.Drawing.Point(10, 628);
             this.winConsole.Name = "winConsole";
             this.winConsole.ReadOnly = true;
             this.winConsole.Size = new System.Drawing.Size(593, 48);
@@ -291,12 +329,39 @@
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.YawmaxLabel);
             this.groupBox2.Controls.Add(this.YawClearBtn);
-            this.groupBox2.Location = new System.Drawing.Point(12, 95);
+            this.groupBox2.Location = new System.Drawing.Point(12, 129);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(591, 250);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "罗盘";
+            // 
+            // rolllabel
+            // 
+            this.rolllabel.AutoSize = true;
+            this.rolllabel.Location = new System.Drawing.Point(521, 235);
+            this.rolllabel.Name = "rolllabel";
+            this.rolllabel.Size = new System.Drawing.Size(17, 12);
+            this.rolllabel.TabIndex = 28;
+            this.rolllabel.Text = "0%";
+            // 
+            // pitchlable
+            // 
+            this.pitchlable.AutoSize = true;
+            this.pitchlable.Location = new System.Drawing.Point(319, 235);
+            this.pitchlable.Name = "pitchlable";
+            this.pitchlable.Size = new System.Drawing.Size(17, 12);
+            this.pitchlable.TabIndex = 27;
+            this.pitchlable.Text = "0%";
+            // 
+            // YawPersenLabel
+            // 
+            this.YawPersenLabel.AutoSize = true;
+            this.YawPersenLabel.Location = new System.Drawing.Point(121, 235);
+            this.YawPersenLabel.Name = "YawPersenLabel";
+            this.YawPersenLabel.Size = new System.Drawing.Size(17, 12);
+            this.YawPersenLabel.TabIndex = 26;
+            this.YawPersenLabel.Text = "0%";
             // 
             // yawminlable
             // 
@@ -415,7 +480,7 @@
             this.groupBox3.Controls.Add(this.groupBox9);
             this.groupBox3.Controls.Add(this.groupBox8);
             this.groupBox3.Controls.Add(this.groupBox7);
-            this.groupBox3.Location = new System.Drawing.Point(12, 351);
+            this.groupBox3.Location = new System.Drawing.Point(12, 385);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(591, 143);
             this.groupBox3.TabIndex = 15;
@@ -705,7 +770,7 @@
             this.groupBox10.Controls.Add(this.label13);
             this.groupBox10.Controls.Add(this.gpsReflashLabel);
             this.groupBox10.Controls.Add(this.label8);
-            this.groupBox10.Location = new System.Drawing.Point(12, 500);
+            this.groupBox10.Location = new System.Drawing.Point(12, 534);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(591, 85);
             this.groupBox10.TabIndex = 23;
@@ -724,23 +789,25 @@
             // 
             // compassChart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.compassChart.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.compassChart.Legends.Add(legend3);
+            chartArea2.Name = "ChartArea1";
+            this.compassChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.compassChart.Legends.Add(legend2);
             this.compassChart.Location = new System.Drawing.Point(609, 22);
             this.compassChart.Name = "compassChart";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.compassChart.Series.Add(series3);
-            this.compassChart.Size = new System.Drawing.Size(683, 563);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.compassChart.Series.Add(series2);
+            this.compassChart.Size = new System.Drawing.Size(741, 563);
             this.compassChart.TabIndex = 24;
             this.compassChart.Text = "compassChart";
             // 
             // yawChartCheckBox
             // 
             this.yawChartCheckBox.AutoSize = true;
+            this.yawChartCheckBox.Checked = true;
+            this.yawChartCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.yawChartCheckBox.Location = new System.Drawing.Point(1018, 603);
             this.yawChartCheckBox.Name = "yawChartCheckBox";
             this.yawChartCheckBox.Size = new System.Drawing.Size(42, 16);
@@ -782,15 +849,6 @@
             this.label9.TabIndex = 28;
             this.label9.Text = "gps speed:";
             // 
-            // gpsSpeedlabel
-            // 
-            this.gpsSpeedlabel.AutoSize = true;
-            this.gpsSpeedlabel.Location = new System.Drawing.Point(1212, 606);
-            this.gpsSpeedlabel.Name = "gpsSpeedlabel";
-            this.gpsSpeedlabel.Size = new System.Drawing.Size(11, 12);
-            this.gpsSpeedlabel.TabIndex = 29;
-            this.gpsSpeedlabel.Text = "0";
-            // 
             // label18
             // 
             this.label18.AutoSize = true;
@@ -803,7 +861,7 @@
             // sensorGpsSpeedlabel
             // 
             this.sensorGpsSpeedlabel.AutoSize = true;
-            this.sensorGpsSpeedlabel.Location = new System.Drawing.Point(1212, 627);
+            this.sensorGpsSpeedlabel.Location = new System.Drawing.Point(1231, 605);
             this.sensorGpsSpeedlabel.Name = "sensorGpsSpeedlabel";
             this.sensorGpsSpeedlabel.Size = new System.Drawing.Size(11, 12);
             this.sensorGpsSpeedlabel.TabIndex = 31;
@@ -819,42 +877,52 @@
             this.ChartStopbutton.UseVisualStyleBackColor = true;
             this.ChartStopbutton.Click += new System.EventHandler(this.ChartStopbutton_Click);
             // 
-            // YawPersenLabel
+            // label17
             // 
-            this.YawPersenLabel.AutoSize = true;
-            this.YawPersenLabel.Location = new System.Drawing.Point(121, 235);
-            this.YawPersenLabel.Name = "YawPersenLabel";
-            this.YawPersenLabel.Size = new System.Drawing.Size(17, 12);
-            this.YawPersenLabel.TabIndex = 26;
-            this.YawPersenLabel.Text = "0%";
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(631, 644);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(29, 12);
+            this.label17.TabIndex = 33;
+            this.label17.Text = "电流";
             // 
-            // pitchlable
+            // currenttextBox
             // 
-            this.pitchlable.AutoSize = true;
-            this.pitchlable.Location = new System.Drawing.Point(319, 235);
-            this.pitchlable.Name = "pitchlable";
-            this.pitchlable.Size = new System.Drawing.Size(17, 12);
-            this.pitchlable.TabIndex = 27;
-            this.pitchlable.Text = "0%";
+            this.currenttextBox.Location = new System.Drawing.Point(695, 641);
+            this.currenttextBox.Name = "currenttextBox";
+            this.currenttextBox.ReadOnly = true;
+            this.currenttextBox.Size = new System.Drawing.Size(100, 21);
+            this.currenttextBox.TabIndex = 34;
             // 
-            // rolllabel
+            // currentVoltextBox
             // 
-            this.rolllabel.AutoSize = true;
-            this.rolllabel.Location = new System.Drawing.Point(521, 235);
-            this.rolllabel.Name = "rolllabel";
-            this.rolllabel.Size = new System.Drawing.Size(17, 12);
-            this.rolllabel.TabIndex = 28;
-            this.rolllabel.Text = "0%";
+            this.currentVoltextBox.Location = new System.Drawing.Point(913, 638);
+            this.currentVoltextBox.Name = "currentVoltextBox";
+            this.currentVoltextBox.ReadOnly = true;
+            this.currentVoltextBox.Size = new System.Drawing.Size(100, 21);
+            this.currentVoltextBox.TabIndex = 36;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(849, 641);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(29, 12);
+            this.label19.TabIndex = 35;
+            this.label19.Text = "电压";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1327, 640);
+            this.ClientSize = new System.Drawing.Size(1354, 677);
+            this.Controls.Add(this.currentVoltextBox);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.currenttextBox);
+            this.Controls.Add(this.label17);
             this.Controls.Add(this.ChartStopbutton);
             this.Controls.Add(this.sensorGpsSpeedlabel);
             this.Controls.Add(this.label18);
-            this.Controls.Add(this.gpsSpeedlabel);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.rollChatCheckBox);
             this.Controls.Add(this.pitchChartCheckBox);
@@ -957,13 +1025,19 @@
         private System.Windows.Forms.CheckBox pitchChartCheckBox;
         private System.Windows.Forms.CheckBox rollChatCheckBox;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label gpsSpeedlabel;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label sensorGpsSpeedlabel;
         private System.Windows.Forms.Button ChartStopbutton;
         private System.Windows.Forms.Label rolllabel;
         private System.Windows.Forms.Label pitchlable;
         private System.Windows.Forms.Label YawPersenLabel;
+        private System.Windows.Forms.Button compassSavebutton;
+        private System.Windows.Forms.TextBox compassSaveFiletextBox;
+        private System.Windows.Forms.CheckBox compassSavefilecheckBox;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox currenttextBox;
+        private System.Windows.Forms.TextBox currentVoltextBox;
+        private System.Windows.Forms.Label label19;
     }
 }
 
