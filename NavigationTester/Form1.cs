@@ -546,7 +546,7 @@ namespace NavigationTester
         {
             int i;
             if (len < 8) return false;
-            if (data[0] == 0x11)
+            if ( (data[0] == 0x11 && !testBoardDatacheckBox.Checked)  || (data[0]==0x33 && testBoardDatacheckBox.Checked) )
             {
                 switch (data[1])
                 {
@@ -610,10 +610,11 @@ namespace NavigationTester
 
 
             //电流模块的数据
-            if (data[0] == 0x01)
+            if (data[0] == 0x01 && data[1]==0x03 && len > 32)
             {
                 int tmp;
 
+                
                 if (len < 9) return false ;
                 tmp = (data[3]<<24) | (data[4]<<16) | (data[5]<<8) | data[6];
                 mCurrentVol = tmp / 10000;

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.compassSavefilecheckBox = new System.Windows.Forms.CheckBox();
@@ -110,6 +110,7 @@
             this.currenttextBox = new System.Windows.Forms.TextBox();
             this.currentVoltextBox = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
+            this.testBoardDatacheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rollPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -789,16 +790,16 @@
             // 
             // compassChart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.compassChart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.compassChart.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.compassChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.compassChart.Legends.Add(legend1);
             this.compassChart.Location = new System.Drawing.Point(609, 22);
             this.compassChart.Name = "compassChart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.compassChart.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.compassChart.Series.Add(series1);
             this.compassChart.Size = new System.Drawing.Size(741, 563);
             this.compassChart.TabIndex = 24;
             this.compassChart.Text = "compassChart";
@@ -911,11 +912,22 @@
             this.label19.TabIndex = 35;
             this.label19.Text = "电压";
             // 
+            // testBoardDatacheckBox
+            // 
+            this.testBoardDatacheckBox.AutoSize = true;
+            this.testBoardDatacheckBox.Location = new System.Drawing.Point(1095, 640);
+            this.testBoardDatacheckBox.Name = "testBoardDatacheckBox";
+            this.testBoardDatacheckBox.Size = new System.Drawing.Size(108, 16);
+            this.testBoardDatacheckBox.TabIndex = 37;
+            this.testBoardDatacheckBox.Text = "使用转接板数据";
+            this.testBoardDatacheckBox.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 677);
+            this.Controls.Add(this.testBoardDatacheckBox);
             this.Controls.Add(this.currentVoltextBox);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.currenttextBox);
@@ -1038,6 +1050,7 @@
         private System.Windows.Forms.TextBox currenttextBox;
         private System.Windows.Forms.TextBox currentVoltextBox;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.CheckBox testBoardDatacheckBox;
     }
 }
 
