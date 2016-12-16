@@ -340,6 +340,9 @@ namespace NavigationTester
                 }
             }
         }
+
+
+        bool savefileNewTitle = false;
         private bool openCompassDataFile(string path)
         {
             //openCompassExcelFile();
@@ -361,9 +364,11 @@ namespace NavigationTester
 
             mCompassFileStream = new FileStream(path, FileMode.Create);
             mCompassStreamWriter = new StreamWriter(mCompassFileStream);
-            string date = DateTime.Now.ToLongTimeString() + ":" + DateTime.Now.Millisecond.ToString(); 
-            string title = "转向角度 纵摇角度 横摇角度 GPS速度 电流 电压";
-            mCompassStreamWriter.WriteLine(date+" "+title);
+            savefileNewTitle = true;
+            
+           // string date = DateTime.Now.ToLongTimeString() + ":" + DateTime.Now.Millisecond.ToString(); 
+            //string title = "转向角度 纵摇角度 横摇角度 GPS速度 电流 电压 功率";
+           // mCompassStreamWriter.WriteLine(date+" "+title);
             mCompassDataSeq = 0;
 
             if (CompassSaveFileUsingThread)
@@ -377,18 +382,60 @@ namespace NavigationTester
 
             return true;
         }
+
+
+        bool GPSUpdated = false;
+        bool CurrentCntSet = false;
+        bool CurrentVolSet = false;
+        bool CurrentPowerSet = false;
+        bool CurrentEnergySet = false;
         private bool saveCompassToFile(float yaw, float pitch, float roll)
         {
             //string time = mCompassDataSeq.ToString();
             string date = DateTime.Now.ToLongTimeString() + ":" + DateTime.Now.Millisecond.ToString();
-            string str = date+" "+yaw.ToString("f1") + " " + pitch.ToString("f1") + " " + roll.ToString("f1") + " " + GPSSpeed.ToString("f1");
-            str += " " + mCurrentCnt.ToString("f4");
-            str += " " + mCurrentVol.ToString("f4");
+            string str = date + " " + yaw.ToString("f1") + " " + pitch.ToString("f1") + " " + roll.ToString("f1");
+            string nullstr = "None";
+            string title = "转向角度 纵摇角度 横摇角度 GPS速度";
+
+
+            //gpsspeed
+            str += " " +  (GPSUpdated? GPSSpeed.ToString("f1"):nullstr);
+            //gps
+            if (saveGPScheckBox.Checked)
+            {
+                title += " 纬度 经度";
+                str += " " + (GPSUpdated ? GpsLatitude.ToString("f4") : nullstr);
+                str += " " + (GPSUpdated ? GpsLongitude.ToString("f4") : nullstr);
+            }
+            GPSUpdated = false;
+
+
+            //电流电压模块
+            if (saveCurrentPowercheckBox.Checked)
+            {
+                title += " 电流 电压 功率";
+                str += " " + (CurrentCntSet ? mCurrentCnt.ToString("f4") : nullstr);
+                str += " " + (CurrentVolSet ? mCurrentVol.ToString("f4") : nullstr);
+                str += " " + (CurrentPowerSet ? mCurrentPower.ToString("f4") : nullstr);
+                //str += " " + (CurrentEnergySet? mCurrentEnergy.ToString("f4"):nullstr);
+                CurrentCntSet = false;
+                CurrentVolSet = false;
+                CurrentPowerSet = false;
+                CurrentEnergySet = false;
+            }
+
+            
+            
 
             if (mCompassStreamWriter == null)
                 return false;
 
-   
+
+            if (savefileNewTitle)
+            {
+                mCompassStreamWriter.WriteLine(title);
+                savefileNewTitle = false;
+            }
 
             //开始写入
             mCompassStreamWriter.WriteLine(str);
@@ -576,6 +623,7 @@ namespace NavigationTester
                         }
                         int sp= (data[6]<<8) | data[7];
                         GPSSpeed = (float) (sp / 10.0f);
+                        GPSUpdated = true;
 
                         checkLonLatData(0x20);
                         
@@ -613,23 +661,27 @@ namespace NavigationTester
             if (data[0] == 0x01 && data[1]==0x03 && len > 32)
             {
                 int tmp;
-
                 
+
                 if (len < 9) return false ;
                 tmp = (data[3]<<24) | (data[4]<<16) | (data[5]<<8) | data[6];
                 mCurrentVol = tmp / 10000;
+                CurrentVolSet = true;
 
                 if (len < 13) return false;
                 tmp = (data[7] << 24) | (data[8] << 16) | (data[9] << 8) | data[10];
                 mCurrentCnt = tmp / 10000;
+                CurrentCntSet = true;
 
                 if (len < 17) return false;
                 tmp = (data[11] << 24) | (data[12] << 16) | (data[13] << 8) | data[14];
                 mCurrentPower = tmp / 10000;
+                CurrentPowerSet = true;
 
                 if (len < 21) return false;
                 tmp = (data[15] << 24) | (data[16] << 16) | (data[17] << 8) | data[18];
                 mCurrentEnergy = tmp / 10000;
+                CurrentEnergySet = true;
 
                 Invoke((MethodInvoker)delegate
                 {
@@ -1183,6 +1235,16 @@ namespace NavigationTester
         {
             y += 2; r += 1; p -= 3;
             updateCompassData(y+2, r+1, p-3);
+        }
+
+        private void saveGPScheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            savefileNewTitle = true;
+        }
+
+        private void saveCurrentPowercheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            savefileNewTitle = true;
         }
 
 

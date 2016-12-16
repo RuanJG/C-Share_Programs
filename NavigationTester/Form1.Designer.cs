@@ -29,10 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.testBoardDatacheckBox = new System.Windows.Forms.CheckBox();
+            this.saveCurrentPowercheckBox = new System.Windows.Forms.CheckBox();
+            this.saveGPScheckBox = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.compassSavefilecheckBox = new System.Windows.Forms.CheckBox();
             this.baudrateComboBox = new System.Windows.Forms.ComboBox();
@@ -110,7 +113,6 @@
             this.currenttextBox = new System.Windows.Forms.TextBox();
             this.currentVoltextBox = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.testBoardDatacheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rollPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -127,6 +129,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.testBoardDatacheckBox);
+            this.groupBox1.Controls.Add(this.saveCurrentPowercheckBox);
+            this.groupBox1.Controls.Add(this.saveGPScheckBox);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.compassSavefilecheckBox);
             this.groupBox1.Controls.Add(this.baudrateComboBox);
@@ -142,6 +147,38 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "串口";
             // 
+            // testBoardDatacheckBox
+            // 
+            this.testBoardDatacheckBox.AutoSize = true;
+            this.testBoardDatacheckBox.Location = new System.Drawing.Point(243, 77);
+            this.testBoardDatacheckBox.Name = "testBoardDatacheckBox";
+            this.testBoardDatacheckBox.Size = new System.Drawing.Size(108, 16);
+            this.testBoardDatacheckBox.TabIndex = 37;
+            this.testBoardDatacheckBox.Text = "使用转接板数据";
+            this.testBoardDatacheckBox.UseVisualStyleBackColor = true;
+            // 
+            // saveCurrentPowercheckBox
+            // 
+            this.saveCurrentPowercheckBox.AutoSize = true;
+            this.saveCurrentPowercheckBox.Location = new System.Drawing.Point(374, 54);
+            this.saveCurrentPowercheckBox.Name = "saveCurrentPowercheckBox";
+            this.saveCurrentPowercheckBox.Size = new System.Drawing.Size(120, 16);
+            this.saveCurrentPowercheckBox.TabIndex = 37;
+            this.saveCurrentPowercheckBox.Text = "保存电流电压数据";
+            this.saveCurrentPowercheckBox.UseVisualStyleBackColor = true;
+            this.saveCurrentPowercheckBox.CheckedChanged += new System.EventHandler(this.saveCurrentPowercheckBox_CheckedChanged);
+            // 
+            // saveGPScheckBox
+            // 
+            this.saveGPScheckBox.AutoSize = true;
+            this.saveGPScheckBox.Location = new System.Drawing.Point(243, 54);
+            this.saveGPScheckBox.Name = "saveGPScheckBox";
+            this.saveGPScheckBox.Size = new System.Drawing.Size(90, 16);
+            this.saveGPScheckBox.TabIndex = 36;
+            this.saveGPScheckBox.Text = "保存GPS坐标";
+            this.saveGPScheckBox.UseVisualStyleBackColor = true;
+            this.saveGPScheckBox.CheckedChanged += new System.EventHandler(this.saveGPScheckBox_CheckedChanged);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -154,7 +191,7 @@
             // compassSavefilecheckBox
             // 
             this.compassSavefilecheckBox.AutoSize = true;
-            this.compassSavefilecheckBox.Location = new System.Drawing.Point(7, 76);
+            this.compassSavefilecheckBox.Location = new System.Drawing.Point(243, 22);
             this.compassSavefilecheckBox.Name = "compassSavefilecheckBox";
             this.compassSavefilecheckBox.Size = new System.Drawing.Size(72, 16);
             this.compassSavefilecheckBox.TabIndex = 35;
@@ -165,22 +202,22 @@
             // baudrateComboBox
             // 
             this.baudrateComboBox.FormattingEnabled = true;
-            this.baudrateComboBox.Location = new System.Drawing.Point(248, 26);
+            this.baudrateComboBox.Location = new System.Drawing.Point(53, 46);
             this.baudrateComboBox.Name = "baudrateComboBox";
             this.baudrateComboBox.Size = new System.Drawing.Size(121, 20);
             this.baudrateComboBox.TabIndex = 3;
             // 
             // compassSaveFiletextBox
             // 
-            this.compassSaveFiletextBox.Location = new System.Drawing.Point(110, 72);
+            this.compassSaveFiletextBox.Location = new System.Drawing.Point(321, 19);
             this.compassSaveFiletextBox.Name = "compassSaveFiletextBox";
-            this.compassSaveFiletextBox.Size = new System.Drawing.Size(346, 21);
+            this.compassSaveFiletextBox.Size = new System.Drawing.Size(173, 21);
             this.compassSaveFiletextBox.TabIndex = 34;
             this.compassSaveFiletextBox.Text = "compass.txt";
             // 
             // compassSavebutton
             // 
-            this.compassSavebutton.Location = new System.Drawing.Point(462, 72);
+            this.compassSavebutton.Location = new System.Drawing.Point(502, 17);
             this.compassSavebutton.Name = "compassSavebutton";
             this.compassSavebutton.Size = new System.Drawing.Size(75, 23);
             this.compassSavebutton.TabIndex = 33;
@@ -191,7 +228,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(201, 26);
+            this.label1.Location = new System.Drawing.Point(0, 54);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 12);
             this.label1.TabIndex = 2;
@@ -200,16 +237,16 @@
             // comComboBox
             // 
             this.comComboBox.FormattingEnabled = true;
-            this.comComboBox.Location = new System.Drawing.Point(47, 26);
+            this.comComboBox.Location = new System.Drawing.Point(53, 20);
             this.comComboBox.Name = "comComboBox";
             this.comComboBox.Size = new System.Drawing.Size(121, 20);
             this.comComboBox.TabIndex = 1;
             // 
             // serialConnectButton
             // 
-            this.serialConnectButton.Location = new System.Drawing.Point(463, 24);
+            this.serialConnectButton.Location = new System.Drawing.Point(53, 70);
             this.serialConnectButton.Name = "serialConnectButton";
-            this.serialConnectButton.Size = new System.Drawing.Size(75, 23);
+            this.serialConnectButton.Size = new System.Drawing.Size(121, 23);
             this.serialConnectButton.TabIndex = 0;
             this.serialConnectButton.Text = "打开串口";
             this.serialConnectButton.UseVisualStyleBackColor = true;
@@ -790,16 +827,16 @@
             // 
             // compassChart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.compassChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.compassChart.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            this.compassChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.compassChart.Legends.Add(legend2);
             this.compassChart.Location = new System.Drawing.Point(609, 22);
             this.compassChart.Name = "compassChart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.compassChart.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.compassChart.Series.Add(series2);
             this.compassChart.Size = new System.Drawing.Size(741, 563);
             this.compassChart.TabIndex = 24;
             this.compassChart.Text = "compassChart";
@@ -889,7 +926,7 @@
             // 
             // currenttextBox
             // 
-            this.currenttextBox.Location = new System.Drawing.Point(695, 641);
+            this.currenttextBox.Location = new System.Drawing.Point(666, 641);
             this.currenttextBox.Name = "currenttextBox";
             this.currenttextBox.ReadOnly = true;
             this.currenttextBox.Size = new System.Drawing.Size(100, 21);
@@ -897,7 +934,7 @@
             // 
             // currentVoltextBox
             // 
-            this.currentVoltextBox.Location = new System.Drawing.Point(913, 638);
+            this.currentVoltextBox.Location = new System.Drawing.Point(836, 638);
             this.currentVoltextBox.Name = "currentVoltextBox";
             this.currentVoltextBox.ReadOnly = true;
             this.currentVoltextBox.Size = new System.Drawing.Size(100, 21);
@@ -906,28 +943,17 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(849, 641);
+            this.label19.Location = new System.Drawing.Point(801, 644);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(29, 12);
             this.label19.TabIndex = 35;
             this.label19.Text = "电压";
-            // 
-            // testBoardDatacheckBox
-            // 
-            this.testBoardDatacheckBox.AutoSize = true;
-            this.testBoardDatacheckBox.Location = new System.Drawing.Point(1095, 640);
-            this.testBoardDatacheckBox.Name = "testBoardDatacheckBox";
-            this.testBoardDatacheckBox.Size = new System.Drawing.Size(108, 16);
-            this.testBoardDatacheckBox.TabIndex = 37;
-            this.testBoardDatacheckBox.Text = "使用转接板数据";
-            this.testBoardDatacheckBox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 677);
-            this.Controls.Add(this.testBoardDatacheckBox);
             this.Controls.Add(this.currentVoltextBox);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.currenttextBox);
@@ -1051,6 +1077,8 @@
         private System.Windows.Forms.TextBox currentVoltextBox;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.CheckBox testBoardDatacheckBox;
+        private System.Windows.Forms.CheckBox saveCurrentPowercheckBox;
+        private System.Windows.Forms.CheckBox saveGPScheckBox;
     }
 }
 
